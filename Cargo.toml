@@ -1,0 +1,26 @@
+[package]
+name = "optima"
+version = "0.150.0-dev"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+vello = "0.4"
+wgpu = "0.22"
+jni = "0.21"
+log = "0.4"
+android_logger = "0.13"
+taffy = { version = "0.6", features = ["grid", "flexbox"] }
+rustybuzz = "0.14"
+font-kit = "0.12"
+ffmpeg-next = "7.0"
+cpal = "0.15"
+rodio = "0.19"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+strip = true

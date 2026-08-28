@@ -9,6 +9,9 @@ use std::time::Duration;
 pub struct MediaPipeline {
     pub is_playing: bool,
     pub position: Duration,
+    pub duration: Duration,
+    pub has_video: bool,
+    pub has_audio: bool,
 }
 
 impl MediaPipeline {
@@ -16,6 +19,9 @@ impl MediaPipeline {
         Self {
             is_playing: false,
             position: Duration::from_secs(0),
+            duration: Duration::from_secs(0),
+            has_video: false,
+            has_audio: false,
         }
     }
 
@@ -29,6 +35,18 @@ impl MediaPipeline {
 
     pub fn seek(&mut self, pos: Duration) {
         self.position = pos;
+    }
+
+    pub fn set_duration(&mut self, dur: Duration) {
+        self.duration = dur;
+    }
+
+    pub fn set_has_video(&mut self, has: bool) {
+        self.has_video = has;
+    }
+
+    pub fn set_has_audio(&mut self, has: bool) {
+        self.has_audio = has;
     }
 }
 

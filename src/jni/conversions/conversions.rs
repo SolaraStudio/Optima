@@ -1,7 +1,7 @@
 use jni::objects::{JObject, JString};
 use jni::JNIEnv;
 use std::ffi::CStr;
-use std::os::raw::c_char;
+use std::os::raw::c_void;
 
 pub fn jstring_to_string(env: &JNIEnv, jstr: JString) -> String {
     let c_str = env.get_string(jstr).unwrap();
@@ -14,4 +14,8 @@ pub fn string_to_jstring(env: &JNIEnv, s: &str) -> JString {
 
 pub fn jobject_to_raw(env: &JNIEnv, obj: JObject) -> *mut c_void {
     env.new_global_ref(obj).unwrap().into_inner() as *mut c_void
+}
+
+pub fn raw_to_jobject(env: &JNIEnv, ptr: *mut c_void) -> JObject {
+    env.new_local_ref(ptr as jobject).unwrap().into()
 }

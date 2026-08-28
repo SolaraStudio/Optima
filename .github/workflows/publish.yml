@@ -10,6 +10,11 @@ on:
         description: "Version to publish (e.g., 0.150.10)"
         required: true
         default: "0.150.10-dev"
+      is_release:
+        description: "Is this a stable release? (no -SNAPSHOT suffix)"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -78,11 +83,26 @@ jobs:
           cd android
           ./gradlew assembleRelease
 
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+            if [[ "${{ github.event.inputs.is_release }}" != "true" ]]; then
+              VERSION="${VERSION}-SNAPSHOT"
+            fi
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            VERSION=$(echo "${{ github.ref }}" | sed 's/refs\/tags\/v//')
+          else
+            VERSION="0.150.10-SNAPSHOT"
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Publish to GitHub Packages
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPTIMA_VERSION: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || github.ref_name }}
+          OPTIMA_VERSION: ${{ steps.version.outputs.VERSION }}
         run: |
           cd android
           ./gradlew publish

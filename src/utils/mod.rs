@@ -1,4 +1,3 @@
-//! Utilities
 pub mod logging;
 pub mod error;
 pub mod thread;
@@ -10,3 +9,15 @@ pub mod bytes;
 pub mod hash;
 pub mod time;
 pub mod math;
+
+pub use logging::*;
+pub use error::*;
+pub use thread::*;
+pub use timer::*;
+pub use path::*;
+pub use file::*;
+pub use string::*;
+pub use bytes::*;
+pub use hash::*;
+pub use time::*;
+pub use math::*;

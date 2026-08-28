@@ -1,6 +1,11 @@
-//! DOM Element implementation
-pub struct Element {
-    pub tag: String,
-    pub attributes: std::collections::HashMap<String, String>,
+use super::node::ElementData;
+
+impl ElementData {
+    pub fn get_attribute(&self, key: &str) -> Option<&String> {
+        self.attributes.get(key)
+    }
+
+    pub fn set_attribute(&mut self, key: &str, value: &str) {
+        self.attributes.insert(key.to_string(), value.to_string());
+    }
 }
-impl Element { pub fn new(tag: &str) -> Self { Self { tag: tag.to_string(), attributes: std::collections::HashMap::new() } } }

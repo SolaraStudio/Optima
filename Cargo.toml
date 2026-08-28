@@ -7,20 +7,16 @@ edition = "2024"
 crate-type = ["cdylib"]
 
 [dependencies]
-vello = "0.4"
-wgpu = "0.22"
+wry = "0.50"
 jni = "0.21"
 log = "0.4"
 android_logger = "0.13"
-taffy = { version = "0.6", features = ["grid", "flexbox"] }
-rustybuzz = "0.14"
-font-kit = "0.12"
-ffmpeg-next = "7.0"
+vello = "0.4"
+wgpu = "0.22"
 cpal = "0.15"
-rodio = "0.19"
+ffmpeg-next = "7.0"
 
 [profile.release]
 lto = true
 codegen-units = 1
-opt-level = 3
 strip = true

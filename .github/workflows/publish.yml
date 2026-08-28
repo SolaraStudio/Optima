@@ -26,9 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RUST_BACKTRACE: 1
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -42,7 +43,7 @@ jobs:
             x86_64-linux-android
 
       - name: Cache cargo
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry
@@ -55,11 +56,7 @@ jobs:
       - name: Setup Android SDK & NDK
         uses: android-actions/setup-android@v3
         with:
-          packages: |
-            platform-tools
-            platforms;android-35
-            build-tools;35.0.0
-            ndk;25.1.8937393
+          packages: platform-tools platforms;android-34 build-tools;34.0.0 ndk;25.1.8937393
 
       - name: Build Rust (all ABIs)
         run: |
@@ -106,3 +103,10 @@ jobs:
         run: |
           cd android
           ./gradlew publish
+
+      - name: (Optional) Upload AAR as artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: optima-aar-${{ steps.version.outputs.VERSION }}
+          path: android/build/outputs/aar/*.aar
+          retention-days: 7

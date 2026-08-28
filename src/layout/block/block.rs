@@ -31,4 +31,43 @@ impl BlockLayout {
         tree.compute_layout(container, Size { width: AvailableSpace::Definite(container_width), height: AvailableSpace::Auto }).unwrap();
         nodes.iter().map(|n| tree.layout(*n).unwrap()).collect()
     }
+
+    pub fn layout_with_styles(nodes: &[taffy::Node], container_width: f32) -> Vec<taffy::Layout> {
+        let mut tree = Taffy::new();
+        let container = tree.new_node(
+            Style {
+                size: Size {
+                    width: Dimension::Points(container_width),
+                    height: Dimension::Auto,
+                },
+                flex_direction: FlexDirection::Column,
+                ..Default::default()
+            },
+            nodes.to_vec(),
+        ).unwrap();
+        tree.compute_layout(container, Size { width: AvailableSpace::Definite(container_width), height: AvailableSpace::Auto }).unwrap();
+        nodes.iter().map(|n| tree.layout(*n).unwrap()).collect()
+    }
+
+    pub fn layout_with_padding(
+        nodes: &[taffy::Node],
+        container_width: f32,
+        padding: taffy::Rect<f32>,
+    ) -> Vec<taffy::Layout> {
+        let mut tree = Taffy::new();
+        let container = tree.new_node(
+            Style {
+                size: Size {
+                    width: Dimension::Points(container_width),
+                    height: Dimension::Auto,
+                },
+                flex_direction: FlexDirection::Column,
+                padding: padding.into(),
+                ..Default::default()
+            },
+            nodes.to_vec(),
+        ).unwrap();
+        tree.compute_layout(container, Size { width: AvailableSpace::Definite(container_width), height: AvailableSpace::Auto }).unwrap();
+        nodes.iter().map(|n| tree.layout(*n).unwrap()).collect()
+    }
 }

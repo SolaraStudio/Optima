@@ -1,4 +1,25 @@
-//! DOM tree implementation
 pub mod node;
 pub mod element;
 pub mod document;
+pub mod text;
+pub mod comment;
+pub mod doctype;
+pub mod fragment;
+pub mod event;
+pub mod mutation;
+pub mod observer;
+pub mod range;
+pub mod selection;
+
+pub use node::Node;
+pub use element::ElementData;
+pub use document::Document;
+pub use text::TextNode;
+pub use comment::CommentNode;
+pub use doctype::DoctypeNode;
+pub use fragment::DocumentFragment;
+pub use event::DomEvent;
+pub use mutation::MutationRecord;
+pub use observer::MutationObserver;
+pub use range::Range;
+pub use selection::Selection;

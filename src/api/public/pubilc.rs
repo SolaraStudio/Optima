@@ -21,7 +21,7 @@ impl OptimaAPI {
     }
 
     pub fn version() -> &'static str {
-        "0.150.10"
+        "0.150.10-dev"
     }
 
     pub fn render(&mut self) {

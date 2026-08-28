@@ -9,6 +9,11 @@ pub mod bytes;
 pub mod hash;
 pub mod time;
 pub mod math;
+pub mod assert;
+pub mod async_;
+pub mod pool;
+pub mod random;
+pub mod macro_;
 
 pub use logging::*;
 pub use error::*;

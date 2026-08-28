@@ -10,6 +10,9 @@ pub enum OptimaError {
     Jni(String),
     NotFound(String),
     InvalidState(String),
+    Timeout(String),
+    Permission(String),
+    Unsupported(String),
 }
 
 impl fmt::Display for OptimaError {
@@ -23,6 +26,9 @@ impl fmt::Display for OptimaError {
             OptimaError::Jni(s) => write!(f, "JNI error: {}", s),
             OptimaError::NotFound(s) => write!(f, "Not found: {}", s),
             OptimaError::InvalidState(s) => write!(f, "Invalid state: {}", s),
+            OptimaError::Timeout(s) => write!(f, "Timeout: {}", s),
+            OptimaError::Permission(s) => write!(f, "Permission error: {}", s),
+            OptimaError::Unsupported(s) => write!(f, "Unsupported: {}", s),
         }
     }
 }
@@ -30,3 +36,31 @@ impl fmt::Display for OptimaError {
 impl std::error::Error for OptimaError {}
 
 pub type Result<T> = std::result::Result<T, OptimaError>;
+
+impl From<std::io::Error> for OptimaError {
+    fn from(err: std::io::Error) -> Self {
+        OptimaError::Io(err)
+    }
+}
+
+impl From<jni::errors::Error> for OptimaError {
+    fn from(err: jni::errors::Error) -> Self {
+        OptimaError::Jni(err.to_string())
+    }
+}
+
+pub fn map_error<E: fmt::Display>(err: E, context: &str) -> OptimaError {
+    OptimaError::Parse(format!("{}: {}", context, err))
+}
+
+pub fn io_error(msg: &str) -> OptimaError {
+    OptimaError::Io(std::io::Error::new(std::io::ErrorKind::Other, msg))
+}
+
+pub fn not_found(msg: &str) -> OptimaError {
+    OptimaError::NotFound(msg.to_string())
+}
+
+pub fn invalid_state(msg: &str) -> OptimaError {
+    OptimaError::InvalidState(msg.to_string())
+}

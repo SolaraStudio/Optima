@@ -56,12 +56,15 @@ tasks.named("preBuild") {
     dependsOn("buildRustAll", "copyRustLibs")
 }
 
+val versionSuffix = System.getenv("VERSION_SUFFIX") ?: "SNAPSHOT"
+val versionName = System.getenv("OPTIMA_VERSION") ?: "0.150.10-$versionSuffix"
+
 publishing {
     publications {
         create<MavenPublication>("release") {
             groupId = "org.optima"
             artifactId = "optima"
-            version = System.getenv("OPTIMA_VERSION") ?: "0.150.10-dev"
+            version = versionName
             artifact("$buildDir/outputs/aar/optima-release.aar")
         }
     }

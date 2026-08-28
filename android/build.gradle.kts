@@ -1,6 +1,7 @@
 plugins {
-    id("com.android.library") version "8.5.0"
-    id("org.jetbrains.kotlin.android") version "1.9.25"
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
@@ -53,4 +54,25 @@ tasks.register<Copy>("copyRustLibs") {
 
 tasks.named("preBuild") {
     dependsOn("buildRustAll", "copyRustLibs")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            groupId = "org.optima"
+            artifactId = "optima"
+            version = System.getenv("OPTIMA_VERSION") ?: "0.150.10-dev"
+            artifact("$buildDir/outputs/aar/optima-release.aar")
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/SolaraStudio/Optima")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }

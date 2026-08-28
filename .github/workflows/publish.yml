@@ -1,0 +1,88 @@
+name: Publish Optima
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish (e.g., 0.150.10)"
+        required: true
+        default: "0.150.10-dev"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    name: Build and publish Optima AAR
+    runs-on: ubuntu-latest
+    env:
+      RUST_BACKTRACE: 1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: |
+            aarch64-linux-android
+            armv7-linux-androideabi
+            i686-linux-android
+            x86_64-linux-android
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-optima-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-optima-
+
+      - name: Setup Android SDK & NDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: |
+            platform-tools
+            platforms;android-35
+            build-tools;35.0.0
+            ndk;25.1.8937393
+
+      - name: Build Rust (all ABIs)
+        run: |
+          for target in aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android; do
+            cargo build --target "$target" --release
+          done
+
+      - name: Copy .so files to jniLibs
+        run: |
+          mkdir -p android/src/main/jniLibs/arm64-v8a
+          mkdir -p android/src/main/jniLibs/armeabi-v7a
+          mkdir -p android/src/main/jniLibs/x86
+          mkdir -p android/src/main/jniLibs/x86_64
+          cp target/aarch64-linux-android/release/*.so android/src/main/jniLibs/arm64-v8a/
+          cp target/armv7-linux-androideabi/release/*.so android/src/main/jniLibs/armeabi-v7a/
+          cp target/i686-linux-android/release/*.so android/src/main/jniLibs/x86/
+          cp target/x86_64-linux-android/release/*.so android/src/main/jniLibs/x86_64/
+
+      - name: Build AAR
+        run: |
+          cd android
+          ./gradlew assembleRelease
+
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPTIMA_VERSION: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || github.ref_name }}
+        run: |
+          cd android
+          ./gradlew publish

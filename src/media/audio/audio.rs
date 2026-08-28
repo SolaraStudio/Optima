@@ -7,6 +7,8 @@ use std::sync::{Arc, Mutex};
 pub struct AudioEngine {
     stream: Option<Stream>,
     sample_rate: u32,
+    volume: f32,
+    is_muted: bool,
 }
 
 impl AudioEngine {
@@ -14,6 +16,8 @@ impl AudioEngine {
         Self {
             stream: None,
             sample_rate: 44100,
+            volume: 1.0,
+            is_muted: false,
         }
     }
 
@@ -45,5 +49,33 @@ impl AudioEngine {
 
         stream.play().expect("Failed to play audio");
         self.stream = Some(stream);
+    }
+
+    pub fn set_volume(&mut self, volume: f32) {
+        self.volume = volume.clamp(0.0, 1.0);
+    }
+
+    pub fn set_muted(&mut self, muted: bool) {
+        self.is_muted = muted;
+    }
+
+    pub fn get_volume(&self) -> f32 {
+        self.volume
+    }
+
+    pub fn is_muted(&self) -> bool {
+        self.is_muted
+    }
+
+    pub fn stop(&mut self) {
+        if let Some(stream) = self.stream.take() {
+            drop(stream);
+        }
+    }
+}
+
+impl Default for AudioEngine {
+    fn default() -> Self {
+        Self::new()
     }
 }

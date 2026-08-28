@@ -17,4 +17,37 @@ impl AutoplayPolicy {
     pub fn should_play_on_visibility_change(was_visible: bool, is_visible: bool) -> bool {
         !was_visible && is_visible
     }
+
+    pub fn should_play_on_autoplay_after_load(gesture: bool, setting: AutoplaySetting) -> bool {
+        match setting {
+            AutoplaySetting::Always => true,
+            AutoplaySetting::Never => false,
+            AutoplaySetting::WithUserGesture => gesture,
+        }
+    }
+
+    pub fn should_block_on_low_power(user_gesture: bool, power_saving: bool) -> bool {
+        power_saving && !user_gesture
+    }
+
+    pub fn should_block_on_low_network(user_gesture: bool, network_saving: bool) -> bool {
+        network_saving && !user_gesture
+    }
+
+    pub fn is_user_gesture_required(setting: AutoplaySetting) -> bool {
+        matches!(setting, AutoplaySetting::WithUserGesture)
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum AutoplaySetting {
+    Always,
+    Never,
+    WithUserGesture,
+}
+
+impl Default for AutoplaySetting {
+    fn default() -> Self {
+        Self::WithUserGesture
+    }
 }

@@ -20,9 +20,9 @@ android_logger = "0.13"
 # Layout
 taffy = { version = "0.6", features = ["grid", "flexbox"] }
 
-# Text shaping and fonts
+# Text shaping and fonts (pure Rust)
 rustybuzz = "0.14"
-font-kit = { version = "0.12", features = ["source-fontconfig-dlopen"] }
+fontdue = "0.7"
 
 # Media (optional for now)
 cpal = "0.15"

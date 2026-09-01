@@ -24,6 +24,12 @@ taffy = { version = "0.6", features = ["grid", "flexbox"] }
 rustybuzz = "0.14"
 fontdue = "0.7"
 
+# Networking (for font downloads)
+reqwest = { version = "0.12", features = ["blocking", "stream", "json"] }
+
+# CSS parsing (for @font-face)
+cssparser = "0.33"
+
 # Media (optional for now)
 cpal = "0.15"
 ffmpeg-next = "7.0"

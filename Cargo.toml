@@ -22,7 +22,7 @@ taffy = { version = "0.6", features = ["grid", "flexbox"] }
 
 # Text shaping and fonts
 rustybuzz = "0.14"
-font-kit = "0.12"  # uses default features
+font-kit = { version = "0.12", features = ["source-fontconfig-dlopen"] }
 
 # Media (optional for now)
 cpal = "0.15"

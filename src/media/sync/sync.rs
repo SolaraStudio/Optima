@@ -86,17 +86,13 @@ impl SyncController {
         self.is_playing
     }
 
-    pub fn has_drift(&self) -> bool {
-        self.drift.abs() > 0.01
+    pub fn adjust_drift(&mut self, actual_position: Duration) {
+        let expected = self.get_current_time();
+        self.drift = actual_position.as_secs_f32() - expected.as_secs_f32();
     }
 
     pub fn reset_drift(&mut self) {
         self.drift = 0.0;
-    }
-
-    pub fn adjust_drift(&mut self, actual_position: Duration) {
-        let expected = self.get_current_time();
-        self.drift = actual_position.as_secs_f32() - expected.as_secs_f32();
     }
 }
 

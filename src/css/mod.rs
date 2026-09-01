@@ -14,6 +14,7 @@ pub mod transition;
 pub mod media;
 pub mod keyframes;
 pub mod ast;
+pub mod font_face;
 
 pub use parser::CSSParser;
 pub use stylesheet::Stylesheet;
@@ -28,3 +29,4 @@ pub use units::Units;
 pub use transform::Transform;
 pub use animation::Animation;
 pub use transition::Transition;
+pub use font_face::FontFaceRule;

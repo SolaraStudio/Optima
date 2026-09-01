@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Force dlopen for fontconfig (avoids pkg-config cross-compilation issues)
+export RUST_FONTCONFIG_DLOPEN=1
+
 for target in aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android; do
     echo "Building for $target"
     cargo build --target "$target" --release

@@ -1,140 +1,102 @@
-use jni::objects::{JObject, JClass};
-use jni::JNIEnv;
-use crate::media::{VideoFrame, AudioFrame};
-use crate::media::codec::Codec;
+use super::VideoFrame;
+use yscv_video::decoder::{Decoder as YscvDecoder, CodecType};
+use yscv_video::frame::Frame;
+use std::time::Duration;
 
 pub struct Decoder {
-    video_codec: Option<Codec>,
-    audio_codec: Option<Codec>,
-    video_handle: Option<jlong>,
-    audio_handle: Option<jlong>,
-    video_width: u32,
-    video_height: u32,
-    audio_sample_rate: u32,
-    audio_channels: u8,
+    inner: Option<YscvDecoder>,
+    video_track_index: Option<usize>,
+    width: u32,
+    height: u32,
+    current_pts: Duration,
+    codec_type: CodecType,
 }
 
 impl Decoder {
     pub fn new() -> Self {
         Self {
-            video_codec: None,
-            audio_codec: None,
-            video_handle: None,
-            audio_handle: None,
-            video_width: 0,
-            video_height: 0,
-            audio_sample_rate: 0,
-            audio_channels: 0,
+            inner: None,
+            video_track_index: None,
+            width: 0,
+            height: 0,
+            current_pts: Duration::from_secs(0),
+            codec_type: CodecType::H264,
         }
     }
 
-    pub fn init_video_decoder(&mut self, env: &mut JNIEnv, codec: Codec, width: u32, height: u32) -> bool {
-        let class = env.find_class("org/optima/MediaCodecDecoder").unwrap();
-        let method = env.get_static_method_id(class, "create", "(Ljava/lang/String;II)J").unwrap();
-        let mime_jstring = env.new_string(codec.mime_type()).unwrap();
-        let result = env.call_static_method(class, method, &[
-            (&mime_jstring).into(),
-            width.into(),
-            height.into(),
-        ]).unwrap();
-        let ptr = result.j().unwrap();
-        self.video_handle = Some(ptr);
-        self.video_codec = Some(codec);
-        self.video_width = width;
-        self.video_height = height;
-        true
+    pub fn open(&mut self, path: &str) -> Result<(), String> {
+        let demuxer = yscv_video::demuxer::Demuxer::new(path)
+            .map_err(|e| format!("Failed to open demuxer: {:?}", e))?;
+
+        let video_track = demuxer.video_tracks().next()
+            .ok_or_else(|| "No video track found".to_string())?;
+        let track_index = video_track.index;
+
+        // Determine codec type
+        let codec_type = match video_track.codec_name.as_deref() {
+            Some(name) if name.contains("h264") || name.contains("avc") => CodecType::H264,
+            Some(name) if name.contains("hevc") || name.contains("h265") => CodecType::HEVC,
+            Some(name) if name.contains("av1") => CodecType::AV1,
+            _ => CodecType::H264,
+        };
+
+        let decoder = YscvDecoder::new(codec_type)
+            .map_err(|e| format!("Failed to create decoder: {:?}", e))?;
+
+        self.inner = Some(decoder);
+        self.video_track_index = Some(track_index);
+        self.codec_type = codec_type;
+
+        // Get resolution
+        if let Some(stream) = demuxer.streams().iter().find(|s| s.index == track_index) {
+            self.width = stream.codec_params.width.unwrap_or(0);
+            self.height = stream.codec_params.height.unwrap_or(0);
+        }
+
+        Ok(())
     }
 
-    pub fn init_audio_decoder(&mut self, env: &mut JNIEnv, codec: Codec, sample_rate: u32, channels: u8) -> bool {
-        let class = env.find_class("org/optima/MediaCodecDecoder").unwrap();
-        let method = env.get_static_method_id(class, "createAudio", "(Ljava/lang/String;II)J").unwrap();
-        let mime_jstring = env.new_string(codec.mime_type()).unwrap();
-        let result = env.call_static_method(class, method, &[
-            (&mime_jstring).into(),
-            sample_rate.into(),
-            channels.into(),
-        ]).unwrap();
-        let ptr = result.j().unwrap();
-        self.audio_handle = Some(ptr);
-        self.audio_codec = Some(codec);
-        self.audio_sample_rate = sample_rate;
-        self.audio_channels = channels;
-        true
-    }
+    pub fn decode_next_frame(&mut self) -> Option<VideoFrame> {
+        let decoder = self.inner.as_mut()?;
+        let track_index = self.video_track_index?;
 
-    pub fn decode_video_frame(&self, env: &mut JNIEnv, data: &[u8]) -> Option<VideoFrame> {
-        let ptr = self.video_handle?;
-        let class = env.find_class("org/optima/MediaCodecDecoder").unwrap();
-        let method = env.get_method_id(class, "decodeFrame", "([B)[B").unwrap();
-        let byte_array = env.byte_array_from_slice(data).unwrap();
-        let result = env.call_method(ptr, method, &[(&byte_array).into()]).unwrap();
-        let output = result.l().unwrap();
-        let buffer = env.convert_byte_array(output).unwrap();
-        Some(VideoFrame {
-            width: self.video_width,
-            height: self.video_height,
-            data: buffer,
-            pts: 0,
-            dts: 0,
-            duration: 0,
-            is_keyframe: true,
-        })
-    }
-
-    pub fn decode_video_frame_with_pts(&self, env: &mut JNIEnv, data: &[u8], pts: u64) -> Option<VideoFrame> {
-        let ptr = self.video_handle?;
-        let class = env.find_class("org/optima/MediaCodecDecoder").unwrap();
-        let method = env.get_method_id(class, "decodeFrame", "([B)[B").unwrap();
-        let byte_array = env.byte_array_from_slice(data).unwrap();
-        let result = env.call_method(ptr, method, &[(&byte_array).into()]).unwrap();
-        let output = result.l().unwrap();
-        let buffer = env.convert_byte_array(output).unwrap();
-        Some(VideoFrame {
-            width: self.video_width,
-            height: self.video_height,
-            data: buffer,
-            pts,
-            dts: 0,
-            duration: 0,
-            is_keyframe: true,
-        })
-    }
-
-    pub fn decode_audio_frame(&self, data: &[u8]) -> Option<AudioFrame> {
-        // Placeholder - implement with ffmpeg or MediaCodec
+        // We need a demuxer; this is a simplified version
+        // In practice, we'd use the demuxer from the media pipeline
+        // For now, we'll return None (integration is handled in MediaPipeline)
         None
     }
 
-    pub fn has_video(&self) -> bool {
-        self.video_handle.is_some()
+    pub fn decode_packet(&mut self, data: &[u8], pts: u64, dts: u64, duration: u64) -> Option<VideoFrame> {
+        let decoder = self.inner.as_mut()?;
+        if let Ok(Some(frame)) = decoder.decode(data) {
+            let rgba = frame.rgba();
+            return Some(VideoFrame {
+                width: self.width,
+                height: self.height,
+                data: rgba,
+                pts,
+                dts,
+                duration,
+                is_keyframe: true,
+            });
+        }
+        None
     }
 
-    pub fn has_audio(&self) -> bool {
-        self.audio_handle.is_some()
+    pub fn get_width(&self) -> u32 {
+        self.width
     }
 
-    pub fn get_video_codec(&self) -> Option<Codec> {
-        self.video_codec
+    pub fn get_height(&self) -> u32 {
+        self.height
     }
 
-    pub fn get_audio_codec(&self) -> Option<Codec> {
-        self.audio_codec
+    pub fn get_duration(&self) -> Option<Duration> {
+        None // Implemented in demuxer
     }
 
-    pub fn get_video_width(&self) -> u32 {
-        self.video_width
-    }
-
-    pub fn get_video_height(&self) -> u32 {
-        self.video_height
-    }
-
-    pub fn get_audio_sample_rate(&self) -> u32 {
-        self.audio_sample_rate
-    }
-
-    pub fn get_audio_channels(&self) -> u8 {
-        self.audio_channels
+    pub fn seek(&mut self, _position: Duration) {
+        // Placeholder – seek in demuxer
     }
 }
 

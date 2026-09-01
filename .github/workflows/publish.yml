@@ -26,6 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RUST_BACKTRACE: 1
+      ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/25.1.8937393
 
     steps:
       - name: Checkout repository
@@ -58,26 +59,14 @@ jobs:
         with:
           packages: platform-tools platforms;android-34 build-tools;34.0.0 ndk;25.1.8937393
 
-      # NEW STEP: Install cargo-ndk to automatically handle NDK paths for Rust
       - name: Install cargo-ndk
         run: cargo install cargo-ndk
 
-      # MODIFIED STEP: Wrapped cargo build inside "cargo ndk"
       - name: Build Rust (all ABIs)
         run: |
-          # Define mapping between Rust target triples and Android platform targets
-          declare -A targets
-          targets=(
-            ["aarch64-linux-android"]="aarch64-linux-android"
-            ["armv7-linux-androideabi"]="armv7-linux-androideabi"
-            ["i686-linux-android"]="i686-linux-android"
-            ["x86_64-linux-android"]="x86_64-linux-android"
-          )
-          
-          for target in "${!targets[@]}"; do
-            echo "Building for target: $target"
-            # cargo-ndk automatically references the correct NDK path environment variables
-            cargo ndk --target "$target" --android-platform 21 -- build --release
+          for target in aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android; do
+            echo "Building for $target"
+            cargo ndk --target "$target" --platform 21 -- build --release
           done
 
       - name: Copy .so files to jniLibs

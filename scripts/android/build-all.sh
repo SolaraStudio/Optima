@@ -3,6 +3,8 @@ set -e
 
 # Force dlopen for fontconfig (avoids pkg-config cross-compilation issues)
 export RUST_FONTCONFIG_DLOPEN=1
+export PKG_CONFIG_ALLOW_CROSS=1
+export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
 
 for target in aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android; do
     echo "Building for $target"

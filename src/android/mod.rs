@@ -9,6 +9,7 @@ pub mod view;
 pub mod texture;
 pub mod resource;
 pub mod asset;
+pub mod fonts;
 
 pub use surface::AndroidSurface;
 pub use input::AndroidInput;

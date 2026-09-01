@@ -1,44 +1,3 @@
-pub struct AutoplayPolicy;
-
-impl AutoplayPolicy {
-    pub fn is_allowed(user_gesture: bool, site_has_media: bool, site_has_played_before: bool) -> bool {
-        if user_gesture {
-            return true;
-        }
-        if site_has_played_before {
-            return true;
-        }
-        if site_has_media {
-            return false;
-        }
-        false
-    }
-
-    pub fn should_play_on_visibility_change(was_visible: bool, is_visible: bool) -> bool {
-        !was_visible && is_visible
-    }
-
-    pub fn should_play_on_autoplay_after_load(gesture: bool, setting: AutoplaySetting) -> bool {
-        match setting {
-            AutoplaySetting::Always => true,
-            AutoplaySetting::Never => false,
-            AutoplaySetting::WithUserGesture => gesture,
-        }
-    }
-
-    pub fn should_block_on_low_power(user_gesture: bool, power_saving: bool) -> bool {
-        power_saving && !user_gesture
-    }
-
-    pub fn should_block_on_low_network(user_gesture: bool, network_saving: bool) -> bool {
-        network_saving && !user_gesture
-    }
-
-    pub fn is_user_gesture_required(setting: AutoplaySetting) -> bool {
-        matches!(setting, AutoplaySetting::WithUserGesture)
-    }
-}
-
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum AutoplaySetting {
     Always,
@@ -49,5 +8,25 @@ pub enum AutoplaySetting {
 impl Default for AutoplaySetting {
     fn default() -> Self {
         Self::WithUserGesture
+    }
+}
+
+pub struct AutoplayPolicy;
+
+impl AutoplayPolicy {
+    pub fn is_allowed(user_gesture: bool, site_has_played_before: bool, setting: AutoplaySetting) -> bool {
+        match setting {
+            AutoplaySetting::Always => true,
+            AutoplaySetting::Never => false,
+            AutoplaySetting::WithUserGesture => user_gesture || site_has_played_before,
+        }
+    }
+
+    pub fn should_play_on_visibility_change(was_visible: bool, is_visible: bool) -> bool {
+        !was_visible && is_visible
+    }
+
+    pub fn should_play_on_autoplay_after_load(gesture: bool, setting: AutoplaySetting) -> bool {
+        Self::is_allowed(gesture, false, setting)
     }
 }

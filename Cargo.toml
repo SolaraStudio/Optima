@@ -24,8 +24,8 @@ taffy = { version = "0.6", features = ["grid", "flexbox"] }
 rustybuzz = "0.14"
 fontdue = "0.7"
 
-# Networking (for font downloads)
-reqwest = { version = "0.12", features = ["blocking", "stream", "json"] }
+# Networking (for font downloads) - use rustls instead of openssl
+reqwest = { version = "0.12", features = ["blocking", "stream", "json", "rustls-tls"], default-features = false }
 
 # CSS parsing (for @font-face)
 cssparser = "0.33"

@@ -1,4 +1,4 @@
-# Optima Engine Benchmarks
+# Optima Engine - Benchmarks
 
 Criterion-based benchmarks for the Optima WebView engine.
 

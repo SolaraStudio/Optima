@@ -56,9 +56,13 @@ jobs:
           targets: ${{ matrix.target }}
           components: rustfmt, clippy
 
+      - name: Install system dependencies for build scripts
+        run: sudo apt-get update && sudo apt-get install -y libasound2-dev pkg-config
+
       - name: Auto-fix Rust code and format
         run: |
-          cargo fix --allow-dirty --allow-staged --broken-code || true
+          cargo fix --target ${{ matrix.target }} --allow-dirty --allow-staged --broken-code || true
+          cargo clippy --fix --target ${{ matrix.target }} --allow-dirty --allow-staged || true
           cargo fmt --all
 
       - name: Cache cargo registry and build artifacts

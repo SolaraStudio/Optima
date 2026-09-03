@@ -2,6 +2,8 @@
 name = "optima"
 version = "0.150.10-dev"
 edition = "2024"
+license = "MIT OR Apache-2.0"
+authors = ["SolaraStudio"]
 
 [lib]
 crate-type = ["cdylib"]

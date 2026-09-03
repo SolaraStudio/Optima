@@ -1,3 +1,4 @@
+pub mod features;
 pub mod break_;
 pub mod fallback;
 pub mod font;

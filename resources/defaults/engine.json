@@ -1,0 +1,17 @@
+// Default engine configuration embedded as a fallback when no config is
+// supplied. Mirrors EngineConfig::new() defaults.
+{
+  "user_agent": "Optima/0.150.10-dev",
+  "javascript_enabled": true,
+  "images_enabled": true,
+  "css_enabled": true,
+  "default_font_size": 16,
+  "default_font_family": "sans-serif",
+  "enable_webgl": false,
+  "enable_webrtc": false,
+  "cache_enabled": true,
+  "cache_size_bytes": 52428800,
+  "timeout_secs": 30,
+  "max_connections": 6,
+  "allow_file_protocol": false
+}

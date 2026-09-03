@@ -4,6 +4,7 @@ pub mod cascade;
 pub mod colors;
 pub mod computed;
 pub mod declaration;
+pub mod features;
 pub mod font_face;
 pub mod inheritance;
 pub mod keyframes;

@@ -2,6 +2,7 @@ pub mod body;
 pub mod cache;
 pub mod cookie;
 pub mod dns;
+pub mod features;
 pub mod fetch;
 pub mod header;
 pub mod http;

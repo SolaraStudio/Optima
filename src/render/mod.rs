@@ -2,6 +2,7 @@ pub mod backend;
 pub mod blend;
 pub mod clip;
 pub mod effect;
+pub mod features;
 pub mod filter;
 pub mod gradient;
 pub mod image;

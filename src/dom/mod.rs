@@ -1,3 +1,4 @@
+pub mod features;
 pub mod comment;
 pub mod doctype;
 pub mod document;

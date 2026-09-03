@@ -84,7 +84,20 @@ jobs:
             libpulse-dev \
             libpipewire-0.3-dev
 
+      - name: Setup Android SDK & NDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools platforms;android-34 build-tools;34.0.0 ndk;25.1.8937393
+
+      - name: Add NDK compiler to PATH
+        run: |
+          echo "PATH=$ANDROID_NDK_HOME/bin:$PATH" >> $GITHUB_ENV
+
       - name: Auto-fix Rust code and format
+        env:
+          CC_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/bin/${{ matrix.target }}-clang
+          CXX_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/bin/${{ matrix.target }}-clang++
+          AR_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/bin/${{ matrix.target }}-ar
         run: |
           cargo fix --target ${{ matrix.target }} --allow-dirty --allow-staged --broken-code || true
           cargo clippy --fix --target ${{ matrix.target }} --allow-dirty --allow-staged || true
@@ -135,15 +148,6 @@ jobs:
           if ! command -v cargo-chef &> /dev/null; then
             cargo install cargo-chef
           fi
-
-      - name: Setup Android SDK & NDK
-        uses: android-actions/setup-android@v3
-        with:
-          packages: platform-tools platforms;android-34 build-tools;34.0.0 ndk;25.1.8937393
-
-      - name: Add NDK compiler to PATH
-        run: |
-          echo "PATH=$ANDROID_NDK_HOME/bin:$PATH" >> $GITHUB_ENV
 
       - name: Compute cargo-chef recipe
         run: cargo chef prepare --recipe-path recipe.json

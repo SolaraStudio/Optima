@@ -20,7 +20,7 @@ log = "0.4"
 android_logger = "0.15"
 
 # Layout
-taffy = { version = "0.6", features = ["grid", "flexbox"] }
+taffy = { version = "0.14", features = ["grid", "flexbox"] }
 
 # Text shaping and fonts (pure Rust)
 rustybuzz = "0.14"

@@ -17,7 +17,7 @@ jobs:
     name: Lock inactive threads
     runs-on: ubuntu-22.04
     steps:
-      - uses: dessant/lock-threads@v5
+      - uses: dessant/lock-threads@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           process-only: 'issues,prs'

@@ -38,6 +38,17 @@ awedio = "0.5"
 # Video
 yscv-video = "0.1"
 
+# Serialization (devtools)
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+base64 = "0.22"
+rand = "0.8"
+chrono = { version = "0.4", default-features = false, features = ["clock", "alloc"] }
+
+# Async utilities
+pollster = "0.4"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "sync", "rt"] }
+
 # Utilities
 anyhow = "1.0"
 thiserror = "1.0"

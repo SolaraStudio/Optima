@@ -115,7 +115,8 @@ impl HttpClient {
     }
 
     pub fn add_default_header(&mut self, name: &str, value: &str) {
-        self.default_headers.insert(name.to_string(), value.to_string());
+        self.default_headers
+            .insert(name.to_string(), value.to_string());
     }
 
     pub fn get(&self, url: &str) -> Result<HttpResponse, String> {
@@ -156,7 +157,8 @@ impl HttpClient {
         let mut resp = HttpResponse::ok(&req.url);
         resp.status = 200;
         resp.headers = self.default_headers.clone();
-        resp.headers.insert("user-agent".to_string(), self.user_agent.clone());
+        resp.headers
+            .insert("user-agent".to_string(), self.user_agent.clone());
         if let Some(body) = &req.body {
             resp.body = body.clone();
         }

@@ -73,7 +73,8 @@ impl LayerTransform {
 
         let new_tx = self.translate_x + other.translate_x * cos_r * self.scale_x
             - other.translate_y * sin_r * self.scale_y;
-        let new_ty = self.translate_y + other.translate_x * sin_r * self.scale_x
+        let new_ty = self.translate_y
+            + other.translate_x * sin_r * self.scale_x
             + other.translate_y * cos_r * self.scale_y;
 
         LayerTransform {
@@ -93,8 +94,16 @@ impl LayerTransform {
         let rad = -self.rotation_deg * std::f32::consts::PI / 180.0;
         let cos_r = rad.cos();
         let sin_r = rad.sin();
-        let sx = if self.scale_x.abs() > 0.0001 { 1.0 / self.scale_x } else { 0.0 };
-        let sy = if self.scale_y.abs() > 0.0001 { 1.0 / self.scale_y } else { 0.0 };
+        let sx = if self.scale_x.abs() > 0.0001 {
+            1.0 / self.scale_x
+        } else {
+            0.0
+        };
+        let sy = if self.scale_y.abs() > 0.0001 {
+            1.0 / self.scale_y
+        } else {
+            0.0
+        };
 
         let rx = (dx * cos_r + dy * sin_r) * sx;
         let ry = (-dx * sin_r + dy * cos_r) * sy;
@@ -261,7 +270,8 @@ impl Compositor {
     pub fn resize_output(&mut self, width: u32, height: u32) {
         self.output_width = width;
         self.output_height = height;
-        self.output_buffer.resize(width as usize * height as usize * 4, 0);
+        self.output_buffer
+            .resize(width as usize * height as usize * 4, 0);
         self.clear_output();
     }
 
@@ -403,7 +413,9 @@ impl Compositor {
                     let src_idx = (ly * layer_w + lx) * 4;
                     let dst_idx = (out_y as usize * out_w + out_x as usize) * 4;
 
-                    if src_idx + 4 <= layer.pixel_data.len() && dst_idx + 4 <= self.output_buffer.len() {
+                    if src_idx + 4 <= layer.pixel_data.len()
+                        && dst_idx + 4 <= self.output_buffer.len()
+                    {
                         let src = layer.pixel_data[src_idx..src_idx + 4].to_vec();
                         Self::blend_pixel(
                             &mut self.output_buffer[dst_idx..dst_idx + 4],
@@ -538,13 +550,11 @@ mod tests {
     fn test_compositor_composite() {
         let mut comp = Compositor::new(4, 4);
 
-        let mut layer = CompositingLayer::new(0, "red", 4, 4)
-            .with_z_order(1);
+        let mut layer = CompositingLayer::new(0, "red", 4, 4).with_z_order(1);
         layer.fill_solid(255, 0, 0, 255);
         comp.add_layer(layer);
 
-        let mut layer2 = CompositingLayer::new(1, "green", 4, 4)
-            .with_z_order(2);
+        let mut layer2 = CompositingLayer::new(1, "green", 4, 4).with_z_order(2);
         layer2.fill_solid(0, 255, 0, 255);
         comp.add_layer(layer2);
 
@@ -586,8 +596,8 @@ mod tests {
     fn test_blend_modes() {
         let mut comp = Compositor::new(2, 2);
 
-        let mut layer = CompositingLayer::new(0, "test", 2, 2)
-            .with_blend_mode(CompositingBlendMode::Screen);
+        let mut layer =
+            CompositingLayer::new(0, "test", 2, 2).with_blend_mode(CompositingBlendMode::Screen);
         layer.fill_solid(128, 128, 128, 255);
         comp.add_layer(layer);
         comp.composite();

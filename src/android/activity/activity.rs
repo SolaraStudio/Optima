@@ -1,5 +1,5 @@
-use jni::objects::{GlobalRef, JObject};
 use jni::JNIEnv;
+use jni::objects::{GlobalRef, JObject};
 
 pub struct AndroidActivity {
     pub activity: GlobalRef,

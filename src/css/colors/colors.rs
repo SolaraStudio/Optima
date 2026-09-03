@@ -18,27 +18,47 @@ impl Color {
                 let r = u8::from_str_radix(&hex[0..1].repeat(2), 16).ok()?;
                 let g = u8::from_str_radix(&hex[1..2].repeat(2), 16).ok()?;
                 let b = u8::from_str_radix(&hex[2..3].repeat(2), 16).ok()?;
-                Some(Color::new(r as f32 / 255.0, g as f32 / 255.0, b as f32 / 255.0, 1.0))
+                Some(Color::new(
+                    r as f32 / 255.0,
+                    g as f32 / 255.0,
+                    b as f32 / 255.0,
+                    1.0,
+                ))
             }
             4 => {
                 let r = u8::from_str_radix(&hex[0..1].repeat(2), 16).ok()?;
                 let g = u8::from_str_radix(&hex[1..2].repeat(2), 16).ok()?;
                 let b = u8::from_str_radix(&hex[2..3].repeat(2), 16).ok()?;
                 let a = u8::from_str_radix(&hex[3..4].repeat(2), 16).ok()?;
-                Some(Color::new(r as f32 / 255.0, g as f32 / 255.0, b as f32 / 255.0, a as f32 / 255.0))
+                Some(Color::new(
+                    r as f32 / 255.0,
+                    g as f32 / 255.0,
+                    b as f32 / 255.0,
+                    a as f32 / 255.0,
+                ))
             }
             6 => {
                 let r = u8::from_str_radix(&hex[0..2], 16).ok()?;
                 let g = u8::from_str_radix(&hex[2..4], 16).ok()?;
                 let b = u8::from_str_radix(&hex[4..6], 16).ok()?;
-                Some(Color::new(r as f32 / 255.0, g as f32 / 255.0, b as f32 / 255.0, 1.0))
+                Some(Color::new(
+                    r as f32 / 255.0,
+                    g as f32 / 255.0,
+                    b as f32 / 255.0,
+                    1.0,
+                ))
             }
             8 => {
                 let r = u8::from_str_radix(&hex[0..2], 16).ok()?;
                 let g = u8::from_str_radix(&hex[2..4], 16).ok()?;
                 let b = u8::from_str_radix(&hex[4..6], 16).ok()?;
                 let a = u8::from_str_radix(&hex[6..8], 16).ok()?;
-                Some(Color::new(r as f32 / 255.0, g as f32 / 255.0, b as f32 / 255.0, a as f32 / 255.0))
+                Some(Color::new(
+                    r as f32 / 255.0,
+                    g as f32 / 255.0,
+                    b as f32 / 255.0,
+                    a as f32 / 255.0,
+                ))
             }
             _ => None,
         }

@@ -33,8 +33,11 @@ pub struct ResourceRequest {
 impl ResourceRequest {
     pub fn new(url: &str, resource_type: ResourceType) -> Self {
         ResourceRequest {
-            url: url.to_string(), resource_type, priority: ResourcePriority::Normal,
-            headers: Headers::new(), is_blocking: false,
+            url: url.to_string(),
+            resource_type,
+            priority: ResourcePriority::Normal,
+            headers: Headers::new(),
+            is_blocking: false,
         }
     }
 }

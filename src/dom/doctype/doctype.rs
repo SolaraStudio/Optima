@@ -1,4 +1,3 @@
-
 pub struct Doctype {
     pub name: String,
     pub public_id: Option<String>,

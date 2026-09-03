@@ -50,22 +50,18 @@ impl WebFontRegistry {
         had
     }
 
-    pub fn lookup(
-        &self,
-        family: &str,
-        weight: FontWeight,
-        style: FontStyle,
-    ) -> Option<&FontFace> {
-        let resolved = self.aliases.get(family).map(|s| s.as_str()).unwrap_or(family);
-        self.fonts.get(resolved)?.iter().find(|f| {
-            f.weight == weight && f.style == style
-        }).or_else(|| {
-            self.fonts.get(resolved)?.iter().find(|f| {
-                f.style == style
-            })
-        }).or_else(|| {
-            self.fonts.get(resolved)?.first()
-        })
+    pub fn lookup(&self, family: &str, weight: FontWeight, style: FontStyle) -> Option<&FontFace> {
+        let resolved = self
+            .aliases
+            .get(family)
+            .map(|s| s.as_str())
+            .unwrap_or(family);
+        self.fonts
+            .get(resolved)?
+            .iter()
+            .find(|f| f.weight == weight && f.style == style)
+            .or_else(|| self.fonts.get(resolved)?.iter().find(|f| f.style == style))
+            .or_else(|| self.fonts.get(resolved)?.first())
     }
 
     pub fn lookup_best_match(
@@ -78,7 +74,11 @@ impl WebFontRegistry {
     }
 
     pub fn has_family(&self, family: &str) -> bool {
-        let resolved = self.aliases.get(family).map(|s| s.as_str()).unwrap_or(family);
+        let resolved = self
+            .aliases
+            .get(family)
+            .map(|s| s.as_str())
+            .unwrap_or(family);
         self.fonts.contains_key(resolved)
     }
 
@@ -113,7 +113,11 @@ impl WebFontRegistry {
     }
 
     pub fn get_metrics(&self, family: &str) -> Option<&FontMetrics> {
-        let resolved = self.aliases.get(family).map(|s| s.as_str()).unwrap_or(family);
+        let resolved = self
+            .aliases
+            .get(family)
+            .map(|s| s.as_str())
+            .unwrap_or(family);
         self.fonts
             .get(resolved)
             .and_then(|faces| faces.first())
@@ -203,13 +207,20 @@ mod tests {
     #[test]
     fn test_lookup_not_found() {
         let reg = WebFontRegistry::new();
-        assert!(reg.lookup("Missing", FontWeight::Regular, FontStyle::Normal).is_none());
+        assert!(
+            reg.lookup("Missing", FontWeight::Regular, FontStyle::Normal)
+                .is_none()
+        );
     }
 
     #[test]
     fn test_alias() {
         let mut reg = WebFontRegistry::new();
-        reg.register(make_face("Open Sans", FontWeight::Regular, FontStyle::Normal));
+        reg.register(make_face(
+            "Open Sans",
+            FontWeight::Regular,
+            FontStyle::Normal,
+        ));
         reg.add_alias("sans", "Open Sans");
         assert!(reg.has_family("sans"));
         assert_eq!(reg.resolve_alias("sans"), "Open Sans");

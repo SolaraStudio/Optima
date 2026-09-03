@@ -67,7 +67,13 @@ impl ParsedUrl {
             Some((h, q)) => (Some(h.to_string()), Some(q.to_string())),
             None => (Some(authority.to_string()), None),
         };
-        Some(ParsedUrl { scheme, host, path, query, raw: raw.to_string() })
+        Some(ParsedUrl {
+            scheme,
+            host,
+            path,
+            query,
+            raw: raw.to_string(),
+        })
     }
 }
 
@@ -83,7 +89,9 @@ pub struct SchemeRegistry {
 
 impl SchemeRegistry {
     pub fn new() -> Self {
-        let mut registry = SchemeRegistry { handlers: HashMap::new() };
+        let mut registry = SchemeRegistry {
+            handlers: HashMap::new(),
+        };
         registry.register(UrlScheme::Optimus, |url| {
             Ok(format!("optimus:{}", url.path).into_bytes())
         });
@@ -100,8 +108,18 @@ impl SchemeRegistry {
         registry
     }
 
-    pub fn register(&mut self, scheme: UrlScheme, handler: fn(&ParsedUrl) -> Result<Vec<u8>, String>) {
-        self.handlers.insert(scheme.as_str().to_string(), SchemeHandler { name: scheme, handler });
+    pub fn register(
+        &mut self,
+        scheme: UrlScheme,
+        handler: fn(&ParsedUrl) -> Result<Vec<u8>, String>,
+    ) {
+        self.handlers.insert(
+            scheme.as_str().to_string(),
+            SchemeHandler {
+                name: scheme,
+                handler,
+            },
+        );
     }
 
     pub fn unregister(&mut self, scheme: UrlScheme) {

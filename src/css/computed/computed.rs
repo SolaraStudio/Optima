@@ -28,7 +28,13 @@ impl ComputedStyle {
     }
 
     pub fn inherit_from(&mut self, parent: &ComputedStyle) {
-        let inherit_properties = vec!["color", "font-family", "font-size", "font-weight", "line-height"];
+        let inherit_properties = vec![
+            "color",
+            "font-family",
+            "font-size",
+            "font-weight",
+            "line-height",
+        ];
         for prop in inherit_properties {
             if let Some(val) = parent.get(prop) {
                 if !self.properties.contains_key(prop) {

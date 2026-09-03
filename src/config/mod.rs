@@ -7,6 +7,6 @@ pub mod profile;
 pub mod release;
 pub mod settings;
 
-pub use settings::Settings;
-pub use preferences::Preferences;
 pub use flags::Flags;
+pub use preferences::Preferences;
+pub use settings::Settings;

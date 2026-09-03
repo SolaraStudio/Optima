@@ -70,9 +70,7 @@ impl EasingFunction {
             EasingFunction::EaseIn => cubic_bezier(0.42, 0.0, 1.0, 1.0, t),
             EasingFunction::EaseOut => cubic_bezier(0.0, 0.0, 0.58, 1.0, t),
             EasingFunction::EaseInOut => cubic_bezier(0.42, 0.0, 0.58, 1.0, t),
-            EasingFunction::CubicBezier(x1, y1, x2, y2) => {
-                cubic_bezier(*x1, *y1, *x2, *y2, t)
-            }
+            EasingFunction::CubicBezier(x1, y1, x2, y2) => cubic_bezier(*x1, *y1, *x2, *y2, t),
             EasingFunction::Steps(n, timing) => {
                 let n = (*n).max(1) as f32;
                 match timing {
@@ -150,11 +148,7 @@ impl TransitionState {
     }
 
     pub fn progress(&self, property_name: &str) -> f32 {
-        if let Some(prop) = self
-            .properties
-            .iter()
-            .find(|p| p.name == property_name)
-        {
+        if let Some(prop) = self.properties.iter().find(|p| p.name == property_name) {
             prop.progress_at(self.elapsed_ms)
         } else {
             1.0

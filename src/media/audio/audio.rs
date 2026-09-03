@@ -11,6 +11,12 @@ pub struct AudioTrack {
 
 impl AudioTrack {
     pub fn new(id: u32) -> Self {
-        AudioTrack { id, language: "en".to_string(), channels: 2, sample_rate: 44100, volume: VolumeControl::new() }
+        AudioTrack {
+            id,
+            language: "en".to_string(),
+            channels: 2,
+            sample_rate: 44100,
+            volume: VolumeControl::new(),
+        }
     }
 }

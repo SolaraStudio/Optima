@@ -100,7 +100,8 @@ impl SandboxMode {
     }
 
     pub fn to_string(&self) -> String {
-        self.flags.iter()
+        self.flags
+            .iter()
             .map(|f| f.as_str().to_string())
             .collect::<Vec<_>>()
             .join(" ")

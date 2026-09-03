@@ -63,9 +63,17 @@ impl SwipeDirection {
         let abs_dx = dx.abs();
         let abs_dy = dy.abs();
         if abs_dx > abs_dy {
-            if dx > 0.0 { SwipeDirection::Right } else { SwipeDirection::Left }
+            if dx > 0.0 {
+                SwipeDirection::Right
+            } else {
+                SwipeDirection::Left
+            }
         } else {
-            if dy > 0.0 { SwipeDirection::Down } else { SwipeDirection::Up }
+            if dy > 0.0 {
+                SwipeDirection::Down
+            } else {
+                SwipeDirection::Up
+            }
         }
     }
 }

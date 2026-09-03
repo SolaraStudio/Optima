@@ -67,7 +67,12 @@ impl PixelBuffer {
         }
     }
 
-    pub fn from_raw(data: Vec<u8>, width: u32, height: u32, format: ScreenshotFormat) -> Result<Self, String> {
+    pub fn from_raw(
+        data: Vec<u8>,
+        width: u32,
+        height: u32,
+        format: ScreenshotFormat,
+    ) -> Result<Self, String> {
         let bpp = format.bytes_per_pixel();
         let expected = width as usize * height as usize * bpp;
         if data.len() != expected {
@@ -117,11 +122,18 @@ impl PixelBuffer {
 
     pub fn set_pixel(&mut self, x: u32, y: u32, color: &[u8]) -> Result<(), String> {
         if x >= self.width || y >= self.height {
-            return Err(format!("Pixel ({}, {}) out of bounds for {}x{}", x, y, self.width, self.height));
+            return Err(format!(
+                "Pixel ({}, {}) out of bounds for {}x{}",
+                x, y, self.width, self.height
+            ));
         }
         let bpp = self.format.bytes_per_pixel();
         if color.len() != bpp {
-            return Err(format!("Color data has {} bytes, expected {}", color.len(), bpp));
+            return Err(format!(
+                "Color data has {} bytes, expected {}",
+                color.len(),
+                bpp
+            ));
         }
         let offset = (y as usize * self.stride) + (x as usize * bpp);
         self.data[offset..offset + bpp].copy_from_slice(color);
@@ -131,7 +143,11 @@ impl PixelBuffer {
     pub fn fill(&mut self, color: &[u8]) -> Result<(), String> {
         let bpp = self.format.bytes_per_pixel();
         if color.len() != bpp {
-            return Err(format!("Color data has {} bytes, expected {}", color.len(), bpp));
+            return Err(format!(
+                "Color data has {} bytes, expected {}",
+                color.len(),
+                bpp
+            ));
         }
         for y in 0..self.height {
             for x in 0..self.width {

@@ -35,24 +35,24 @@ impl QueryBuilder {
                 borrowed.get_attribute("id").map(|s| s.as_str()) == Some(id.as_str())
             }
             SelectorKind::Class(ref cls) => match borrowed.get_attribute("class") {
-                Some(class_attr) => class_attr
-                    .split_whitespace()
-                    .any(|c| c == cls.as_str()),
+                Some(class_attr) => class_attr.split_whitespace().any(|c| c == cls.as_str()),
                 None => false,
             },
         }
     }
 
     pub fn query_selector(root: &Rc<RefCell<Node>>, selector: &str) -> Option<Rc<RefCell<Node>>> {
-        Self::matches(root, selector).then(|| Rc::clone(root)).or_else(|| {
-            let children = root.borrow().children.clone();
-            for child in &children {
-                if let Some(found) = Self::query_selector(child, selector) {
-                    return Some(found);
+        Self::matches(root, selector)
+            .then(|| Rc::clone(root))
+            .or_else(|| {
+                let children = root.borrow().children.clone();
+                for child in &children {
+                    if let Some(found) = Self::query_selector(child, selector) {
+                        return Some(found);
+                    }
                 }
-            }
-            None
-        })
+                None
+            })
     }
 
     pub fn query_selector_all(root: &Rc<RefCell<Node>>, selector: &str) -> Vec<Rc<RefCell<Node>>> {
@@ -108,8 +108,7 @@ mod tests {
     #[test]
     fn test_matches_id() {
         let node = make_element("div");
-        node.borrow_mut()
-            .set_attribute("id", "main");
+        node.borrow_mut().set_attribute("id", "main");
         assert!(QueryBuilder::matches(&node, "#main"));
         assert!(!QueryBuilder::matches(&node, "#other"));
     }
@@ -117,8 +116,7 @@ mod tests {
     #[test]
     fn test_matches_class() {
         let node = make_element("div");
-        node.borrow_mut()
-            .set_attribute("class", "highlight active");
+        node.borrow_mut().set_attribute("class", "highlight active");
         assert!(QueryBuilder::matches(&node, ".highlight"));
         assert!(QueryBuilder::matches(&node, ".active"));
         assert!(!QueryBuilder::matches(&node, ".inactive"));
@@ -147,9 +145,7 @@ mod tests {
     fn test_query_selector_by_id() {
         let root = make_element("div");
         let child = make_element("p");
-        child
-            .borrow_mut()
-            .set_attribute("id", "intro");
+        child.borrow_mut().set_attribute("id", "intro");
         root.borrow_mut().children.push(Rc::clone(&child));
         child.borrow_mut().parent = Some(Rc::clone(&root));
 
@@ -162,9 +158,7 @@ mod tests {
         let root = make_element("div");
         let level1 = make_element("section");
         let level2 = make_element("p");
-        level2
-            .borrow_mut()
-            .set_attribute("id", "deep");
+        level2.borrow_mut().set_attribute("id", "deep");
         level1.borrow_mut().children.push(Rc::clone(&level2));
         level2.borrow_mut().parent = Some(Rc::clone(&level1));
         root.borrow_mut().children.push(Rc::clone(&level1));
@@ -193,14 +187,11 @@ mod tests {
     fn test_query_selector_all_by_class() {
         let root = make_element("div");
         let c1 = make_element("p");
-        c1.borrow_mut()
-            .set_attribute("class", "item");
+        c1.borrow_mut().set_attribute("class", "item");
         let c2 = make_element("div");
-        c2.borrow_mut()
-            .set_attribute("class", "item");
+        c2.borrow_mut().set_attribute("class", "item");
         let c3 = make_element("span");
-        c3.borrow_mut()
-            .set_attribute("class", "other");
+        c3.borrow_mut().set_attribute("class", "other");
         root.borrow_mut().children.push(Rc::clone(&c1));
         root.borrow_mut().children.push(Rc::clone(&c2));
         root.borrow_mut().children.push(Rc::clone(&c3));
@@ -213,11 +204,9 @@ mod tests {
     fn test_query_selector_first_match() {
         let root = make_element("div");
         let c1 = make_element("span");
-        c1.borrow_mut()
-            .set_attribute("class", "a");
+        c1.borrow_mut().set_attribute("class", "a");
         let c2 = make_element("span");
-        c2.borrow_mut()
-            .set_attribute("class", "a");
+        c2.borrow_mut().set_attribute("class", "a");
         root.borrow_mut().children.push(Rc::clone(&c1));
         root.borrow_mut().children.push(Rc::clone(&c2));
 

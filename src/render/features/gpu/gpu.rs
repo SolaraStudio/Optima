@@ -273,7 +273,10 @@ impl GpuPipeline {
             self.draw_calls = 0;
             Ok(())
         } else {
-            Err("Pipeline descriptor is incomplete: missing shader or bind group layouts".to_string())
+            Err(
+                "Pipeline descriptor is incomplete: missing shader or bind group layouts"
+                    .to_string(),
+            )
         }
     }
 

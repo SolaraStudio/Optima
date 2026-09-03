@@ -1,8 +1,8 @@
-use cssparser::{Parser, Token};
-use crate::css::value::Value;
 use crate::css::colors::Color;
 use crate::css::units::Length;
 use crate::css::units::LengthUnit;
+use crate::css::value::Value;
+use cssparser::{Parser, Token};
 
 pub struct CSSParser;
 

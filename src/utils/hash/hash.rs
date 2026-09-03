@@ -14,7 +14,10 @@ pub fn hash_bytes(data: &[u8]) -> u64 {
 }
 
 pub fn hash_combine(a: u64, b: u64) -> u64 {
-    a ^ b.wrapping_add(0x9e3779b97f4a7c15).wrapping_add(a << 6).wrapping_add(a >> 2)
+    a ^ b
+        .wrapping_add(0x9e3779b97f4a7c15)
+        .wrapping_add(a << 6)
+        .wrapping_add(a >> 2)
 }
 
 pub fn hash_pair<T: Hash, U: Hash>(a: &T, b: &U) -> u64 {

@@ -86,7 +86,10 @@ impl PseudoElementGenerator {
             boxes.push(GeneratedBox {
                 pseudo_element: PseudoElement::Before,
                 content: resolved,
-                display: style.display.clone().unwrap_or_else(|| "inline".to_string()),
+                display: style
+                    .display
+                    .clone()
+                    .unwrap_or_else(|| "inline".to_string()),
             });
         }
         if let Some(style) = self.styles.get(&PseudoElement::After) {
@@ -95,7 +98,10 @@ impl PseudoElementGenerator {
             boxes.push(GeneratedBox {
                 pseudo_element: PseudoElement::After,
                 content: resolved,
-                display: style.display.clone().unwrap_or_else(|| "inline".to_string()),
+                display: style
+                    .display
+                    .clone()
+                    .unwrap_or_else(|| "inline".to_string()),
             });
         }
         boxes

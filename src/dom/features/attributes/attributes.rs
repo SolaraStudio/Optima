@@ -45,20 +45,14 @@ impl AttributeManager {
         }
     }
 
-    pub fn set_attributes_batch(
-        node: &Rc<RefCell<Node>>,
-        attrs: &HashMap<String, String>,
-    ) {
+    pub fn set_attributes_batch(node: &Rc<RefCell<Node>>, attrs: &HashMap<String, String>) {
         let mut borrowed = node.borrow_mut();
         for (key, value) in attrs {
             borrowed.set_attribute(key, value);
         }
     }
 
-    pub fn copy_attributes(
-        source: &Rc<RefCell<Node>>,
-        target: &Rc<RefCell<Node>>,
-    ) {
+    pub fn copy_attributes(source: &Rc<RefCell<Node>>, target: &Rc<RefCell<Node>>) {
         let attrs = source.borrow().attributes.clone();
         let mut borrowed = target.borrow_mut();
         for (key, value) in &attrs {

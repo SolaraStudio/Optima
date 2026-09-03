@@ -1,14 +1,14 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-use crate::dom::Document;
 use crate::css::stylesheet::Stylesheet;
+use crate::dom::Document;
 
-use super::super::config::EngineConfig;
-use super::super::navigation::NavigationState;
-use super::super::events::EventDispatcher;
 use super::super::bridge::JsBridge;
+use super::super::config::EngineConfig;
+use super::super::events::EventDispatcher;
 use super::super::local::LocalHost;
+use super::super::navigation::NavigationState;
 
 pub struct Engine {
     config: EngineConfig,

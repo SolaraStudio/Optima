@@ -1,5 +1,5 @@
-use crate::net::http::HttpClient;
 use crate::net::fetch::Response;
+use crate::net::http::HttpClient;
 
 pub struct HttpsClient {
     inner: HttpClient,
@@ -7,7 +7,9 @@ pub struct HttpsClient {
 
 impl HttpsClient {
     pub fn new() -> Self {
-        HttpsClient { inner: HttpClient::new() }
+        HttpsClient {
+            inner: HttpClient::new(),
+        }
     }
 
     pub fn get(&self, url: &str) -> Result<Response, String> {

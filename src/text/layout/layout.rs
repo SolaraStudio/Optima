@@ -11,10 +11,17 @@ pub struct TextLayout {
 
 impl TextLayout {
     pub fn new() -> Self {
-        TextLayout { runs: Vec::new(), lines: Vec::new(), width: 0.0, height: 0.0 }
+        TextLayout {
+            runs: Vec::new(),
+            lines: Vec::new(),
+            width: 0.0,
+            height: 0.0,
+        }
     }
 
-    pub fn add_run(&mut self, run: TextRun) { self.runs.push(run); }
+    pub fn add_run(&mut self, run: TextRun) {
+        self.runs.push(run);
+    }
 
     pub fn layout(&mut self, max_width: f32, font_size: f32) {
         self.lines.clear();
@@ -25,14 +32,17 @@ impl TextLayout {
             for glyph in &run.glyphs {
                 if x + glyph.advance_x > max_width && x > 0.0 {
                     self.lines.push(current_line.clone());
-                    current_line = TextLine::new(0.0, self.lines.len() as f32 * line_height, max_width);
+                    current_line =
+                        TextLine::new(0.0, self.lines.len() as f32 * line_height, max_width);
                     x = 0.0;
                 }
                 current_line.add_glyph(glyph.clone(), x);
                 x += glyph.advance_x;
             }
         }
-        if current_line.has_glyphs() { self.lines.push(current_line); }
+        if current_line.has_glyphs() {
+            self.lines.push(current_line);
+        }
         self.height = self.lines.len() as f32 * line_height;
         self.width = self.lines.iter().map(|l| l.width()).fold(0.0f32, f32::max);
     }

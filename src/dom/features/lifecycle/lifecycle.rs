@@ -79,8 +79,7 @@ impl LifecycleManager {
         self.document_ready = true;
         let event = LifecycleEvent::DomContentLoaded;
         self.fire_all("DOMContentLoaded", &event);
-        self.fired
-            .insert("DOMContentLoaded".to_string(), true);
+        self.fired.insert("DOMContentLoaded".to_string(), true);
     }
 
     pub fn emit_load(&mut self) {
@@ -109,9 +108,7 @@ impl LifecycleManager {
     }
 
     pub fn has_listeners(&self, key: &str) -> bool {
-        self.listeners
-            .get(key)
-            .map_or(false, |v| !v.is_empty())
+        self.listeners.get(key).map_or(false, |v| !v.is_empty())
     }
 
     pub fn listener_count(&self, key: &str) -> usize {
@@ -149,7 +146,9 @@ mod tests {
         let mut mgr = LifecycleManager::new();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        mgr.on_dom_content_loaded(Box::new(move |_e| { c.set(c.get() + 1); }));
+        mgr.on_dom_content_loaded(Box::new(move |_e| {
+            c.set(c.get() + 1);
+        }));
         mgr.emit_dom_content_loaded();
         assert_eq!(counter.get(), 1);
         assert!(mgr.is_document_ready());
@@ -160,7 +159,9 @@ mod tests {
         let mut mgr = LifecycleManager::new();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        mgr.on_load(Box::new(move |_e| { c.set(c.get() + 1); }));
+        mgr.on_load(Box::new(move |_e| {
+            c.set(c.get() + 1);
+        }));
         mgr.emit_load();
         assert_eq!(counter.get(), 1);
         assert!(mgr.is_window_loaded());
@@ -171,7 +172,9 @@ mod tests {
         let mut mgr = LifecycleManager::new();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        mgr.on_beforeunload(Box::new(move |_e| { c.set(c.get() + 1); }));
+        mgr.on_beforeunload(Box::new(move |_e| {
+            c.set(c.get() + 1);
+        }));
         let result = mgr.emit_beforeunload();
         assert!(result);
         assert_eq!(counter.get(), 1);
@@ -183,7 +186,9 @@ mod tests {
         mgr.emit_dom_content_loaded();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        mgr.on_dom_content_loaded(Box::new(move |_e| { c.set(c.get() + 1); }));
+        mgr.on_dom_content_loaded(Box::new(move |_e| {
+            c.set(c.get() + 1);
+        }));
         assert_eq!(counter.get(), 1);
     }
 
@@ -193,8 +198,12 @@ mod tests {
         let counter = Rc::new(Cell::new(0u32));
         let c1 = Rc::clone(&counter);
         let c2 = Rc::clone(&counter);
-        mgr.on_load(Box::new(move |_e| { c1.set(c1.get() + 1); }));
-        mgr.on_load(Box::new(move |_e| { c2.set(c2.get() + 1); }));
+        mgr.on_load(Box::new(move |_e| {
+            c1.set(c1.get() + 1);
+        }));
+        mgr.on_load(Box::new(move |_e| {
+            c2.set(c2.get() + 1);
+        }));
         mgr.emit_load();
         assert_eq!(counter.get(), 2);
     }
@@ -231,7 +240,9 @@ mod tests {
         mgr.emit_load();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        mgr.on_load(Box::new(move |_e| { c.set(c.get() + 1); }));
+        mgr.on_load(Box::new(move |_e| {
+            c.set(c.get() + 1);
+        }));
         assert_eq!(counter.get(), 1);
     }
 }

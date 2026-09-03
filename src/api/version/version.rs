@@ -13,7 +13,11 @@ pub struct Version {
 
 impl Version {
     pub fn new(major: u32, minor: u32, patch: u32) -> Self {
-        Version { major, minor, patch }
+        Version {
+            major,
+            minor,
+            patch,
+        }
     }
 
     pub fn current() -> Self {
@@ -25,6 +29,8 @@ impl Version {
     }
 
     pub fn is_compatible(&self, required: &Version) -> bool {
-        self.major == required.major && (self.minor > required.minor || (self.minor == required.minor && self.patch >= required.patch))
+        self.major == required.major
+            && (self.minor > required.minor
+                || (self.minor == required.minor && self.patch >= required.patch))
     }
 }

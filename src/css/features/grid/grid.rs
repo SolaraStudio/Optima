@@ -255,15 +255,9 @@ impl GridContainer {
             let span_rows = (re - rs).max(1) as usize;
             let x = col_offsets.get(ci).copied().unwrap_or(0.0);
             let y = row_offsets.get(ri).copied().unwrap_or(0.0);
-            let mut w: f32 = col_sizes[ci..]
-                .iter()
-                .take(span_cols)
-                .sum();
+            let mut w: f32 = col_sizes[ci..].iter().take(span_cols).sum();
             w += self.column_gap * (span_cols as f32 - 1.0).max(0.0);
-            let mut h: f32 = row_sizes[ri..]
-                .iter()
-                .take(span_rows)
-                .sum();
+            let mut h: f32 = row_sizes[ri..].iter().take(span_rows).sum();
             h += self.row_gap * (span_rows as f32 - 1.0).max(0.0);
             if let Some(fixed_w) = item.width {
                 w = fixed_w;
@@ -273,7 +267,12 @@ impl GridContainer {
             }
             w = item.clamp_width(w);
             h = item.clamp_height(h);
-            boxes.push(GridLayoutBox { x, y, width: w, height: h });
+            boxes.push(GridLayoutBox {
+                x,
+                y,
+                width: w,
+                height: h,
+            });
             next_col = ce + 1;
             if next_col > col_count {
                 next_col = 1;
@@ -433,7 +432,11 @@ mod tests {
     #[test]
     fn test_column_and_row_count() {
         let grid = GridContainer {
-            template_columns: vec![GridTrack::Fixed(100.0), GridTrack::Fixed(100.0), GridTrack::Fixed(100.0)],
+            template_columns: vec![
+                GridTrack::Fixed(100.0),
+                GridTrack::Fixed(100.0),
+                GridTrack::Fixed(100.0),
+            ],
             template_rows: vec![GridTrack::Fixed(50.0), GridTrack::Fixed(50.0)],
             ..GridContainer::new()
         };

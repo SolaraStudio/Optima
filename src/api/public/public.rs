@@ -6,10 +6,14 @@ pub struct PublicApi {
 
 impl PublicApi {
     pub fn new() -> Self {
-        PublicApi { version: env!("CARGO_PKG_VERSION").to_string() }
+        PublicApi {
+            version: env!("CARGO_PKG_VERSION").to_string(),
+        }
     }
 
-    pub fn version(&self) -> &str { &self.version }
+    pub fn version(&self) -> &str {
+        &self.version
+    }
 
     pub fn init(&self, _config: EngineConfig) -> Result<(), String> {
         Ok(())

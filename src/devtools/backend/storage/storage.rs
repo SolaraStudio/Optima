@@ -25,7 +25,14 @@ impl StorageBackend {
         }
     }
 
-    pub fn add_cookie(&mut self, key: &str, value: &str, domain: &str, secure: bool, http_only: bool) {
+    pub fn add_cookie(
+        &mut self,
+        key: &str,
+        value: &str,
+        domain: &str,
+        secure: bool,
+        http_only: bool,
+    ) {
         self.cookies.push(StorageEntry {
             key: key.to_string(),
             value: value.to_string(),
@@ -40,7 +47,8 @@ impl StorageBackend {
     }
 
     pub fn set_local_storage(&mut self, key: &str, value: &str) {
-        self.local_storage.insert(key.to_string(), value.to_string());
+        self.local_storage
+            .insert(key.to_string(), value.to_string());
     }
 
     pub fn get_local_storage(&self, key: &str) -> Option<&String> {
@@ -60,7 +68,8 @@ impl StorageBackend {
     }
 
     pub fn set_session_storage(&mut self, key: &str, value: &str) {
-        self.session_storage.insert(key.to_string(), value.to_string());
+        self.session_storage
+            .insert(key.to_string(), value.to_string());
     }
 
     pub fn get_session_storage(&self, key: &str) -> Option<&String> {
@@ -80,21 +89,29 @@ impl StorageBackend {
     }
 
     pub fn to_json(&self) -> Value {
-        let cookies: Vec<Value> = self.cookies.iter().map(|c| {
-            serde_json::json!({
-                "key": c.key,
-                "value": c.value,
-                "domain": c.domain,
-                "secure": c.secure,
-                "httpOnly": c.http_only
+        let cookies: Vec<Value> = self
+            .cookies
+            .iter()
+            .map(|c| {
+                serde_json::json!({
+                    "key": c.key,
+                    "value": c.value,
+                    "domain": c.domain,
+                    "secure": c.secure,
+                    "httpOnly": c.http_only
+                })
             })
-        }).collect();
-        let local: Vec<Value> = self.local_storage.iter().map(|(k, v)| {
-            serde_json::json!({ "key": k, "value": v })
-        }).collect();
-        let session: Vec<Value> = self.session_storage.iter().map(|(k, v)| {
-            serde_json::json!({ "key": k, "value": v })
-        }).collect();
+            .collect();
+        let local: Vec<Value> = self
+            .local_storage
+            .iter()
+            .map(|(k, v)| serde_json::json!({ "key": k, "value": v }))
+            .collect();
+        let session: Vec<Value> = self
+            .session_storage
+            .iter()
+            .map(|(k, v)| serde_json::json!({ "key": k, "value": v }))
+            .collect();
         serde_json::json!({
             "cookies": cookies,
             "localStorage": local,

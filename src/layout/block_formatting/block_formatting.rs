@@ -1,11 +1,16 @@
+use crate::css::computed::ComputedStyle;
 use crate::layout::block::BlockLayout;
 use crate::layout::fragment::Fragment;
-use crate::css::computed::ComputedStyle;
 
 pub struct BlockFormattingContext;
 
 impl BlockFormattingContext {
-    pub fn layout(styles: &[(usize, ComputedStyle)], available_width: f32, base_x: f32, base_y: f32) -> Vec<Fragment> {
+    pub fn layout(
+        styles: &[(usize, ComputedStyle)],
+        available_width: f32,
+        base_x: f32,
+        base_y: f32,
+    ) -> Vec<Fragment> {
         let mut fragments = Vec::new();
         let mut y = base_y;
         for (node_id, style) in styles {

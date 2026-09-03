@@ -24,19 +24,31 @@ pub fn is_relative(path: &str) -> bool {
 }
 
 pub fn parent_path(path: &str) -> Option<String> {
-    Path::new(path).parent().and_then(|p| p.to_str()).map(|s| s.to_string())
+    Path::new(path)
+        .parent()
+        .and_then(|p| p.to_str())
+        .map(|s| s.to_string())
 }
 
 pub fn file_name(path: &str) -> Option<String> {
-    Path::new(path).file_name().and_then(|p| p.to_str()).map(|s| s.to_string())
+    Path::new(path)
+        .file_name()
+        .and_then(|p| p.to_str())
+        .map(|s| s.to_string())
 }
 
 pub fn file_stem(path: &str) -> Option<String> {
-    Path::new(path).file_stem().and_then(|p| p.to_str()).map(|s| s.to_string())
+    Path::new(path)
+        .file_stem()
+        .and_then(|p| p.to_str())
+        .map(|s| s.to_string())
 }
 
 pub fn extension(path: &str) -> Option<String> {
-    Path::new(path).extension().and_then(|p| p.to_str()).map(|s| s.to_string())
+    Path::new(path)
+        .extension()
+        .and_then(|p| p.to_str())
+        .map(|s| s.to_string())
 }
 
 pub fn has_extension(path: &str, ext: &str) -> bool {
@@ -53,11 +65,7 @@ pub fn without_extension(path: &str) -> String {
     let path = Path::new(path);
     if let Some(stem) = path.file_stem() {
         if let Some(parent) = path.parent() {
-            return parent
-                .join(stem)
-                .to_str()
-                .unwrap_or("")
-                .to_string();
+            return parent.join(stem).to_str().unwrap_or("").to_string();
         }
         return stem.to_str().unwrap_or("").to_string();
     }

@@ -47,16 +47,33 @@ impl TtlCache {
         }
     }
 
-    pub fn insert(&mut self, url: String, body: Vec<u8>, headers: HashMap<String, String>, ttl: Duration) {
+    pub fn insert(
+        &mut self,
+        url: String,
+        body: Vec<u8>,
+        headers: HashMap<String, String>,
+        ttl: Duration,
+    ) {
         let cached_at = Instant::now();
         let expires_at = cached_at + ttl;
-        let entry = CachedResponse { url: url.clone(), body, headers, cached_at, expires_at };
+        let entry = CachedResponse {
+            url: url.clone(),
+            body,
+            headers,
+            cached_at,
+            expires_at,
+        };
         self.entries.insert(url.clone(), entry);
         self.touch(&url);
         self.evict_lru();
     }
 
-    pub fn insert_default_ttl(&mut self, url: &str, body: Vec<u8>, headers: HashMap<String, String>) {
+    pub fn insert_default_ttl(
+        &mut self,
+        url: &str,
+        body: Vec<u8>,
+        headers: HashMap<String, String>,
+    ) {
         self.insert(url.to_string(), body, headers, self.default_ttl);
     }
 
@@ -91,7 +108,9 @@ impl TtlCache {
     }
 
     pub fn purge_expired(&mut self) {
-        let expired: Vec<String> = self.entries.iter()
+        let expired: Vec<String> = self
+            .entries
+            .iter()
             .filter(|(_, e)| !e.is_fresh())
             .map(|(k, _)| k.clone())
             .collect();
@@ -136,7 +155,12 @@ mod tests {
     #[test]
     fn expired_entry_not_returned() {
         let mut cache = TtlCache::new(10, Duration::from_secs(1));
-        cache.insert("https://a.com".to_string(), vec![1], HashMap::new(), Duration::from_millis(1));
+        cache.insert(
+            "https://a.com".to_string(),
+            vec![1],
+            HashMap::new(),
+            Duration::from_millis(1),
+        );
         std::thread::sleep(Duration::from_millis(5));
         assert!(cache.get("https://a.com").is_none());
     }
@@ -166,8 +190,18 @@ mod tests {
     #[test]
     fn purge_expired_cleans() {
         let mut cache = TtlCache::new(10, Duration::from_secs(1));
-        cache.insert("https://a.com".to_string(), vec![1], HashMap::new(), Duration::from_millis(1));
-        cache.insert("https://b.com".to_string(), vec![2], HashMap::new(), Duration::from_secs(60));
+        cache.insert(
+            "https://a.com".to_string(),
+            vec![1],
+            HashMap::new(),
+            Duration::from_millis(1),
+        );
+        cache.insert(
+            "https://b.com".to_string(),
+            vec![2],
+            HashMap::new(),
+            Duration::from_secs(60),
+        );
         std::thread::sleep(Duration::from_millis(5));
         cache.purge_expired();
         assert!(!cache.entries.contains_key("https://a.com"));

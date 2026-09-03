@@ -1,6 +1,6 @@
-pub mod features;
 pub mod break_;
 pub mod fallback;
+pub mod features;
 pub mod font;
 pub mod glyph;
 pub mod layout;

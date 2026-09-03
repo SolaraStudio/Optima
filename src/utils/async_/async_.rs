@@ -2,9 +2,7 @@ use std::future::Future;
 use std::time::Duration;
 
 pub fn block_on<F: Future>(future: F) -> F::Output {
-    tokio::runtime::Runtime::new()
-        .unwrap()
-        .block_on(future)
+    tokio::runtime::Runtime::new().unwrap().block_on(future)
 }
 
 pub async fn async_sleep(ms: u64) {

@@ -1,11 +1,11 @@
-pub mod api;
 pub mod android;
+pub mod api;
+pub mod config;
+pub mod console;
 pub mod css;
 pub mod devtools;
 pub mod dom;
 pub mod events;
-pub mod config;
-pub mod console;
 pub mod integration;
 pub mod jni;
 pub mod layout;

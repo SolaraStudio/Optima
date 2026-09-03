@@ -1,5 +1,5 @@
-use jni::objects::{GlobalRef, JObject, JString};
 use jni::JNIEnv;
+use jni::objects::{GlobalRef, JObject, JString};
 
 pub struct AndroidContext {
     pub context: GlobalRef,
@@ -15,9 +15,14 @@ impl AndroidContext {
 
     pub fn get_application_context<'local>(env: &mut JNIEnv<'local>) -> JObject<'local> {
         let class = env.find_class("android/app/Activity").unwrap();
-        let activity =
-            env.call_static_method(class, "getApplicationContext", "()Landroid/content/Context;", &[])
-                .unwrap();
+        let activity = env
+            .call_static_method(
+                class,
+                "getApplicationContext",
+                "()Landroid/content/Context;",
+                &[],
+            )
+            .unwrap();
         activity.l().unwrap()
     }
 

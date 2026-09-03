@@ -13,10 +13,20 @@ pub struct ClipRegion {
 }
 
 impl ClipRegion {
-    pub fn new(path: Path) -> Self { ClipRegion { path, rule: ClipRule::NonZero } }
-    pub fn with_rule(mut self, rule: ClipRule) -> Self { self.rule = rule; self }
+    pub fn new(path: Path) -> Self {
+        ClipRegion {
+            path,
+            rule: ClipRule::NonZero,
+        }
+    }
+    pub fn with_rule(mut self, rule: ClipRule) -> Self {
+        self.rule = rule;
+        self
+    }
 
-    pub fn rect(x: f32, y: f32, w: f32, h: f32) -> Self { ClipRegion::new(Path::rect(x, y, w, h)) }
+    pub fn rect(x: f32, y: f32, w: f32, h: f32) -> Self {
+        ClipRegion::new(Path::rect(x, y, w, h))
+    }
 
     pub fn contains_point(&self, x: f32, y: f32) -> bool {
         let bounds = self.path.bounds();

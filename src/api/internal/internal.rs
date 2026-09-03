@@ -1,7 +1,7 @@
-use crate::dom::document::Document;
 use crate::css::stylesheet::Stylesheet;
-use std::rc::Rc;
+use crate::dom::document::Document;
 use std::cell::RefCell;
+use std::rc::Rc;
 
 pub struct InternalEngine {
     pub document: Rc<RefCell<Document>>,
@@ -31,6 +31,8 @@ impl InternalEngine {
     }
 
     pub fn tick(&mut self) {
-        if !self.is_running { return; }
+        if !self.is_running {
+            return;
+        }
     }
 }

@@ -1,5 +1,5 @@
 mod media;
 pub use media::{
-    ColorScheme, HoverCapability, MediaQuery, MediaContext, MediaCombinator, MediaFeature,
-    Orientation, PointerCapability, MediaType,
+    ColorScheme, HoverCapability, MediaCombinator, MediaContext, MediaFeature, MediaQuery,
+    MediaType, Orientation, PointerCapability,
 };

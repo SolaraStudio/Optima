@@ -81,21 +81,13 @@ impl MutationTracker {
         self.pending_records.clear();
     }
 
-    pub fn notify_child_added(
-        &mut self,
-        parent: &Rc<RefCell<Node>>,
-        child: &Rc<RefCell<Node>>,
-    ) {
+    pub fn notify_child_added(&mut self, parent: &Rc<RefCell<Node>>, child: &Rc<RefCell<Node>>) {
         let mut record = MutationRecord::new("childList", Rc::clone(parent));
         record.added_nodes = vec![Rc::clone(child)];
         self.enqueue_record(record);
     }
 
-    pub fn notify_child_removed(
-        &mut self,
-        parent: &Rc<RefCell<Node>>,
-        child: &Rc<RefCell<Node>>,
-    ) {
+    pub fn notify_child_removed(&mut self, parent: &Rc<RefCell<Node>>, child: &Rc<RefCell<Node>>) {
         let mut record = MutationRecord::new("childList", Rc::clone(parent));
         record.removed_nodes = vec![Rc::clone(child)];
         self.enqueue_record(record);
@@ -129,11 +121,7 @@ impl MutationTracker {
         }
     }
 
-    fn record_matches(
-        &self,
-        record: &MutationRecord,
-        entry: &MutationCallbackEntry,
-    ) -> bool {
+    fn record_matches(&self, record: &MutationRecord, entry: &MutationCallbackEntry) -> bool {
         match record.type_.as_str() {
             "childList" => entry.child_list,
             "attributes" => {
@@ -209,7 +197,14 @@ mod tests {
         let mut tracker = MutationTracker::new();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        tracker.observe(Box::new(move |records| { c.set(c.get() + records.len() as u32); }), true, false, false);
+        tracker.observe(
+            Box::new(move |records| {
+                c.set(c.get() + records.len() as u32);
+            }),
+            true,
+            false,
+            false,
+        );
 
         let parent = make_node();
         let child = make_node();
@@ -225,7 +220,14 @@ mod tests {
         let mut tracker = MutationTracker::new();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        tracker.observe(Box::new(move |records| { c.set(c.get() + records.len() as u32); }), true, false, false);
+        tracker.observe(
+            Box::new(move |records| {
+                c.set(c.get() + records.len() as u32);
+            }),
+            true,
+            false,
+            false,
+        );
 
         let parent = make_node();
         let child = make_node();
@@ -239,7 +241,14 @@ mod tests {
         let mut tracker = MutationTracker::new();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        tracker.observe(Box::new(move |records| { c.set(c.get() + records.len() as u32); }), false, true, false);
+        tracker.observe(
+            Box::new(move |records| {
+                c.set(c.get() + records.len() as u32);
+            }),
+            false,
+            true,
+            false,
+        );
 
         let target = make_node();
         tracker.notify_attribute_changed(&target, "class", "old");
@@ -253,7 +262,9 @@ mod tests {
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
         tracker.observe_with_filter(
-            Box::new(move |records| { c.set(c.get() + records.len() as u32); }),
+            Box::new(move |records| {
+                c.set(c.get() + records.len() as u32);
+            }),
             false,
             true,
             false,
@@ -272,7 +283,9 @@ mod tests {
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
         tracker.observe_with_filter(
-            Box::new(move |records| { c.set(c.get() + records.len() as u32); }),
+            Box::new(move |records| {
+                c.set(c.get() + records.len() as u32);
+            }),
             false,
             true,
             false,
@@ -290,7 +303,14 @@ mod tests {
         let mut tracker = MutationTracker::new();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        tracker.observe(Box::new(move |records| { c.set(c.get() + records.len() as u32); }), true, false, false);
+        tracker.observe(
+            Box::new(move |records| {
+                c.set(c.get() + records.len() as u32);
+            }),
+            true,
+            false,
+            false,
+        );
 
         let target = make_node();
         tracker.notify_attribute_changed(&target, "class", "old");
@@ -324,7 +344,14 @@ mod tests {
         let mut tracker = MutationTracker::new();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        tracker.observe(Box::new(move |_| { c.set(c.get() + 1); }), true, false, false);
+        tracker.observe(
+            Box::new(move |_| {
+                c.set(c.get() + 1);
+            }),
+            true,
+            false,
+            false,
+        );
         tracker.flush();
         assert_eq!(counter.get(), 0);
     }
@@ -335,8 +362,22 @@ mod tests {
         let counter = Rc::new(Cell::new(0u32));
         let c1 = Rc::clone(&counter);
         let c2 = Rc::clone(&counter);
-        tracker.observe(Box::new(move |r| { c1.set(c1.get() + r.len() as u32); }), true, false, false);
-        tracker.observe(Box::new(move |r| { c2.set(c2.get() + r.len() as u32); }), true, false, false);
+        tracker.observe(
+            Box::new(move |r| {
+                c1.set(c1.get() + r.len() as u32);
+            }),
+            true,
+            false,
+            false,
+        );
+        tracker.observe(
+            Box::new(move |r| {
+                c2.set(c2.get() + r.len() as u32);
+            }),
+            true,
+            false,
+            false,
+        );
 
         let parent = make_node();
         let child = make_node();

@@ -107,11 +107,15 @@ impl FilterChain {
     }
 
     pub fn apply_brightness(&self, value: f32) -> f32 {
-        self.functions.iter().fold(value, |v, f| f.apply_brightness(v))
+        self.functions
+            .iter()
+            .fold(value, |v, f| f.apply_brightness(v))
     }
 
     pub fn apply_contrast(&self, value: f32) -> f32 {
-        self.functions.iter().fold(value, |v, f| f.apply_contrast(v))
+        self.functions
+            .iter()
+            .fold(value, |v, f| f.apply_contrast(v))
     }
 
     pub fn blur_radius(&self) -> f32 {
@@ -234,7 +238,10 @@ mod tests {
         assert_eq!(FilterFunction::Brightness(1.5).to_css(), "brightness(1.5)");
         assert_eq!(FilterFunction::Contrast(2.0).to_css(), "contrast(2)");
         assert_eq!(FilterFunction::Grayscale(1.0).to_css(), "grayscale(1)");
-        assert_eq!(FilterFunction::HueRotate(90.0).to_css(), "hue-rotate(90deg)");
+        assert_eq!(
+            FilterFunction::HueRotate(90.0).to_css(),
+            "hue-rotate(90deg)"
+        );
         assert_eq!(FilterFunction::Sepia(0.5).to_css(), "sepia(0.5)");
     }
 

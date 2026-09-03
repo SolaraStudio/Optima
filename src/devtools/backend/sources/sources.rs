@@ -50,13 +50,17 @@ impl SourcesBackend {
     }
 
     pub fn to_json(&self) -> Value {
-        let sources: Vec<Value> = self.sources.values().map(|s| {
-            serde_json::json!({
-                "url": s.url,
-                "contentType": s.content_type,
-                "lastModified": s.last_modified
+        let sources: Vec<Value> = self
+            .sources
+            .values()
+            .map(|s| {
+                serde_json::json!({
+                    "url": s.url,
+                    "contentType": s.content_type,
+                    "lastModified": s.last_modified
+                })
             })
-        }).collect();
+            .collect();
         serde_json::json!({ "sources": sources })
     }
 

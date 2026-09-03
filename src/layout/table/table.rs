@@ -1,4 +1,3 @@
-
 pub struct TableLayout;
 
 #[derive(Debug, Clone, Default)]
@@ -20,11 +19,21 @@ impl TableLayout {
         }
     }
 
-    pub fn cell_position(grid: &TableGrid, col: usize, row: usize, table_x: f32, table_y: f32) -> (f32, f32, f32, f32) {
+    pub fn cell_position(
+        grid: &TableGrid,
+        col: usize,
+        row: usize,
+        table_x: f32,
+        table_y: f32,
+    ) -> (f32, f32, f32, f32) {
         let mut x = table_x;
-        for c in 0..col { x += grid.column_widths[c]; }
+        for c in 0..col {
+            x += grid.column_widths[c];
+        }
         let mut y = table_y;
-        for r in 0..row { y += grid.row_heights[r]; }
+        for r in 0..row {
+            y += grid.row_heights[r];
+        }
         (x, y, grid.column_widths[col], grid.row_heights[row])
     }
 }

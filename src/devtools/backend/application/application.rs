@@ -31,7 +31,12 @@ impl ApplicationBackend {
         }
     }
 
-    pub fn register_service_worker(&mut self, registration_id: &str, scope: &str, script_url: &str) {
+    pub fn register_service_worker(
+        &mut self,
+        registration_id: &str,
+        scope: &str,
+        script_url: &str,
+    ) {
         self.service_workers.push(ServiceWorker {
             registration_id: registration_id.to_string(),
             scope: scope.to_string(),
@@ -47,7 +52,8 @@ impl ApplicationBackend {
 
     pub fn unregister_service_worker(&mut self, registration_id: &str) -> bool {
         let len = self.service_workers.len();
-        self.service_workers.retain(|sw| sw.registration_id != registration_id);
+        self.service_workers
+            .retain(|sw| sw.registration_id != registration_id);
         len != self.service_workers.len()
     }
 
@@ -60,15 +66,19 @@ impl ApplicationBackend {
     }
 
     pub fn to_json(&self) -> Value {
-        let workers: Vec<Value> = self.service_workers.iter().map(|sw| {
-            serde_json::json!({
-                "registrationId": sw.registration_id,
-                "scope": sw.scope,
-                "scriptURL": sw.script_url,
-                "state": sw.state,
-                "versionId": sw.version_id
+        let workers: Vec<Value> = self
+            .service_workers
+            .iter()
+            .map(|sw| {
+                serde_json::json!({
+                    "registrationId": sw.registration_id,
+                    "scope": sw.scope,
+                    "scriptURL": sw.script_url,
+                    "state": sw.state,
+                    "versionId": sw.version_id
+                })
             })
-        }).collect();
+            .collect();
         let manifest_json = if let Some(m) = &self.manifest {
             serde_json::json!({
                 "startURL": m.start_url,

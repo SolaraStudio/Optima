@@ -8,7 +8,11 @@ pub struct ResolveContext {
 
 impl Default for ResolveContext {
     fn default() -> Self {
-        ResolveContext { viewport_width: 800.0, viewport_height: 600.0, root_font_size: 16.0 }
+        ResolveContext {
+            viewport_width: 800.0,
+            viewport_height: 600.0,
+            root_font_size: 16.0,
+        }
     }
 }
 
@@ -28,7 +32,9 @@ impl ResolveContext {
 
     pub fn resolve_width(&self, style: &ComputedStyle) -> f32 {
         let mut w = self.resolve_length(style, "width");
-        if w == 0.0 { w = self.viewport_width; }
+        if w == 0.0 {
+            w = self.viewport_width;
+        }
         w
     }
 

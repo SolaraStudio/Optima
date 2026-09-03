@@ -27,11 +27,17 @@ impl RedirectStatus {
     }
 
     pub fn is_permanent(&self) -> bool {
-        matches!(self, RedirectStatus::MovedPermanently | RedirectStatus::PermanentRedirect)
+        matches!(
+            self,
+            RedirectStatus::MovedPermanently | RedirectStatus::PermanentRedirect
+        )
     }
 
     pub fn preserves_method(&self) -> bool {
-        matches!(self, RedirectStatus::TemporaryRedirect | RedirectStatus::PermanentRedirect)
+        matches!(
+            self,
+            RedirectStatus::TemporaryRedirect | RedirectStatus::PermanentRedirect
+        )
     }
 }
 
@@ -60,7 +66,10 @@ impl RedirectTracker {
 
     pub fn record(&mut self, from: &str, to: &str, status: RedirectStatus) -> Result<(), String> {
         if self.history.len() >= self.max_hops {
-            return Err(format!("too many redirects: exceeded {} hops", self.max_hops));
+            return Err(format!(
+                "too many redirects: exceeded {} hops",
+                self.max_hops
+            ));
         }
         if self.visited.iter().any(|v| v == to) {
             return Err(format!("redirect loop detected at {}", to));
@@ -113,8 +122,14 @@ mod tests {
 
     #[test]
     fn status_from_code() {
-        assert_eq!(RedirectStatus::from_code(301), Some(RedirectStatus::MovedPermanently));
-        assert_eq!(RedirectStatus::from_code(308), Some(RedirectStatus::PermanentRedirect));
+        assert_eq!(
+            RedirectStatus::from_code(301),
+            Some(RedirectStatus::MovedPermanently)
+        );
+        assert_eq!(
+            RedirectStatus::from_code(308),
+            Some(RedirectStatus::PermanentRedirect)
+        );
         assert_eq!(RedirectStatus::from_code(404), None);
     }
 
@@ -129,8 +144,16 @@ mod tests {
     #[test]
     fn records_hops() {
         let mut tracker = RedirectTracker::new(3);
-        tracker.record("https://a.com", "https://b.com", RedirectStatus::Found).unwrap();
-        tracker.record("https://b.com", "https://c.com", RedirectStatus::MovedPermanently).unwrap();
+        tracker
+            .record("https://a.com", "https://b.com", RedirectStatus::Found)
+            .unwrap();
+        tracker
+            .record(
+                "https://b.com",
+                "https://c.com",
+                RedirectStatus::MovedPermanently,
+            )
+            .unwrap();
         assert_eq!(tracker.hops_used(), 2);
         assert_eq!(tracker.current_url(), Some("https://c.com"));
         assert_eq!(tracker.hops_remaining(), 1);
@@ -140,8 +163,12 @@ mod tests {
     #[test]
     fn rejects_loop() {
         let mut tracker = RedirectTracker::new(5);
-        tracker.record("https://a.com", "https://b.com", RedirectStatus::Found).unwrap();
-        tracker.record("https://b.com", "https://a.com", RedirectStatus::Found).unwrap();
+        tracker
+            .record("https://a.com", "https://b.com", RedirectStatus::Found)
+            .unwrap();
+        tracker
+            .record("https://b.com", "https://a.com", RedirectStatus::Found)
+            .unwrap();
         let result = tracker.record("https://a.com", "https://b.com", RedirectStatus::Found);
         assert!(result.is_err());
     }
@@ -149,8 +176,12 @@ mod tests {
     #[test]
     fn rejects_exceeding_max_hops() {
         let mut tracker = RedirectTracker::new(2);
-        tracker.record("https://a.com", "https://b.com", RedirectStatus::Found).unwrap();
-        tracker.record("https://b.com", "https://c.com", RedirectStatus::Found).unwrap();
+        tracker
+            .record("https://a.com", "https://b.com", RedirectStatus::Found)
+            .unwrap();
+        tracker
+            .record("https://b.com", "https://c.com", RedirectStatus::Found)
+            .unwrap();
         let result = tracker.record("https://c.com", "https://d.com", RedirectStatus::Found);
         assert!(result.is_err());
     }
@@ -158,8 +189,17 @@ mod tests {
     #[test]
     fn last_status_tracking() {
         let mut tracker = RedirectTracker::new(3);
-        tracker.record("https://a.com", "https://b.com", RedirectStatus::TemporaryRedirect).unwrap();
-        assert_eq!(tracker.last_status(), Some(RedirectStatus::TemporaryRedirect));
+        tracker
+            .record(
+                "https://a.com",
+                "https://b.com",
+                RedirectStatus::TemporaryRedirect,
+            )
+            .unwrap();
+        assert_eq!(
+            tracker.last_status(),
+            Some(RedirectStatus::TemporaryRedirect)
+        );
     }
 
     #[test]

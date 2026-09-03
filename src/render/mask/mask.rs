@@ -15,12 +15,23 @@ pub struct Mask {
 
 impl Mask {
     pub fn new(path: Path) -> Self {
-        Mask { path, mask_type: MaskType::Alpha, invert: false }
+        Mask {
+            path,
+            mask_type: MaskType::Alpha,
+            invert: false,
+        }
     }
 
     pub fn with_luminance(path: Path) -> Self {
-        Mask { path, mask_type: MaskType::Luminance, invert: false }
+        Mask {
+            path,
+            mask_type: MaskType::Luminance,
+            invert: false,
+        }
     }
 
-    pub fn inverted(mut self) -> Self { self.invert = true; self }
+    pub fn inverted(mut self) -> Self {
+        self.invert = true;
+        self
+    }
 }

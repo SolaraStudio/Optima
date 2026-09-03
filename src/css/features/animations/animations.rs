@@ -209,10 +209,7 @@ impl KeyframesAnimation {
         } else {
             0.0
         };
-        let timing = next_kf
-            .timing
-            .as_ref()
-            .unwrap_or(&self.timing);
+        let timing = next_kf.timing.as_ref().unwrap_or(&self.timing);
         let t = timing.apply(local_t);
         let mut all_keys: Vec<&String> = prev_kf
             .properties
@@ -308,7 +305,10 @@ impl AnimationController {
     }
 
     pub fn state(&self, name: &str) -> Option<&AnimationPlayState> {
-        self.animations.iter().find(|a| a.name == name).map(|a| &a.play_state)
+        self.animations
+            .iter()
+            .find(|a| a.name == name)
+            .map(|a| &a.play_state)
     }
 
     pub fn properties(&self, name: &str) -> HashMap<String, String> {

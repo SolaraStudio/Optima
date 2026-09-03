@@ -16,8 +16,7 @@ impl EventDispatcher {
 
     pub fn register_node(&mut self) -> usize {
         let id = self.id_counter;
-        self.node_managers
-            .insert(id, EventTargetManager::new());
+        self.node_managers.insert(id, EventTargetManager::new());
         self.id_counter += 1;
         id
     }
@@ -35,12 +34,7 @@ impl EventDispatcher {
         }
     }
 
-    pub fn remove_event_listener(
-        &mut self,
-        node_id: usize,
-        event_type: &str,
-        listener_ptr: usize,
-    ) {
+    pub fn remove_event_listener(&mut self, node_id: usize, event_type: &str, listener_ptr: usize) {
         if let Some(mgr) = self.node_managers.get_mut(&node_id) {
             if let Some(listeners) = mgr.listeners.get_mut(event_type) {
                 listeners.retain(|l| {
@@ -51,21 +45,13 @@ impl EventDispatcher {
         }
     }
 
-    pub fn dispatch_event(
-        &mut self,
-        node_id: usize,
-        event: &mut Event,
-    ) {
+    pub fn dispatch_event(&mut self, node_id: usize, event: &mut Event) {
         if let Some(mgr) = self.node_managers.get_mut(&node_id) {
             mgr.dispatch_event(event);
         }
     }
 
-    pub fn dispatch_event_bubble_chain(
-        &mut self,
-        chain: &[usize],
-        event: &mut Event,
-    ) {
+    pub fn dispatch_event_bubble_chain(&mut self, chain: &[usize], event: &mut Event) {
         for &id in chain {
             event.current_target = Some(crate::dom::event::EventTarget { node: Some(id) });
             self.dispatch_event(id, event);
@@ -80,13 +66,11 @@ impl EventDispatcher {
     }
 
     pub fn has_listeners(&self, node_id: usize, event_type: &str) -> bool {
-        self.node_managers
-            .get(&node_id)
-            .map_or(false, |mgr| {
-                mgr.listeners
-                    .get(event_type)
-                    .map_or(false, |v| !v.is_empty())
-            })
+        self.node_managers.get(&node_id).map_or(false, |mgr| {
+            mgr.listeners
+                .get(event_type)
+                .map_or(false, |v| !v.is_empty())
+        })
     }
 
     pub fn listener_count(&self, node_id: usize, event_type: &str) -> usize {
@@ -123,7 +107,14 @@ mod tests {
         let id = d.register_node();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        d.add_event_listener(id, "click", Box::new(move |_e| { c.set(c.get() + 1); }), false);
+        d.add_event_listener(
+            id,
+            "click",
+            Box::new(move |_e| {
+                c.set(c.get() + 1);
+            }),
+            false,
+        );
 
         let mut event = Event::new("click");
         d.dispatch_event(id, &mut event);
@@ -139,7 +130,14 @@ mod tests {
         let id = d.register_node();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        d.add_event_listener(id, "load", Box::new(move |_e| { c.set(c.get() + 1); }), true);
+        d.add_event_listener(
+            id,
+            "load",
+            Box::new(move |_e| {
+                c.set(c.get() + 1);
+            }),
+            true,
+        );
 
         let mut event = Event::new("load");
         d.dispatch_event(id, &mut event);
@@ -157,7 +155,14 @@ mod tests {
         let id = d.register_node();
         let counter = Rc::new(Cell::new(0u32));
         let c = Rc::clone(&counter);
-        d.add_event_listener(id, "click", Box::new(move |_e| { c.set(c.get() + 1); }), false);
+        d.add_event_listener(
+            id,
+            "click",
+            Box::new(move |_e| {
+                c.set(c.get() + 1);
+            }),
+            false,
+        );
 
         let mut event = Event::new("click");
         event.propagation_stopped = true;
@@ -175,8 +180,22 @@ mod tests {
         let c1 = Rc::clone(&counter);
         let c2 = Rc::clone(&counter);
 
-        d.add_event_listener(child_id, "click", Box::new(move |_e| { c1.set(c1.get() + 1); }), false);
-        d.add_event_listener(parent_id, "click", Box::new(move |_e| { c2.set(c2.get() + 1); }), false);
+        d.add_event_listener(
+            child_id,
+            "click",
+            Box::new(move |_e| {
+                c1.set(c1.get() + 1);
+            }),
+            false,
+        );
+        d.add_event_listener(
+            parent_id,
+            "click",
+            Box::new(move |_e| {
+                c2.set(c2.get() + 1);
+            }),
+            false,
+        );
 
         let mut event = Event::new("click");
         d.dispatch_event_bubble_chain(&[child_id, parent_id], &mut event);
@@ -192,7 +211,14 @@ mod tests {
         let pa = Rc::clone(&parent_hit);
 
         d.add_event_listener(child_id, "click", Box::new(move |_e| {}), false);
-        d.add_event_listener(parent_id, "click", Box::new(move |_e| { pa.set(true); }), false);
+        d.add_event_listener(
+            parent_id,
+            "click",
+            Box::new(move |_e| {
+                pa.set(true);
+            }),
+            false,
+        );
 
         let mut event = Event::new("click");
         event.propagation_stopped = true;

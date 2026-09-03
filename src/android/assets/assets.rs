@@ -1,5 +1,5 @@
-use jni::objects::{GlobalRef, JObject, JObjectArray, JString};
 use jni::JNIEnv;
+use jni::objects::{GlobalRef, JObject, JObjectArray, JString};
 
 pub struct AndroidAssets {
     pub asset_manager: GlobalRef,
@@ -15,7 +15,12 @@ impl AndroidAssets {
 
     pub fn from_context(env: &mut JNIEnv, context: JObject) -> Self {
         let asset_manager = env
-            .call_method(context, "getAssets", "()Landroid/content/res/AssetManager;", &[])
+            .call_method(
+                context,
+                "getAssets",
+                "()Landroid/content/res/AssetManager;",
+                &[],
+            )
             .unwrap()
             .l()
             .unwrap();

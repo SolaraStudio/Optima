@@ -32,10 +32,16 @@ impl Codec {
     }
 
     pub fn is_video(&self) -> bool {
-        matches!(self, Codec::H264 | Codec::H265 | Codec::VP8 | Codec::VP9 | Codec::AV1)
+        matches!(
+            self,
+            Codec::H264 | Codec::H265 | Codec::VP8 | Codec::VP9 | Codec::AV1
+        )
     }
 
     pub fn is_audio(&self) -> bool {
-        matches!(self, Codec::AAC | Codec::MP3 | Codec::Opus | Codec::Vorbis | Codec::FLAC | Codec::PCM)
+        matches!(
+            self,
+            Codec::AAC | Codec::MP3 | Codec::Opus | Codec::Vorbis | Codec::FLAC | Codec::PCM
+        )
     }
 }

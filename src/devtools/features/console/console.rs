@@ -147,7 +147,11 @@ impl ConsoleFilter {
         if self.ignored_sources.iter().any(|s| s == &entry.source) {
             return false;
         }
-        if self.message_blacklist.iter().any(|p| entry.message.contains(p.as_str())) {
+        if self
+            .message_blacklist
+            .iter()
+            .any(|p| entry.message.contains(p.as_str()))
+        {
             return false;
         }
         true
@@ -309,7 +313,13 @@ impl Console {
     pub fn save_to_string(&self) -> String {
         self.entries
             .iter()
-            .map(|e| format!("[{}] {}", e.level.as_str().to_uppercase(), e.format_output()))
+            .map(|e| {
+                format!(
+                    "[{}] {}",
+                    e.level.as_str().to_uppercase(),
+                    e.format_output()
+                )
+            })
             .collect::<Vec<_>>()
             .join("\n")
     }
@@ -378,8 +388,7 @@ mod tests {
 
     #[test]
     fn test_console_entry_format() {
-        let entry = ConsoleEntry::new(LogLevel::Log, "message")
-            .with_source("net");
+        let entry = ConsoleEntry::new(LogLevel::Log, "message").with_source("net");
         assert_eq!(entry.format_output(), "[net] message");
 
         let mut repeated = ConsoleEntry::new(LogLevel::Warn, "warn");

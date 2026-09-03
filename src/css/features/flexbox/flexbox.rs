@@ -308,12 +308,20 @@ impl FlexContainer {
             JustifyContent::SpaceBetween => 0.0,
             JustifyContent::SpaceAround => {
                 let gap_count = sizes.len() as f32;
-                let space = if gap_count > 0.0 { free / gap_count } else { 0.0 };
+                let space = if gap_count > 0.0 {
+                    free / gap_count
+                } else {
+                    0.0
+                };
                 space / 2.0
             }
             JustifyContent::SpaceEvenly => {
                 let gap_count = sizes.len() as f32 + 1.0;
-                let space = if gap_count > 0.0 { free / gap_count } else { 0.0 };
+                let space = if gap_count > 0.0 {
+                    free / gap_count
+                } else {
+                    0.0
+                };
                 space
             }
         }
@@ -391,8 +399,16 @@ mod tests {
             ..FlexContainer::new()
         };
         let items = vec![
-            FlexItem { width: 100.0, height: 50.0, ..FlexItem::new() },
-            FlexItem { width: 100.0, height: 50.0, ..FlexItem::new() },
+            FlexItem {
+                width: 100.0,
+                height: 50.0,
+                ..FlexItem::new()
+            },
+            FlexItem {
+                width: 100.0,
+                height: 50.0,
+                ..FlexItem::new()
+            },
         ];
         let boxes = container.layout(&items);
         assert_eq!(boxes.len(), 2);
@@ -410,8 +426,16 @@ mod tests {
             ..FlexContainer::new()
         };
         let items = vec![
-            FlexItem { width: 100.0, height: 50.0, ..FlexItem::new() },
-            FlexItem { width: 100.0, height: 50.0, ..FlexItem::new() },
+            FlexItem {
+                width: 100.0,
+                height: 50.0,
+                ..FlexItem::new()
+            },
+            FlexItem {
+                width: 100.0,
+                height: 50.0,
+                ..FlexItem::new()
+            },
         ];
         let boxes = container.layout(&items);
         assert_eq!(boxes[0].x, 0.0);
@@ -428,8 +452,16 @@ mod tests {
             ..FlexContainer::new()
         };
         let items = vec![
-            FlexItem { width: 50.0, flex_grow: 1.0, ..FlexItem::new() },
-            FlexItem { width: 50.0, flex_grow: 2.0, ..FlexItem::new() },
+            FlexItem {
+                width: 50.0,
+                flex_grow: 1.0,
+                ..FlexItem::new()
+            },
+            FlexItem {
+                width: 50.0,
+                flex_grow: 2.0,
+                ..FlexItem::new()
+            },
         ];
         let boxes = container.layout(&items);
         assert_eq!(boxes[0].width, 116.666664);
@@ -446,8 +478,16 @@ mod tests {
             ..FlexContainer::new()
         };
         let items = vec![
-            FlexItem { width: 50.0, height: 100.0, ..FlexItem::new() },
-            FlexItem { width: 50.0, height: 100.0, ..FlexItem::new() },
+            FlexItem {
+                width: 50.0,
+                height: 100.0,
+                ..FlexItem::new()
+            },
+            FlexItem {
+                width: 50.0,
+                height: 100.0,
+                ..FlexItem::new()
+            },
         ];
         let boxes = container.layout(&items);
         assert_eq!(boxes[0].y, 0.0);
@@ -464,9 +504,11 @@ mod tests {
             gap: 0.0,
             ..FlexContainer::new()
         };
-        let items = vec![
-            FlexItem { width: 100.0, height: 50.0, ..FlexItem::new() },
-        ];
+        let items = vec![FlexItem {
+            width: 100.0,
+            height: 50.0,
+            ..FlexItem::new()
+        }];
         let boxes = container.layout(&items);
         assert_eq!(boxes[0].x, 100.0);
     }
@@ -481,9 +523,11 @@ mod tests {
             gap: 0.0,
             ..FlexContainer::new()
         };
-        let items = vec![
-            FlexItem { width: 50.0, height: 40.0, ..FlexItem::new() },
-        ];
+        let items = vec![FlexItem {
+            width: 50.0,
+            height: 40.0,
+            ..FlexItem::new()
+        }];
         let boxes = container.layout(&items);
         assert_eq!(boxes[0].y, 30.0);
     }

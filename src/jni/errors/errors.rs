@@ -15,6 +15,10 @@ pub enum JniError {
 }
 
 impl JniError {
-    pub fn call_failed(msg: &str) -> Self { JniError::CallFailed(msg.to_string()) }
-    pub fn invalid_arg(msg: &str) -> Self { JniError::InvalidArgument(msg.to_string()) }
+    pub fn call_failed(msg: &str) -> Self {
+        JniError::CallFailed(msg.to_string())
+    }
+    pub fn invalid_arg(msg: &str) -> Self {
+        JniError::InvalidArgument(msg.to_string())
+    }
 }

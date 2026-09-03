@@ -9,7 +9,12 @@ pub struct LineBox {
 }
 
 impl LineBox {
-    pub fn new(y: f32) -> Self { LineBox { y, ..Default::default() } }
+    pub fn new(y: f32) -> Self {
+        LineBox {
+            y,
+            ..Default::default()
+        }
+    }
 
     pub fn add_fragment(&mut self, frag: Fragment) {
         self.height = self.height.max(frag.height);

@@ -1,6 +1,6 @@
-use crate::events::touch::TouchEvent;
-use crate::events::mouse::MouseEvent;
 use crate::events::keyboard::KeyEvent;
+use crate::events::mouse::MouseEvent;
+use crate::events::touch::TouchEvent;
 use std::collections::VecDeque;
 
 #[derive(Debug, Clone)]
@@ -17,7 +17,9 @@ pub struct EventQueue {
 
 impl EventQueue {
     pub fn new() -> Self {
-        EventQueue { events: VecDeque::new() }
+        EventQueue {
+            events: VecDeque::new(),
+        }
     }
 
     pub fn push(&mut self, event: InputEvent) {

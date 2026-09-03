@@ -28,24 +28,44 @@ pub struct ResourceManager {
 
 impl ResourceManager {
     pub fn new() -> Self {
-        ResourceManager { resources: HashMap::new(), next_id: 1 }
+        ResourceManager {
+            resources: HashMap::new(),
+            next_id: 1,
+        }
     }
 
     pub fn insert(&mut self, url: &str, resource_type: ResourceType, data: Vec<u8>) -> u64 {
         let id = self.next_id;
         self.next_id += 1;
-        self.resources.insert(id, Resource {
-            id, url: url.to_string(), resource_type, data, loaded: true,
-        });
+        self.resources.insert(
+            id,
+            Resource {
+                id,
+                url: url.to_string(),
+                resource_type,
+                data,
+                loaded: true,
+            },
+        );
         id
     }
 
-    pub fn get(&self, id: u64) -> Option<&Resource> { self.resources.get(&id) }
+    pub fn get(&self, id: u64) -> Option<&Resource> {
+        self.resources.get(&id)
+    }
     pub fn get_by_url(&self, url: &str) -> Option<&Resource> {
         self.resources.values().find(|r| r.url == url)
     }
-    pub fn remove(&mut self, id: u64) -> Option<Resource> { self.resources.remove(&id) }
-    pub fn clear(&mut self) { self.resources.clear(); }
-    pub fn len(&self) -> usize { self.resources.len() }
-    pub fn is_empty(&self) -> bool { self.resources.is_empty() }
+    pub fn remove(&mut self, id: u64) -> Option<Resource> {
+        self.resources.remove(&id)
+    }
+    pub fn clear(&mut self) {
+        self.resources.clear();
+    }
+    pub fn len(&self) -> usize {
+        self.resources.len()
+    }
+    pub fn is_empty(&self) -> bool {
+        self.resources.is_empty()
+    }
 }

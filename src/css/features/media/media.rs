@@ -129,7 +129,9 @@ impl MediaFeature {
                 actual == *o
             }
             MediaFeature::PrefersColorScheme(scheme) => context.color_scheme == *scheme,
-            MediaFeature::PrefersReducedMotion(prefers) => context.prefers_reduced_motion == *prefers,
+            MediaFeature::PrefersReducedMotion(prefers) => {
+                context.prefers_reduced_motion == *prefers
+            }
             MediaFeature::AspectRatio(w, h) => {
                 let ratio = context.width / context.height;
                 let expected = w / h;

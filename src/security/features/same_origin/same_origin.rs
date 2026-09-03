@@ -32,7 +32,8 @@ impl Origin {
     }
 
     pub fn effective_port(&self) -> u16 {
-        self.port.unwrap_or_else(|| default_port(&self.scheme).unwrap_or(80))
+        self.port
+            .unwrap_or_else(|| default_port(&self.scheme).unwrap_or(80))
     }
 }
 
@@ -59,7 +60,9 @@ impl SameOriginPolicy {
 
     pub fn is_same_site(&self, a: &Origin, b: &Origin) -> bool {
         a.scheme == b.scheme
-            && (a.host == b.host || a.host.ends_with(&format!(".{}", b.host)) || b.host.ends_with(&format!(".{}", a.host)))
+            && (a.host == b.host
+                || a.host.ends_with(&format!(".{}", b.host))
+                || b.host.ends_with(&format!(".{}", a.host)))
     }
 
     pub fn check_urls(&self, document_url: &str, resource_url: &str) -> bool {

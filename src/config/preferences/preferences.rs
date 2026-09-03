@@ -22,5 +22,7 @@ impl Default for Preferences {
 }
 
 impl Preferences {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

@@ -1,9 +1,21 @@
 pub fn clamp(value: f32, min: f32, max: f32) -> f32 {
-    if value < min { min } else if value > max { max } else { value }
+    if value < min {
+        min
+    } else if value > max {
+        max
+    } else {
+        value
+    }
 }
 
 pub fn clamp_i32(value: i32, min: i32, max: i32) -> i32 {
-    if value < min { min } else if value > max { max } else { value }
+    if value < min {
+        min
+    } else if value > max {
+        max
+    } else {
+        value
+    }
 }
 
 pub fn lerp(a: f32, b: f32, t: f32) -> f32 {
@@ -23,19 +35,27 @@ pub fn map_range(value: f32, from_min: f32, from_max: f32, to_min: f32, to_max: 
     to_min + (value - from_min) * (to_max - to_min) / (from_max - from_min)
 }
 
-pub fn map_range_clamped(value: f32, from_min: f32, from_max: f32, to_min: f32, to_max: f32) -> f32 {
+pub fn map_range_clamped(
+    value: f32,
+    from_min: f32,
+    from_max: f32,
+    to_min: f32,
+    to_max: f32,
+) -> f32 {
     let t = clamp((value - from_min) / (from_max - from_min), 0.0, 1.0);
     to_min + t * (to_max - to_min)
 }
 
 pub fn lerp_angle(a: f32, b: f32, t: f32) -> f32 {
     let diff = b - a;
-    let shortest = diff - 2.0 * std::f32::consts::PI * (diff / (2.0 * std::f32::consts::PI)).round();
+    let shortest =
+        diff - 2.0 * std::f32::consts::PI * (diff / (2.0 * std::f32::consts::PI)).round();
     a + shortest * t
 }
 
 pub fn wrap_angle(angle: f32) -> f32 {
-    ((angle % (2.0 * std::f32::consts::PI)) + 2.0 * std::f32::consts::PI) % (2.0 * std::f32::consts::PI)
+    ((angle % (2.0 * std::f32::consts::PI)) + 2.0 * std::f32::consts::PI)
+        % (2.0 * std::f32::consts::PI)
 }
 
 pub fn distance(x1: f32, y1: f32, x2: f32, y2: f32) -> f32 {

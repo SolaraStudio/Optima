@@ -6,7 +6,9 @@ static LOGGER: OnceLock<OptimaLogger> = OnceLock::new();
 struct OptimaLogger;
 
 impl log::Log for OptimaLogger {
-    fn enabled(&self, _metadata: &Metadata) -> bool { true }
+    fn enabled(&self, _metadata: &Metadata) -> bool {
+        true
+    }
     fn log(&self, record: &Record) {
         if self.enabled(record.metadata()) {
             match record.level() {
@@ -29,6 +31,9 @@ pub fn init_logger(level: LevelFilter) {
 }
 
 pub fn init_default() {
-    if cfg!(debug_assertions) { init_logger(LevelFilter::Debug); }
-    else { init_logger(LevelFilter::Info); }
+    if cfg!(debug_assertions) {
+        init_logger(LevelFilter::Debug);
+    } else {
+        init_logger(LevelFilter::Info);
+    }
 }

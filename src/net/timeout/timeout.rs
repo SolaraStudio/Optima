@@ -20,8 +20,19 @@ impl Default for TimeoutConfig {
 }
 
 impl TimeoutConfig {
-    pub fn new() -> Self { Self::default() }
-    pub fn with_connect(mut self, d: Duration) -> Self { self.connect = d; self }
-    pub fn with_read(mut self, d: Duration) -> Self { self.read = d; self }
-    pub fn with_total(mut self, d: Duration) -> Self { self.total = d; self }
+    pub fn new() -> Self {
+        Self::default()
+    }
+    pub fn with_connect(mut self, d: Duration) -> Self {
+        self.connect = d;
+        self
+    }
+    pub fn with_read(mut self, d: Duration) -> Self {
+        self.read = d;
+        self
+    }
+    pub fn with_total(mut self, d: Duration) -> Self {
+        self.total = d;
+        self
+    }
 }

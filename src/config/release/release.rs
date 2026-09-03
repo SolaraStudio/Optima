@@ -16,5 +16,7 @@ impl Default for ReleaseConfig {
 }
 
 impl ReleaseConfig {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

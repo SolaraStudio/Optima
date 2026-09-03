@@ -10,7 +10,15 @@ pub struct FeatureFlags {
 }
 
 impl FeatureFlags {
-    pub fn new() -> Self { Self::default() }
-    pub fn gpu(mut self, v: bool) -> Self { self.enable_gpu = v; self }
-    pub fn webgl(mut self, v: bool) -> Self { self.enable_webgl = v; self }
+    pub fn new() -> Self {
+        Self::default()
+    }
+    pub fn gpu(mut self, v: bool) -> Self {
+        self.enable_gpu = v;
+        self
+    }
+    pub fn webgl(mut self, v: bool) -> Self {
+        self.enable_webgl = v;
+        self
+    }
 }

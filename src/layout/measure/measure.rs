@@ -7,15 +7,20 @@ pub struct MeasureContext {
 
 impl MeasureContext {
     pub fn from_style(style: &ComputedStyle) -> Self {
-        let font_size = style.get("font-size")
+        let font_size = style
+            .get("font-size")
             .and_then(|v| v.as_length())
             .map(|l| l.to_px(16.0))
             .unwrap_or(16.0);
-        let font_family = style.get("font-family")
+        let font_family = style
+            .get("font-family")
             .and_then(|v| v.as_string())
             .unwrap_or("sans-serif")
             .to_string();
-        MeasureContext { font_size, font_family }
+        MeasureContext {
+            font_size,
+            font_family,
+        }
     }
 
     pub fn measure_text(&self, text: &str) -> (f32, f32) {

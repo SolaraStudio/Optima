@@ -20,7 +20,10 @@ pub struct Directive {
 
 impl Directive {
     pub fn new(name: &str, sources: Vec<String>) -> Self {
-        Directive { name: name.to_string(), sources }
+        Directive {
+            name: name.to_string(),
+            sources,
+        }
     }
 
     pub fn allows(&self, source: &str) -> bool {
@@ -52,7 +55,9 @@ pub struct CspParser {
 impl CspParser {
     pub fn new() -> Self {
         CspParser {
-            policy: Policy { directives: HashMap::new() },
+            policy: Policy {
+                directives: HashMap::new(),
+            },
             report_uri: None,
         }
     }
@@ -65,12 +70,17 @@ impl CspParser {
                 continue;
             }
             let mut tokens = trimmed.split_whitespace();
-            let directive_name = tokens.next().ok_or("missing directive name")?.to_lowercase();
+            let directive_name = tokens
+                .next()
+                .ok_or("missing directive name")?
+                .to_lowercase();
             let sources: Vec<String> = tokens.map(|s| s.to_string()).collect();
             if directive_name == "report-uri" {
                 self.report_uri = sources.first().cloned();
             } else {
-                self.policy.directives.insert(directive_name.clone(), sources.clone());
+                self.policy
+                    .directives
+                    .insert(directive_name.clone(), sources.clone());
             }
         }
         Ok(())
@@ -116,17 +126,22 @@ impl CspParser {
     }
 
     pub fn disallows(&self, _source: &str) -> bool {
-        self.get_directive("default-src").map_or(false, |s| s.contains(&"'none'".to_string()))
+        self.get_directive("default-src")
+            .map_or(false, |s| s.contains(&"'none'".to_string()))
     }
 
     pub fn allows_inline_script(&self) -> bool {
-        self.get_directive("script-src")
-            .map_or(false, |s| s.iter().any(|v| v == "'unsafe-inline'" || v == "*" || v == "'self'"))
+        self.get_directive("script-src").map_or(false, |s| {
+            s.iter()
+                .any(|v| v == "'unsafe-inline'" || v == "*" || v == "'self'")
+        })
     }
 
     pub fn allows_inline_style(&self) -> bool {
-        self.get_directive("style-src")
-            .map_or(false, |s| s.iter().any(|v| v == "'unsafe-inline'" || v == "*" || v == "'self'"))
+        self.get_directive("style-src").map_or(false, |s| {
+            s.iter()
+                .any(|v| v == "'unsafe-inline'" || v == "*" || v == "'self'")
+        })
     }
 }
 
@@ -146,20 +161,29 @@ mod tests {
         parser.parse("default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'unsafe-inline'").unwrap();
         assert!(parser.has_directive("default-src"));
         assert!(parser.has_directive("script-src"));
-        assert!(parser.get_directive("script-src").unwrap().contains(&"https://cdn.example.com".to_string()));
+        assert!(
+            parser
+                .get_directive("script-src")
+                .unwrap()
+                .contains(&"https://cdn.example.com".to_string())
+        );
     }
 
     #[test]
     fn parse_report_uri() {
         let mut parser = CspParser::new();
-        parser.parse("default-src 'self'; report-uri /csp-report").unwrap();
+        parser
+            .parse("default-src 'self'; report-uri /csp-report")
+            .unwrap();
         assert_eq!(parser.report_uri.as_deref(), Some("/csp-report"));
     }
 
     #[test]
     fn allows_host_source() {
         let mut parser = CspParser::new();
-        parser.parse("default-src 'self'; script-src https://cdn.example.com").unwrap();
+        parser
+            .parse("default-src 'self'; script-src https://cdn.example.com")
+            .unwrap();
         assert!(parser.allows_script("https://cdn.example.com/lib.js"));
         assert!(!parser.allows_script("https://evil.com/x.js"));
     }

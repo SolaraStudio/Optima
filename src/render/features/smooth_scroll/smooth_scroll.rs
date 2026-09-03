@@ -207,7 +207,8 @@ impl SmoothScrollState {
             let t = self.elapsed_ms / self.duration_ms;
             let eased_t = self.easing.evaluate(t);
             let prev = self.current_position;
-            self.current_position = self.start_position + (self.target_position - self.start_position) * eased_t;
+            self.current_position =
+                self.start_position + (self.target_position - self.start_position) * eased_t;
             self.velocity = if dt_ms > 0.0 {
                 (self.current_position - prev) * (1000.0 / dt_ms)
             } else {

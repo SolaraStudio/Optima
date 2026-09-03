@@ -74,19 +74,23 @@ impl MemoryBackend {
     }
 
     pub fn to_json(&self) -> Value {
-        let snapshots: Vec<Value> = self.snapshots.iter().map(|s| {
-            serde_json::json!({
-                "timestamp": s.timestamp,
-                "totalHeapSize": s.total_heap_size,
-                "usedHeapSize": s.used_heap_size,
-                "heapSizeLimit": s.heap_size_limit,
-                "totalPhysicalSize": s.total_physical_size,
-                "totalAvailableSize": s.total_available_size,
-                "allocatedObjects": s.allocated_objects,
-                "collections": s.collections,
-                "details": s.details
+        let snapshots: Vec<Value> = self
+            .snapshots
+            .iter()
+            .map(|s| {
+                serde_json::json!({
+                    "timestamp": s.timestamp,
+                    "totalHeapSize": s.total_heap_size,
+                    "usedHeapSize": s.used_heap_size,
+                    "heapSizeLimit": s.heap_size_limit,
+                    "totalPhysicalSize": s.total_physical_size,
+                    "totalAvailableSize": s.total_available_size,
+                    "allocatedObjects": s.allocated_objects,
+                    "collections": s.collections,
+                    "details": s.details
+                })
             })
-        }).collect();
+            .collect();
         serde_json::json!({ "snapshots": snapshots })
     }
 

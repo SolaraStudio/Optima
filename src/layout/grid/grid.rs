@@ -1,5 +1,5 @@
-use crate::layout::fragment::Fragment;
 use crate::css::computed::ComputedStyle;
+use crate::layout::fragment::Fragment;
 
 pub struct GridLayout;
 
@@ -13,14 +13,22 @@ pub struct GridTemplate {
 
 impl Default for GridTemplate {
     fn default() -> Self {
-        GridTemplate { columns: Vec::new(), rows: Vec::new(), column_gap: 0.0, row_gap: 0.0 }
+        GridTemplate {
+            columns: Vec::new(),
+            rows: Vec::new(),
+            column_gap: 0.0,
+            row_gap: 0.0,
+        }
     }
 }
 
 impl GridLayout {
     pub fn parse_template(style: &ComputedStyle) -> GridTemplate {
         let mut tmpl = GridTemplate::default();
-        if let Some(v) = style.get("grid-template-columns").and_then(|v| v.as_string()) {
+        if let Some(v) = style
+            .get("grid-template-columns")
+            .and_then(|v| v.as_string())
+        {
             tmpl.columns = Self::parse_tracks(v);
         }
         if let Some(v) = style.get("grid-template-rows").and_then(|v| v.as_string()) {
@@ -36,17 +44,28 @@ impl GridLayout {
     }
 
     fn parse_tracks(value: &str) -> Vec<f32> {
-        value.split_whitespace()
+        value
+            .split_whitespace()
             .filter_map(|s| s.parse::<f32>().ok())
             .collect()
     }
 
-    pub fn layout_grid_item(col: usize, row: usize, tmpl: &GridTemplate, x: f32, y: f32) -> Fragment {
+    pub fn layout_grid_item(
+        col: usize,
+        row: usize,
+        tmpl: &GridTemplate,
+        x: f32,
+        y: f32,
+    ) -> Fragment {
         let mut frag = Fragment::new();
         let mut cx = x;
-        for c in 0..col.min(tmpl.columns.len()) { cx += tmpl.columns[c] + tmpl.column_gap; }
+        for c in 0..col.min(tmpl.columns.len()) {
+            cx += tmpl.columns[c] + tmpl.column_gap;
+        }
         let mut cy = y;
-        for r in 0..row.min(tmpl.rows.len()) { cy += tmpl.rows[r] + tmpl.row_gap; }
+        for r in 0..row.min(tmpl.rows.len()) {
+            cy += tmpl.rows[r] + tmpl.row_gap;
+        }
         frag.x = cx;
         frag.y = cy;
         frag.width = tmpl.columns.get(col).copied().unwrap_or(100.0);

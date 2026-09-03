@@ -1,5 +1,5 @@
-use crate::dom::node::Node;
 use crate::dom::mutation::MutationRecord;
+use crate::dom::node::Node;
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;

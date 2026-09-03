@@ -20,9 +20,7 @@ impl ClassList {
                 .cloned()
                 .unwrap_or_default();
             if existing.is_empty() {
-                self.node
-                    .borrow_mut()
-                    .set_attribute("class", class);
+                self.node.borrow_mut().set_attribute("class", class);
             } else {
                 self.node
                     .borrow_mut()
@@ -39,9 +37,7 @@ impl ClassList {
             .filter(|c| *c != class)
             .collect();
         let new_value = filtered.join(" ");
-        self.node
-            .borrow_mut()
-            .set_attribute("class", &new_value);
+        self.node.borrow_mut().set_attribute("class", &new_value);
     }
 
     pub fn toggle(&self, class: &str) -> bool {
@@ -75,20 +71,14 @@ impl ClassList {
     }
 
     pub fn set_value(&self, value: &str) {
-        self.node
-            .borrow_mut()
-            .set_attribute("class", value);
+        self.node.borrow_mut().set_attribute("class", value);
     }
 
     pub fn to_vec(&self) -> Vec<String> {
         self.node
             .borrow()
             .get_attribute("class")
-            .map(|v| {
-                v.split_whitespace()
-                    .map(|s| s.to_string())
-                    .collect()
-            })
+            .map(|v| v.split_whitespace().map(|s| s.to_string()).collect())
             .unwrap_or_default()
     }
 

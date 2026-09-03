@@ -1,6 +1,6 @@
-use crate::css::value::Value;
-use crate::css::selector::Selector;
 use crate::css::declaration::Declaration;
+use crate::css::selector::Selector;
+use crate::css::value::Value;
 
 pub struct Stylesheet {
     pub rules: Vec<Rule>,

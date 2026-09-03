@@ -1,2 +1,2 @@
 mod filters;
-pub use filters::{parse_filter_value, FilterChain, FilterFunction};
+pub use filters::{FilterChain, FilterFunction, parse_filter_value};

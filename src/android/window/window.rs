@@ -1,5 +1,5 @@
-use jni::objects::{GlobalRef, JObject, JValue};
 use jni::JNIEnv;
+use jni::objects::{GlobalRef, JObject, JValue};
 
 pub struct AndroidWindow {
     pub window: GlobalRef,
@@ -16,7 +16,12 @@ impl AndroidWindow {
     }
 
     pub fn set_flags(env: &mut JNIEnv, window: JObject, flags: u32, mask: u32) {
-        let _ = env.call_method(window, "setFlags", "(II)V", &[JValue::Int(flags as i32), JValue::Int(mask as i32)]);
+        let _ = env.call_method(
+            window,
+            "setFlags",
+            "(II)V",
+            &[JValue::Int(flags as i32), JValue::Int(mask as i32)],
+        );
     }
 
     pub fn add_flags(env: &mut JNIEnv, window: JObject, flags: u32) {

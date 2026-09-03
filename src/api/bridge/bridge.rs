@@ -20,7 +20,8 @@ impl JsBridge {
     where
         F: Fn(&str) -> String + Send + Sync + 'static,
     {
-        self.native_handlers.insert(name.to_string(), Box::new(handler));
+        self.native_handlers
+            .insert(name.to_string(), Box::new(handler));
     }
 
     pub fn has_native_handler(&self, name: &str) -> bool {

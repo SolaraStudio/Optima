@@ -16,11 +16,23 @@ pub enum ProxyType {
 
 impl Proxy {
     pub fn http(host: &str, port: u16) -> Self {
-        Proxy { host: host.to_string(), port, proxy_type: ProxyType::HTTP, username: None, password: None }
+        Proxy {
+            host: host.to_string(),
+            port,
+            proxy_type: ProxyType::HTTP,
+            username: None,
+            password: None,
+        }
     }
 
     pub fn socks5(host: &str, port: u16) -> Self {
-        Proxy { host: host.to_string(), port, proxy_type: ProxyType::SOCKS5, username: None, password: None }
+        Proxy {
+            host: host.to_string(),
+            port,
+            proxy_type: ProxyType::SOCKS5,
+            username: None,
+            password: None,
+        }
     }
 
     pub fn with_auth(mut self, user: &str, pass: &str) -> Self {

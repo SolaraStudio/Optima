@@ -74,9 +74,7 @@ impl Element {
                 html.push_str(&format!("</{}>", node.node_name));
                 html
             }
-            crate::dom::node::NodeType::Text => {
-                node.node_value.clone().unwrap_or_default()
-            }
+            crate::dom::node::NodeType::Text => node.node_value.clone().unwrap_or_default(),
             crate::dom::node::NodeType::Comment => {
                 format!("<!--{}-->", node.node_value.clone().unwrap_or_default())
             }

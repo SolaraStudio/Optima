@@ -1,7 +1,7 @@
-use crate::css::stylesheet::Stylesheet;
-use crate::css::selector::Selector;
 use crate::css::declaration::Declaration;
+use crate::css::selector::Selector;
 use crate::css::specificity::Specificity;
+use crate::css::stylesheet::Stylesheet;
 use std::collections::HashMap;
 
 pub struct Cascade;
@@ -32,15 +32,29 @@ impl Cascade {
             Selector::Type(tag) => element.tag == *tag,
             Selector::Class(class) => element.classes.contains(class),
             Selector::Id(id) => element.id == *id,
-            Selector::Attribute { name, value, operator } => {
+            Selector::Attribute {
+                name,
+                value,
+                operator,
+            } => {
                 if let Some(val) = element.attributes.get(name) {
                     match operator {
                         Some(op) if op == "=" => val == value.as_ref().unwrap_or(&"".to_string()),
-                        Some(op) if op == "~=" => val.split_whitespace().any(|v| v == value.as_ref().unwrap_or(&"".to_string())),
-                        Some(op) if op == "|=" => val.split('-').any(|v| v == value.as_ref().unwrap_or(&"".to_string())),
-                        Some(op) if op == "^=" => val.starts_with(value.as_ref().unwrap_or(&"".to_string())),
-                        Some(op) if op == "$=" => val.ends_with(value.as_ref().unwrap_or(&"".to_string())),
-                        Some(op) if op == "*=" => val.contains(value.as_ref().unwrap_or(&"".to_string())),
+                        Some(op) if op == "~=" => val
+                            .split_whitespace()
+                            .any(|v| v == value.as_ref().unwrap_or(&"".to_string())),
+                        Some(op) if op == "|=" => val
+                            .split('-')
+                            .any(|v| v == value.as_ref().unwrap_or(&"".to_string())),
+                        Some(op) if op == "^=" => {
+                            val.starts_with(value.as_ref().unwrap_or(&"".to_string()))
+                        }
+                        Some(op) if op == "$=" => {
+                            val.ends_with(value.as_ref().unwrap_or(&"".to_string()))
+                        }
+                        Some(op) if op == "*=" => {
+                            val.contains(value.as_ref().unwrap_or(&"".to_string()))
+                        }
                         _ => true,
                     }
                 } else {
@@ -55,9 +69,13 @@ impl Cascade {
                 _ => false,
             },
             Selector::PseudoElement(_) => true,
-            Selector::Descendant(a, b) => Cascade::matches(a, element) && Cascade::matches(b, element),
+            Selector::Descendant(a, b) => {
+                Cascade::matches(a, element) && Cascade::matches(b, element)
+            }
             Selector::Child(a, b) => Cascade::matches(a, element) && Cascade::matches(b, element),
-            Selector::Adjacent(a, b) => Cascade::matches(a, element) && Cascade::matches(b, element),
+            Selector::Adjacent(a, b) => {
+                Cascade::matches(a, element) && Cascade::matches(b, element)
+            }
             Selector::Sibling(a, b) => Cascade::matches(a, element) && Cascade::matches(b, element),
             Selector::List(list) => list.iter().any(|sel| Cascade::matches(sel, element)),
         }

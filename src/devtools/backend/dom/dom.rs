@@ -150,7 +150,11 @@ impl DOMBackend {
     }
 
     pub fn node_to_json(node: &DOMNode) -> Value {
-        let children: Vec<Value> = node.children.iter().map(|c| Self::node_to_json(c)).collect();
+        let children: Vec<Value> = node
+            .children
+            .iter()
+            .map(|c| Self::node_to_json(c))
+            .collect();
         serde_json::json!({
             "nodeId": node.node_id,
             "nodeType": node.node_type,

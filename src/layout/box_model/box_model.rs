@@ -1,4 +1,3 @@
-
 #[derive(Debug, Clone, Default)]
 pub struct BoxModel {
     pub content_x: f32,
@@ -24,49 +23,84 @@ pub struct BoxModel {
 }
 
 impl BoxModel {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     pub fn total_width(&self) -> f32 {
-        self.content_width + self.padding_left + self.padding_right
-            + self.border_left + self.border_right
-            + self.margin_left + self.margin_right
+        self.content_width
+            + self.padding_left
+            + self.padding_right
+            + self.border_left
+            + self.border_right
+            + self.margin_left
+            + self.margin_right
     }
 
     pub fn total_height(&self) -> f32 {
-        self.content_height + self.padding_top + self.padding_bottom
-            + self.border_top + self.border_bottom
-            + self.margin_top + self.margin_bottom
+        self.content_height
+            + self.padding_top
+            + self.padding_bottom
+            + self.border_top
+            + self.border_bottom
+            + self.margin_top
+            + self.margin_bottom
     }
 
     pub fn padding_box_width(&self) -> f32 {
-        self.content_width + self.padding_left + self.padding_right + self.border_left + self.border_right
+        self.content_width
+            + self.padding_left
+            + self.padding_right
+            + self.border_left
+            + self.border_right
     }
 
     pub fn padding_box_height(&self) -> f32 {
-        self.content_height + self.padding_top + self.padding_bottom + self.border_top + self.border_bottom
+        self.content_height
+            + self.padding_top
+            + self.padding_bottom
+            + self.border_top
+            + self.border_bottom
     }
 
     pub fn border_box_width(&self) -> f32 {
-        self.content_width + self.padding_left + self.padding_right + self.border_left + self.border_right
+        self.content_width
+            + self.padding_left
+            + self.padding_right
+            + self.border_left
+            + self.border_right
     }
 
     pub fn border_box_height(&self) -> f32 {
-        self.content_height + self.padding_top + self.padding_bottom + self.border_top + self.border_bottom
+        self.content_height
+            + self.padding_top
+            + self.padding_bottom
+            + self.border_top
+            + self.border_bottom
     }
 
     pub fn contains_point(&self, x: f32, y: f32) -> bool {
-        x >= self.content_x && x <= self.content_x + self.total_width()
-            && y >= self.content_y && y <= self.content_y + self.total_height()
+        x >= self.content_x
+            && x <= self.content_x + self.total_width()
+            && y >= self.content_y
+            && y <= self.content_y + self.total_height()
     }
 
     pub fn border_rect(&self) -> (f32, f32, f32, f32) {
-        (self.content_x - self.border_left, self.content_y - self.border_top,
-         self.border_box_width(), self.border_box_height())
+        (
+            self.content_x - self.border_left,
+            self.content_y - self.border_top,
+            self.border_box_width(),
+            self.border_box_height(),
+        )
     }
 
     pub fn padding_rect(&self) -> (f32, f32, f32, f32) {
-        (self.content_x + self.border_left, self.content_y + self.border_top,
-         self.content_width + self.padding_left + self.padding_right,
-         self.content_height + self.padding_top + self.padding_bottom)
+        (
+            self.content_x + self.border_left,
+            self.content_y + self.border_top,
+            self.content_width + self.padding_left + self.padding_right,
+            self.content_height + self.padding_top + self.padding_bottom,
+        )
     }
 }

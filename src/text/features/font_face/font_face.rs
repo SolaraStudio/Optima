@@ -311,10 +311,7 @@ mod tests {
         }"#;
         let p = FontFaceParser::parse_css(css).unwrap();
         assert_eq!(p.font_family, "Extra");
-        assert_eq!(
-            p.descriptors.get("font-display"),
-            Some(&"swap".to_string())
-        );
+        assert_eq!(p.descriptors.get("font-display"), Some(&"swap".to_string()));
         assert_eq!(
             p.descriptors.get("unicode-range"),
             Some(&"U+0000-00FF".to_string())

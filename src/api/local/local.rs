@@ -15,7 +15,8 @@ impl LocalHost {
 
     pub fn register_asset(&mut self, path: &str, content_type: &str, data: Vec<u8>) {
         let key = Self::normalize_path(path);
-        self.content_types.insert(key.clone(), content_type.to_string());
+        self.content_types
+            .insert(key.clone(), content_type.to_string());
         self.assets.insert(key, data);
     }
 
@@ -26,7 +27,11 @@ impl LocalHost {
     pub fn get_asset(&self, path: &str) -> Option<(&[u8], &str)> {
         let key = Self::normalize_path(path);
         let data = self.assets.get(&key)?;
-        let ct = self.content_types.get(&key).map(|s| s.as_str()).unwrap_or("application/octet-stream");
+        let ct = self
+            .content_types
+            .get(&key)
+            .map(|s| s.as_str())
+            .unwrap_or("application/octet-stream");
         Some((data, ct))
     }
 

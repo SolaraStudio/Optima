@@ -6,6 +6,10 @@ pub struct Encoder {
 }
 
 impl Encoder {
-    pub fn new(codec: Codec, bitrate: u32) -> Self { Encoder { codec, bitrate } }
-    pub fn set_bitrate(&mut self, bitrate: u32) { self.bitrate = bitrate; }
+    pub fn new(codec: Codec, bitrate: u32) -> Self {
+        Encoder { codec, bitrate }
+    }
+    pub fn set_bitrate(&mut self, bitrate: u32) {
+        self.bitrate = bitrate;
+    }
 }

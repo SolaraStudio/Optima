@@ -15,5 +15,5 @@ pub mod resolve;
 pub mod table;
 
 pub use box_model::BoxModel;
-pub use fragment::Fragment;
 pub use flow::FlowContext;
+pub use fragment::Fragment;

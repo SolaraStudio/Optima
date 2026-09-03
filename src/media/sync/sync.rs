@@ -4,11 +4,18 @@ pub struct AvSync {
 }
 
 impl Default for AvSync {
-    fn default() -> Self { AvSync { audio_offset_ms: 0, video_offset_ms: 0 } }
+    fn default() -> Self {
+        AvSync {
+            audio_offset_ms: 0,
+            video_offset_ms: 0,
+        }
+    }
 }
 
 impl AvSync {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
     pub fn sync(&self, audio_pts: f64, video_pts: f64) -> f64 {
         (audio_pts + self.audio_offset_ms as f64) - (video_pts + self.video_offset_ms as f64)
     }

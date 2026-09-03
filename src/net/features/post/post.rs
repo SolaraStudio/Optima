@@ -58,11 +58,20 @@ impl PostBody {
     }
 
     pub fn field(mut self, name: &str, value: &str) -> Self {
-        self.fields.push(PostField { name: name.to_string(), value: value.to_string() });
+        self.fields.push(PostField {
+            name: name.to_string(),
+            value: value.to_string(),
+        });
         self
     }
 
-    pub fn file(mut self, field: &str, file_name: &str, content: Vec<u8>, content_type: &str) -> Self {
+    pub fn file(
+        mut self,
+        field: &str,
+        file_name: &str,
+        content: Vec<u8>,
+        content_type: &str,
+    ) -> Self {
         self.files.push(FilePart {
             field_name: field.to_string(),
             file_name: file_name.to_string(),
@@ -73,7 +82,8 @@ impl PostBody {
     }
 
     pub fn to_form_encoded(&self) -> String {
-        self.fields.iter()
+        self.fields
+            .iter()
             .map(|f| format!("{}={}", f.name, f.value))
             .collect::<Vec<_>>()
             .join("&")
@@ -90,14 +100,26 @@ impl PostBody {
         let mut out = Vec::new();
         for f in &self.fields {
             out.extend_from_slice(format!("--{}\r\n", boundary).as_bytes());
-            out.extend_from_slice(format!("Content-Disposition: form-data; name=\"{}\"\r\n\r\n{}\r\n", f.name, f.value).as_bytes());
+            out.extend_from_slice(
+                format!(
+                    "Content-Disposition: form-data; name=\"{}\"\r\n\r\n{}\r\n",
+                    f.name, f.value
+                )
+                .as_bytes(),
+            );
         }
         for file in &self.files {
             out.extend_from_slice(format!("--{}\r\n", boundary).as_bytes());
             out.extend_from_slice(
-                format!("Content-Disposition: form-data; name=\"{}\"; filename=\"{}\"\r\n", file.field_name, file.file_name).as_bytes(),
+                format!(
+                    "Content-Disposition: form-data; name=\"{}\"; filename=\"{}\"\r\n",
+                    file.field_name, file.file_name
+                )
+                .as_bytes(),
             );
-            out.extend_from_slice(format!("Content-Type: {}\r\n\r\n", file.content_type).as_bytes());
+            out.extend_from_slice(
+                format!("Content-Type: {}\r\n\r\n", file.content_type).as_bytes(),
+            );
             out.extend_from_slice(&file.content);
             out.extend_from_slice(b"\r\n");
         }
@@ -156,7 +178,13 @@ impl PostBuilder {
         self
     }
 
-    pub fn file(mut self, field: &str, file_name: &str, content: Vec<u8>, content_type: &str) -> Self {
+    pub fn file(
+        mut self,
+        field: &str,
+        file_name: &str,
+        content: Vec<u8>,
+        content_type: &str,
+    ) -> Self {
         self.body = self.body.file(field, file_name, content, content_type);
         self
     }
@@ -173,7 +201,10 @@ impl PostBuilder {
 
     pub fn build(&self) -> Result<(String, PostBody, HashMap<String, String>, Vec<u8>), String> {
         let mut headers = self.headers.clone();
-        let boundary = self.custom_boundary.clone().unwrap_or_else(|| "OptimaBoundary".to_string());
+        let boundary = self
+            .custom_boundary
+            .clone()
+            .unwrap_or_else(|| "OptimaBoundary".to_string());
         let content_type = if self.body.kind == PostBodyKind::Multipart {
             format!("multipart/form-data; boundary={}", boundary)
         } else {
@@ -197,7 +228,9 @@ mod tests {
 
     #[test]
     fn form_encoding() {
-        let body = PostBody::new_form().field("user", "alice").field("pwd", "secret");
+        let body = PostBody::new_form()
+            .field("user", "alice")
+            .field("pwd", "secret");
         assert_eq!(body.to_form_encoded(), "user=alice&pwd=secret");
         assert_eq!(body.kind, PostBodyKind::Form);
     }
@@ -213,9 +246,12 @@ mod tests {
 
     #[test]
     fn multipart_builds_boundary() {
-        let body = PostBody::new_multipart()
-            .field("title", "hello")
-            .file("upload", "f.txt", Vec::from("data"), "text/plain");
+        let body = PostBody::new_multipart().field("title", "hello").file(
+            "upload",
+            "f.txt",
+            Vec::from("data"),
+            "text/plain",
+        );
         let bytes = body.to_multipart_boundary("B0");
         let text = String::from_utf8(bytes).unwrap();
         assert!(text.contains("--B0\r\n"));

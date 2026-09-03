@@ -87,9 +87,7 @@ impl HtmlSerializer {
     pub fn text_content(node: &Rc<RefCell<Node>>) -> String {
         let borrowed = node.borrow();
         match borrowed.node_type {
-            NodeType::Text | NodeType::Comment => {
-                borrowed.node_value.clone().unwrap_or_default()
-            }
+            NodeType::Text | NodeType::Comment => borrowed.node_value.clone().unwrap_or_default(),
             _ => {
                 let mut text = String::new();
                 for child in &borrowed.children {
@@ -267,8 +265,7 @@ mod tests {
     #[test]
     fn test_escape_attr_escaping() {
         let node = make_element("div");
-        node.borrow_mut()
-            .set_attribute("title", "a\"b<c>");
+        node.borrow_mut().set_attribute("title", "a\"b<c>");
         let html = HtmlSerializer::outer_html(&node);
         assert!(html.contains("title=\"a&quot;b&lt;c&gt;\""));
     }

@@ -44,7 +44,10 @@ impl KeyEvent {
     }
 
     pub fn is_control(&self) -> bool {
-        matches!(self.key.as_str(), "Escape" | "Enter" | "Backspace" | "Tab" | "Delete")
+        matches!(
+            self.key.as_str(),
+            "Escape" | "Enter" | "Backspace" | "Tab" | "Delete"
+        )
     }
 
     pub fn is_arrow(&self) -> bool {

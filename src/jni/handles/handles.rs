@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use std::any::Any;
+use std::collections::HashMap;
 
 pub struct HandleTable {
     handles: HashMap<u64, Box<dyn Any>>,
@@ -8,7 +8,10 @@ pub struct HandleTable {
 
 impl HandleTable {
     pub fn new() -> Self {
-        HandleTable { handles: HashMap::new(), next_id: 1 }
+        HandleTable {
+            handles: HashMap::new(),
+            next_id: 1,
+        }
     }
 
     pub fn insert<T: 'static>(&mut self, value: T) -> u64 {

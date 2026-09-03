@@ -1,5 +1,5 @@
-use crate::text::glyph::Glyph;
 use crate::css::colors::Color;
+use crate::text::glyph::Glyph;
 
 pub struct TextRenderer {
     pub font_size: f32,
@@ -9,11 +9,22 @@ pub struct TextRenderer {
 
 impl TextRenderer {
     pub fn new(font_size: f32, color: Color) -> Self {
-        TextRenderer { font_size, color, antialias: true }
+        TextRenderer {
+            font_size,
+            color,
+            antialias: true,
+        }
     }
 
     pub fn render_glyph(&self, glyph: &Glyph, x: f32, y: f32) -> TextRenderCommand {
-        TextRenderCommand { glyph_id: glyph.id, x, y, width: glyph.width, height: glyph.height, color: self.color }
+        TextRenderCommand {
+            glyph_id: glyph.id,
+            x,
+            y,
+            width: glyph.width,
+            height: glyph.height,
+            color: self.color,
+        }
     }
 }
 

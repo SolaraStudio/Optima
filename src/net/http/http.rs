@@ -1,6 +1,6 @@
-use crate::net::header::Headers;
 use crate::net::body::Body;
 use crate::net::fetch::{Request, Response};
+use crate::net::header::Headers;
 
 pub struct HttpClient {
     pub timeout: std::time::Duration,
@@ -10,12 +10,18 @@ pub struct HttpClient {
 
 impl Default for HttpClient {
     fn default() -> Self {
-        HttpClient { timeout: std::time::Duration::from_secs(30), max_redirects: 10, headers: Headers::new() }
+        HttpClient {
+            timeout: std::time::Duration::from_secs(30),
+            max_redirects: 10,
+            headers: Headers::new(),
+        }
     }
 }
 
 impl HttpClient {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     pub fn get(&self, url: &str) -> Result<Response, String> {
         let mut req = Request::get(url);

@@ -35,7 +35,11 @@ impl Range {
 
     pub fn set_start_before(&mut self, node: Rc<RefCell<Node>>) {
         if let Some(parent) = node.borrow().parent.clone() {
-            let index = parent.borrow().children.iter().position(|c| Rc::ptr_eq(c, &node));
+            let index = parent
+                .borrow()
+                .children
+                .iter()
+                .position(|c| Rc::ptr_eq(c, &node));
             if let Some(idx) = index {
                 self.set_start(parent, idx as u32);
             }
@@ -44,7 +48,11 @@ impl Range {
 
     pub fn set_start_after(&mut self, node: Rc<RefCell<Node>>) {
         if let Some(parent) = node.borrow().parent.clone() {
-            let index = parent.borrow().children.iter().position(|c| Rc::ptr_eq(c, &node));
+            let index = parent
+                .borrow()
+                .children
+                .iter()
+                .position(|c| Rc::ptr_eq(c, &node));
             if let Some(idx) = index {
                 self.set_start(parent, (idx + 1) as u32);
             }
@@ -53,7 +61,11 @@ impl Range {
 
     pub fn set_end_before(&mut self, node: Rc<RefCell<Node>>) {
         if let Some(parent) = node.borrow().parent.clone() {
-            let index = parent.borrow().children.iter().position(|c| Rc::ptr_eq(c, &node));
+            let index = parent
+                .borrow()
+                .children
+                .iter()
+                .position(|c| Rc::ptr_eq(c, &node));
             if let Some(idx) = index {
                 self.set_end(parent, idx as u32);
             }
@@ -62,7 +74,11 @@ impl Range {
 
     pub fn set_end_after(&mut self, node: Rc<RefCell<Node>>) {
         if let Some(parent) = node.borrow().parent.clone() {
-            let index = parent.borrow().children.iter().position(|c| Rc::ptr_eq(c, &node));
+            let index = parent
+                .borrow()
+                .children
+                .iter()
+                .position(|c| Rc::ptr_eq(c, &node));
             if let Some(idx) = index {
                 self.set_end(parent, (idx + 1) as u32);
             }
@@ -71,7 +87,11 @@ impl Range {
 
     pub fn select_node(&mut self, node: Rc<RefCell<Node>>) {
         if let Some(parent) = node.borrow().parent.clone() {
-            let index = parent.borrow().children.iter().position(|c| Rc::ptr_eq(c, &node));
+            let index = parent
+                .borrow()
+                .children
+                .iter()
+                .position(|c| Rc::ptr_eq(c, &node));
             if let Some(idx) = index {
                 self.set_start(parent.clone(), idx as u32);
                 self.set_end(parent, (idx + 1) as u32);
@@ -113,7 +133,9 @@ impl Range {
     }
 
     fn update_collapsed(&mut self) {
-        if let (Some(start_container), Some(end_container)) = (&self.start_container, &self.end_container) {
+        if let (Some(start_container), Some(end_container)) =
+            (&self.start_container, &self.end_container)
+        {
             if Rc::ptr_eq(start_container, end_container) && self.start_offset == self.end_offset {
                 self.collapsed = true;
             } else {

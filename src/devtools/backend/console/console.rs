@@ -39,7 +39,14 @@ impl ConsoleBackend {
         self.messages.clear();
     }
 
-    pub fn log(&mut self, level: &str, text: &str, url: Option<&str>, line: Option<u32>, column: Option<u32>) {
+    pub fn log(
+        &mut self,
+        level: &str,
+        text: &str,
+        url: Option<&str>,
+        line: Option<u32>,
+        column: Option<u32>,
+    ) {
         if !self.enabled {
             return;
         }
@@ -66,21 +73,29 @@ impl ConsoleBackend {
     }
 
     pub fn get_messages_since(&self, timestamp: u64) -> Vec<ConsoleMessage> {
-        self.messages.iter().filter(|m| m.timestamp >= timestamp).cloned().collect()
+        self.messages
+            .iter()
+            .filter(|m| m.timestamp >= timestamp)
+            .cloned()
+            .collect()
     }
 
     pub fn to_json(&self) -> Value {
-        let messages: Vec<Value> = self.messages.iter().map(|m| {
-            serde_json::json!({
-                "source": m.source,
-                "level": m.level,
-                "text": m.text,
-                "timestamp": m.timestamp,
-                "url": m.url,
-                "line": m.line,
-                "column": m.column
+        let messages: Vec<Value> = self
+            .messages
+            .iter()
+            .map(|m| {
+                serde_json::json!({
+                    "source": m.source,
+                    "level": m.level,
+                    "text": m.text,
+                    "timestamp": m.timestamp,
+                    "url": m.url,
+                    "line": m.line,
+                    "column": m.column
+                })
             })
-        }).collect();
+            .collect();
         serde_json::json!({ "messages": messages })
     }
 }

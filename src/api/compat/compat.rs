@@ -21,9 +21,16 @@ impl Compat {
     }
 
     fn detect_platform() -> Platform {
-        if cfg!(target_os = "android") { Platform::Android }
-        else if cfg!(target_os = "linux") || cfg!(target_os = "macos") || cfg!(target_os = "windows") { Platform::Desktop }
-        else { Platform::Unknown }
+        if cfg!(target_os = "android") {
+            Platform::Android
+        } else if cfg!(target_os = "linux")
+            || cfg!(target_os = "macos")
+            || cfg!(target_os = "windows")
+        {
+            Platform::Desktop
+        } else {
+            Platform::Unknown
+        }
     }
 
     pub fn is_compatible(&self, min_version: &str) -> bool {

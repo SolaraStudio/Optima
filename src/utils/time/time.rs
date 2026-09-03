@@ -44,7 +44,10 @@ pub fn format_time(ms: u64) -> String {
     let remaining_minutes = minutes % 60;
 
     if hours > 0 {
-        format!("{:02}:{:02}:{:02}", hours, remaining_minutes, remaining_seconds)
+        format!(
+            "{:02}:{:02}:{:02}",
+            hours, remaining_minutes, remaining_seconds
+        )
     } else {
         format!("{:02}:{:02}", remaining_minutes, remaining_seconds)
     }

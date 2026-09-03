@@ -7,12 +7,18 @@ pub struct RedirectPolicy {
 
 impl Default for RedirectPolicy {
     fn default() -> Self {
-        RedirectPolicy { max_redirects: 10, follow_redirects: true, trusted_domains: Vec::new() }
+        RedirectPolicy {
+            max_redirects: 10,
+            follow_redirects: true,
+            trusted_domains: Vec::new(),
+        }
     }
 }
 
 impl RedirectPolicy {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     pub fn should_follow(&self, _url: &str, redirect_count: u32) -> bool {
         self.follow_redirects && redirect_count < self.max_redirects

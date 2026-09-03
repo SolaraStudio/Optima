@@ -154,9 +154,7 @@ impl PseudoClass {
                 expr.matches(from_end)
             }
             PseudoClass::FirstOfType => state.type_index == 0,
-            PseudoClass::LastOfType => {
-                state.type_index + 1 == state.type_sibling_count
-            }
+            PseudoClass::LastOfType => state.type_index + 1 == state.type_sibling_count,
             PseudoClass::Empty => state.is_empty,
             PseudoClass::Root => state.is_root,
             PseudoClass::Disabled => state.is_disabled,

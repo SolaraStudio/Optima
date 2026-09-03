@@ -33,15 +33,69 @@ impl KerningEngine {
     }
 
     pub fn load_defaults(&mut self) {
-        self.pairs.insert(KerningPair { left: 'A', right: 'V' }, -0.05);
-        self.pairs.insert(KerningPair { left: 'A', right: 'W' }, -0.04);
-        self.pairs.insert(KerningPair { left: 'A', right: 'T' }, -0.06);
-        self.pairs.insert(KerningPair { left: 'T', right: 'o' }, -0.03);
-        self.pairs.insert(KerningPair { left: 'T', right: 'a' }, -0.04);
-        self.pairs.insert(KerningPair { left: 'V', right: 'a' }, -0.04);
-        self.pairs.insert(KerningPair { left: 'L', right: 'T' }, -0.03);
-        self.pairs.insert(KerningPair { left: 'f', right: 'i' }, 0.0);
-        self.pairs.insert(KerningPair { left: 'f', right: 'l' }, 0.0);
+        self.pairs.insert(
+            KerningPair {
+                left: 'A',
+                right: 'V',
+            },
+            -0.05,
+        );
+        self.pairs.insert(
+            KerningPair {
+                left: 'A',
+                right: 'W',
+            },
+            -0.04,
+        );
+        self.pairs.insert(
+            KerningPair {
+                left: 'A',
+                right: 'T',
+            },
+            -0.06,
+        );
+        self.pairs.insert(
+            KerningPair {
+                left: 'T',
+                right: 'o',
+            },
+            -0.03,
+        );
+        self.pairs.insert(
+            KerningPair {
+                left: 'T',
+                right: 'a',
+            },
+            -0.04,
+        );
+        self.pairs.insert(
+            KerningPair {
+                left: 'V',
+                right: 'a',
+            },
+            -0.04,
+        );
+        self.pairs.insert(
+            KerningPair {
+                left: 'L',
+                right: 'T',
+            },
+            -0.03,
+        );
+        self.pairs.insert(
+            KerningPair {
+                left: 'f',
+                right: 'i',
+            },
+            0.0,
+        );
+        self.pairs.insert(
+            KerningPair {
+                left: 'f',
+                right: 'l',
+            },
+            0.0,
+        );
 
         self.ligatures.push(LigatureEntry {
             chars: vec!['f', 'f', 'i'],
@@ -103,10 +157,7 @@ impl KerningEngine {
         while pos < chars.len() {
             if let Some(lig) = self.find_ligature(&chars, pos) {
                 let lig_len = lig.chars.len();
-                let x = glyphs
-                    .iter()
-                    .map(|g: &ShapedGlyph| g.advance)
-                    .sum::<f32>();
+                let x = glyphs.iter().map(|g: &ShapedGlyph| g.advance).sum::<f32>();
                 glyphs.push(ShapedGlyph {
                     char: None,
                     glyph_id: lig.glyph_id,
@@ -116,10 +167,7 @@ impl KerningEngine {
                 pos += lig_len;
             } else {
                 let ch = chars[pos];
-                let x: f32 = glyphs
-                    .iter()
-                    .map(|g: &ShapedGlyph| g.advance)
-                    .sum();
+                let x: f32 = glyphs.iter().map(|g: &ShapedGlyph| g.advance).sum();
                 let kern = if pos + 1 < chars.len() {
                     self.get_kerning(ch, chars[pos + 1])
                 } else {

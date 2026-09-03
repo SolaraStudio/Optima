@@ -8,12 +8,25 @@ pub enum Effect {
     Opacity(f32),
     Saturate(f32),
     Sepia(f32),
-    DropShadow { x: f32, y: f32, blur: f32, color: (f32, f32, f32, f32) },
+    DropShadow {
+        x: f32,
+        y: f32,
+        blur: f32,
+        color: (f32, f32, f32, f32),
+    },
 }
 
 impl Effect {
-    pub fn blur(radius: f32) -> Self { Effect::Blur(radius) }
-    pub fn brightness(v: f32) -> Self { Effect::Brightness(v) }
-    pub fn opacity(v: f32) -> Self { Effect::Opacity(v) }
-    pub fn drop_shadow(x: f32, y: f32, blur: f32, color: (f32,f32,f32,f32)) -> Self { Effect::DropShadow { x, y, blur, color } }
+    pub fn blur(radius: f32) -> Self {
+        Effect::Blur(radius)
+    }
+    pub fn brightness(v: f32) -> Self {
+        Effect::Brightness(v)
+    }
+    pub fn opacity(v: f32) -> Self {
+        Effect::Opacity(v)
+    }
+    pub fn drop_shadow(x: f32, y: f32, blur: f32, color: (f32, f32, f32, f32)) -> Self {
+        Effect::DropShadow { x, y, blur, color }
+    }
 }

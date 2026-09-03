@@ -19,5 +19,7 @@ impl FallbackFontChain {
         }
     }
 
-    pub fn get_chain(&self) -> &[String] { &self.families }
+    pub fn get_chain(&self) -> &[String] {
+        &self.families
+    }
 }

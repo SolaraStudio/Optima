@@ -1,2 +1,2 @@
 pub mod media;
-pub use media::{MediaQuery, MediaCondition, MediaFeature, Viewport};
+pub use media::{MediaCondition, MediaFeature, MediaQuery, Viewport};

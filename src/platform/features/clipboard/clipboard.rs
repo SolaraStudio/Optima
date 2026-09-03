@@ -1,4 +1,3 @@
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum ClipboardType {
     Standard,
@@ -154,7 +153,8 @@ impl Clipboard {
     }
 
     pub fn read_text(&mut self, clip_type: ClipboardType) -> Option<String> {
-        self.read(clip_type).and_then(|e| e.mime_data.as_text().map(|s| s.to_string()))
+        self.read(clip_type)
+            .and_then(|e| e.mime_data.as_text().map(|s| s.to_string()))
     }
 
     pub fn write(&mut self, data: MimeData, clip_type: ClipboardType) -> bool {
@@ -206,7 +206,8 @@ impl Clipboard {
         }
 
         for data in entries.into_iter().rev() {
-            let entry = ClipboardEntry::new(data, clip_type).with_timestamp(self.write_count as u64);
+            let entry =
+                ClipboardEntry::new(data, clip_type).with_timestamp(self.write_count as u64);
             let target = match clip_type {
                 ClipboardType::Standard => &mut self.standard,
                 ClipboardType::Selection => &mut self.selection,
@@ -232,7 +233,11 @@ impl Clipboard {
         target.iter().map(|e| &e.mime_data).collect()
     }
 
-    pub fn read_by_type(&self, mime_type: &str, clip_type: ClipboardType) -> Option<&ClipboardEntry> {
+    pub fn read_by_type(
+        &self,
+        mime_type: &str,
+        clip_type: ClipboardType,
+    ) -> Option<&ClipboardEntry> {
         let target = match clip_type {
             ClipboardType::Standard => &self.standard,
             ClipboardType::Selection => &self.selection,
@@ -253,10 +258,18 @@ impl Clipboard {
     }
 
     pub fn is_supported_type(&self, mime_type: &str) -> bool {
-        matches!(mime_type,
-            "text/plain" | "text/html" | "text/css" | "text/javascript" |
-            "image/png" | "image/jpeg" | "image/gif" | "image/webp" |
-            "application/json" | "application/xml"
+        matches!(
+            mime_type,
+            "text/plain"
+                | "text/html"
+                | "text/css"
+                | "text/javascript"
+                | "image/png"
+                | "image/jpeg"
+                | "image/gif"
+                | "image/webp"
+                | "application/json"
+                | "application/xml"
         )
     }
 
@@ -315,7 +328,10 @@ mod tests {
     fn test_clipboard_write_read_text() {
         let mut cb = Clipboard::new();
         assert!(cb.write_text("hello", ClipboardType::Standard));
-        assert_eq!(cb.read_text(ClipboardType::Standard), Some("hello".to_string()));
+        assert_eq!(
+            cb.read_text(ClipboardType::Standard),
+            Some("hello".to_string())
+        );
         assert_eq!(cb.write_count, 1);
         assert_eq!(cb.read_count, 1);
     }
@@ -334,8 +350,14 @@ mod tests {
         cb.write_text("clip", ClipboardType::Standard);
         cb.write_text("sel", ClipboardType::Selection);
 
-        assert_eq!(cb.read_text(ClipboardType::Standard), Some("clip".to_string()));
-        assert_eq!(cb.read_text(ClipboardType::Selection), Some("sel".to_string()));
+        assert_eq!(
+            cb.read_text(ClipboardType::Standard),
+            Some("clip".to_string())
+        );
+        assert_eq!(
+            cb.read_text(ClipboardType::Selection),
+            Some("sel".to_string())
+        );
     }
 
     #[test]
@@ -345,7 +367,10 @@ mod tests {
             cb.write_text(&format!("item{}", i), ClipboardType::Standard);
         }
         assert_eq!(cb.entry_count(ClipboardType::Standard), 3);
-        assert_eq!(cb.read_text(ClipboardType::Standard), Some("item4".to_string()));
+        assert_eq!(
+            cb.read_text(ClipboardType::Standard),
+            Some("item4".to_string())
+        );
     }
 
     #[test]
@@ -370,8 +395,14 @@ mod tests {
         cb.write_text("second", ClipboardType::Standard);
 
         assert_eq!(cb.history_len(), 2);
-        assert_eq!(cb.history_entry(0).unwrap().mime_data.as_text(), Some("second"));
-        assert_eq!(cb.history_entry(1).unwrap().mime_data.as_text(), Some("first"));
+        assert_eq!(
+            cb.history_entry(0).unwrap().mime_data.as_text(),
+            Some("second")
+        );
+        assert_eq!(
+            cb.history_entry(1).unwrap().mime_data.as_text(),
+            Some("first")
+        );
     }
 
     #[test]
@@ -414,10 +445,7 @@ mod tests {
     #[test]
     fn test_write_multi() {
         let mut cb = Clipboard::new();
-        let entries = vec![
-            MimeData::text("text"),
-            MimeData::html("<p>html</p>"),
-        ];
+        let entries = vec![MimeData::text("text"), MimeData::html("<p>html</p>")];
         assert!(cb.write_multi(entries, ClipboardType::Standard));
         assert_eq!(cb.entry_count(ClipboardType::Standard), 2);
     }

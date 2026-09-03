@@ -1,5 +1,5 @@
 use std::fs::{self, File, OpenOptions};
-use std::io::{Read, Write, BufRead, BufReader, BufWriter};
+use std::io::{BufRead, BufReader, BufWriter, Read, Write};
 use std::path::Path;
 
 pub fn read_file(path: &str) -> Result<String, std::io::Error> {

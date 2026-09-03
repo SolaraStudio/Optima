@@ -26,13 +26,17 @@ impl Default for SecurityManager {
 }
 
 impl SecurityManager {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     pub fn is_origin_allowed(&self, origin: &str) -> bool {
         if self.blocked_origins.iter().any(|b| origin.starts_with(b)) {
             return false;
         }
-        if self.allowed_origins.is_empty() { return true; }
+        if self.allowed_origins.is_empty() {
+            return true;
+        }
         self.allowed_origins.iter().any(|a| origin.starts_with(a))
     }
 

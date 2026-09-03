@@ -1,6 +1,6 @@
+use jni::JNIEnv;
 use jni::objects::{JClass, JObject, JString};
 use jni::sys::{jboolean, jint, jlong, jstring};
-use jni::JNIEnv;
 
 use crate::api::config::EngineConfig;
 use crate::api::engine::Engine;
@@ -27,9 +27,7 @@ unsafe fn engine_ref(ptr: jlong) -> Option<&'static mut Engine> {
 }
 
 fn get_string(env: &mut JNIEnv, s: &JString) -> String {
-    env.get_string(s)
-        .map(|js| js.into())
-        .unwrap_or_default()
+    env.get_string(s).map(|js| js.into()).unwrap_or_default()
 }
 
 #[unsafe(no_mangle)]

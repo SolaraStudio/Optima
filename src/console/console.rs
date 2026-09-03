@@ -1,4 +1,3 @@
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum LogLevel {
     Error,
@@ -22,10 +21,15 @@ pub struct ConsoleEntry {
 
 impl Console {
     pub fn new() -> Self {
-        Console { level: LogLevel::Info, entries: Vec::new() }
+        Console {
+            level: LogLevel::Info,
+            entries: Vec::new(),
+        }
     }
 
-    pub fn set_level(&mut self, level: LogLevel) { self.level = level; }
+    pub fn set_level(&mut self, level: LogLevel) {
+        self.level = level;
+    }
 
     pub fn log(&mut self, level: LogLevel, message: &str) {
         if level <= self.level.clone() {
@@ -44,14 +48,28 @@ impl Console {
         }
     }
 
-    pub fn info(&mut self, msg: &str) { self.log(LogLevel::Info, msg); }
-    pub fn warn(&mut self, msg: &str) { self.log(LogLevel::Warn, msg); }
-    pub fn error(&mut self, msg: &str) { self.log(LogLevel::Error, msg); }
-    pub fn debug(&mut self, msg: &str) { self.log(LogLevel::Debug, msg); }
-    pub fn trace(&mut self, msg: &str) { self.log(LogLevel::Trace, msg); }
+    pub fn info(&mut self, msg: &str) {
+        self.log(LogLevel::Info, msg);
+    }
+    pub fn warn(&mut self, msg: &str) {
+        self.log(LogLevel::Warn, msg);
+    }
+    pub fn error(&mut self, msg: &str) {
+        self.log(LogLevel::Error, msg);
+    }
+    pub fn debug(&mut self, msg: &str) {
+        self.log(LogLevel::Debug, msg);
+    }
+    pub fn trace(&mut self, msg: &str) {
+        self.log(LogLevel::Trace, msg);
+    }
 
-    pub fn entries(&self) -> &[ConsoleEntry] { &self.entries }
-    pub fn clear(&mut self) { self.entries.clear(); }
+    pub fn entries(&self) -> &[ConsoleEntry] {
+        &self.entries
+    }
+    pub fn clear(&mut self) {
+        self.entries.clear();
+    }
 }
 
 impl Ord for LogLevel {

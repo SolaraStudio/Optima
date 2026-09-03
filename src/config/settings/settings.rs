@@ -32,7 +32,16 @@ impl Default for Settings {
 }
 
 impl Settings {
-    pub fn new() -> Self { Self::default() }
-    pub fn with_size(mut self, w: u32, h: u32) -> Self { self.width = w; self.height = h; self }
-    pub fn with_dpr(mut self, dpr: f32) -> Self { self.device_pixel_ratio = dpr; self }
+    pub fn new() -> Self {
+        Self::default()
+    }
+    pub fn with_size(mut self, w: u32, h: u32) -> Self {
+        self.width = w;
+        self.height = h;
+        self
+    }
+    pub fn with_dpr(mut self, dpr: f32) -> Self {
+        self.device_pixel_ratio = dpr;
+        self
+    }
 }

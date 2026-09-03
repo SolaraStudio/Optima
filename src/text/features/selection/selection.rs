@@ -32,12 +32,7 @@ impl SelectionTracker {
         }
     }
 
-    pub fn set_range(
-        &mut self,
-        node: Rc<RefCell<Node>>,
-        start: usize,
-        end: usize,
-    ) {
+    pub fn set_range(&mut self, node: Rc<RefCell<Node>>, start: usize, end: usize) {
         self.ranges.clear();
         self.ranges.push(SelectionRange {
             node: Rc::clone(&node),
@@ -52,12 +47,7 @@ impl SelectionTracker {
         self.notify_change();
     }
 
-    pub fn add_range(
-        &mut self,
-        node: Rc<RefCell<Node>>,
-        start: usize,
-        end: usize,
-    ) {
+    pub fn add_range(&mut self, node: Rc<RefCell<Node>>, start: usize, end: usize) {
         self.ranges.push(SelectionRange {
             node,
             start_offset: start,
@@ -266,7 +256,9 @@ mod tests {
         let mut tracker = SelectionTracker::new();
         let counter = StdRc::new(Cell::new(0u32));
         let c = StdRc::clone(&counter);
-        tracker.set_on_change(Box::new(move || { c.set(c.get() + 1); }));
+        tracker.set_on_change(Box::new(move || {
+            c.set(c.get() + 1);
+        }));
         let node = make_text("hi");
         tracker.set_range(node, 0, 2);
         assert_eq!(counter.get(), 1);

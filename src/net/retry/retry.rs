@@ -18,7 +18,9 @@ impl Default for RetryPolicy {
 }
 
 impl RetryPolicy {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     pub fn delay_for_attempt(&self, attempt: u32) -> std::time::Duration {
         let factor = self.backoff_factor.powi(attempt as i32);

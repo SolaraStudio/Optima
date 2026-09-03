@@ -14,11 +14,17 @@ pub struct WebSocketMessage {
 
 impl WebSocketMessage {
     pub fn text(payload: &str) -> Self {
-        WebSocketMessage { text: Some(payload.to_string()), binary: None }
+        WebSocketMessage {
+            text: Some(payload.to_string()),
+            binary: None,
+        }
     }
 
     pub fn binary(payload: Vec<u8>) -> Self {
-        WebSocketMessage { text: None, binary: Some(payload) }
+        WebSocketMessage {
+            text: None,
+            binary: Some(payload),
+        }
     }
 }
 

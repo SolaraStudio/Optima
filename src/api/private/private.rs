@@ -12,6 +12,10 @@ impl PrivateApi {
         }
     }
 
-    pub fn engine(&self) -> &Engine { &self.engine }
-    pub fn engine_mut(&mut self) -> &mut Engine { &mut self.engine }
+    pub fn engine(&self) -> &Engine {
+        &self.engine
+    }
+    pub fn engine_mut(&mut self) -> &mut Engine {
+        &mut self.engine
+    }
 }

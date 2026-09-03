@@ -194,16 +194,24 @@ impl ScrollToState {
         let mut sx = target.x + config.offset_x;
         let mut sy = target.y + config.offset_y - align_offset;
 
-        sx = sx.max(0.0).min((self.content_width - self.viewport_width).max(0.0));
-        sy = sy.max(0.0).min((self.content_height - self.viewport_height).max(0.0));
+        sx = sx
+            .max(0.0)
+            .min((self.content_width - self.viewport_width).max(0.0));
+        sy = sy
+            .max(0.0)
+            .min((self.content_height - self.viewport_height).max(0.0));
 
         (sx, sy)
     }
 
     pub fn scroll_to_position(&mut self, x: f32, y: f32) {
         self.record_history();
-        self.target_x = x.max(0.0).min((self.content_width - self.viewport_width).max(0.0));
-        self.target_y = y.max(0.0).min((self.content_height - self.viewport_height).max(0.0));
+        self.target_x = x
+            .max(0.0)
+            .min((self.content_width - self.viewport_width).max(0.0));
+        self.target_y = y
+            .max(0.0)
+            .min((self.content_height - self.viewport_height).max(0.0));
         self.is_scrolling = true;
     }
 
@@ -302,10 +310,22 @@ impl ScrollToState {
     }
 
     pub fn clamp_to_bounds(&mut self) {
-        self.current_x = self.current_x.max(0.0).min((self.content_width - self.viewport_width).max(0.0));
-        self.current_y = self.current_y.max(0.0).min((self.content_height - self.viewport_height).max(0.0));
-        self.target_x = self.target_x.max(0.0).min((self.content_width - self.viewport_width).max(0.0));
-        self.target_y = self.target_y.max(0.0).min((self.content_height - self.viewport_height).max(0.0));
+        self.current_x = self
+            .current_x
+            .max(0.0)
+            .min((self.content_width - self.viewport_width).max(0.0));
+        self.current_y = self
+            .current_y
+            .max(0.0)
+            .min((self.content_height - self.viewport_height).max(0.0));
+        self.target_x = self
+            .target_x
+            .max(0.0)
+            .min((self.content_width - self.viewport_width).max(0.0));
+        self.target_y = self
+            .target_y
+            .max(0.0)
+            .min((self.content_height - self.viewport_height).max(0.0));
     }
 }
 
@@ -409,9 +429,18 @@ mod tests {
     #[test]
     fn test_alignment_offsets() {
         let state = ScrollToState::new(800.0, 600.0);
-        assert_eq!(state.resolve_alignment_offset(ScrollAlignment::Top, 100.0), 0.0);
-        assert_eq!(state.resolve_alignment_offset(ScrollAlignment::Center, 100.0), 250.0);
-        assert_eq!(state.resolve_alignment_offset(ScrollAlignment::Bottom, 100.0), 500.0);
+        assert_eq!(
+            state.resolve_alignment_offset(ScrollAlignment::Top, 100.0),
+            0.0
+        );
+        assert_eq!(
+            state.resolve_alignment_offset(ScrollAlignment::Center, 100.0),
+            250.0
+        );
+        assert_eq!(
+            state.resolve_alignment_offset(ScrollAlignment::Bottom, 100.0),
+            500.0
+        );
     }
 
     #[test]

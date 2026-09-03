@@ -14,13 +14,23 @@ impl PlatformInfo {
     }
 
     fn os_name() -> &'static str {
-        if cfg!(target_os = "android") { "Android" }
-        else if cfg!(target_os = "linux") { "Linux" }
-        else if cfg!(target_os = "macos") { "macOS" }
-        else if cfg!(target_os = "windows") { "Windows" }
-        else { "Unknown" }
+        if cfg!(target_os = "android") {
+            "Android"
+        } else if cfg!(target_os = "linux") {
+            "Linux"
+        } else if cfg!(target_os = "macos") {
+            "macOS"
+        } else if cfg!(target_os = "windows") {
+            "Windows"
+        } else {
+            "Unknown"
+        }
     }
 
-    pub fn is_mobile(&self) -> bool { self.os == "Android" || self.os == "iOS" }
-    pub fn is_desktop(&self) -> bool { !self.is_mobile() }
+    pub fn is_mobile(&self) -> bool {
+        self.os == "Android" || self.os == "iOS"
+    }
+    pub fn is_desktop(&self) -> bool {
+        !self.is_mobile()
+    }
 }

@@ -7,7 +7,9 @@ pub enum AutoplayPolicy {
 }
 
 impl Default for AutoplayPolicy {
-    fn default() -> Self { AutoplayPolicy::UserGestureRequired }
+    fn default() -> Self {
+        AutoplayPolicy::UserGestureRequired
+    }
 }
 
 pub struct AutoplayManager {
@@ -17,10 +19,15 @@ pub struct AutoplayManager {
 
 impl AutoplayManager {
     pub fn new(policy: AutoplayPolicy) -> Self {
-        AutoplayManager { policy, user_gesture_received: false }
+        AutoplayManager {
+            policy,
+            user_gesture_received: false,
+        }
     }
 
-    pub fn on_user_gesture(&mut self) { self.user_gesture_received = true; }
+    pub fn on_user_gesture(&mut self) {
+        self.user_gesture_received = true;
+    }
 
     pub fn can_autoplay(&self, muted: bool) -> bool {
         match self.policy {

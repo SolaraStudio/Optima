@@ -32,11 +32,15 @@ pub struct CookieJar {
 
 impl CookieJar {
     pub fn new() -> Self {
-        CookieJar { cookies: Vec::new() }
+        CookieJar {
+            cookies: Vec::new(),
+        }
     }
 
     pub fn set(&mut self, cookie: CookieSpec) {
-        if let Some(existing) = self.cookies.iter_mut()
+        if let Some(existing) = self
+            .cookies
+            .iter_mut()
             .find(|c| c.name == cookie.name && c.domain == cookie.domain && c.path == cookie.path)
         {
             *existing = cookie;
@@ -47,26 +51,21 @@ impl CookieJar {
 
     pub fn get(&self, name: &str, domain: &str, path: &str) -> Option<&CookieSpec> {
         self.cookies.iter().find(|c| {
-            c.name == name
-                && self.domain_matches(domain, &c.domain)
-                && path.starts_with(&c.path)
+            c.name == name && self.domain_matches(domain, &c.domain) && path.starts_with(&c.path)
         })
     }
 
     pub fn get_all(&self, domain: &str, _path: &str, secure: bool) -> Vec<&CookieSpec> {
-        self.cookies.iter()
-            .filter(|c| {
-                self.domain_matches(domain, &c.domain)
-                    && (!c.secure || secure)
-            })
+        self.cookies
+            .iter()
+            .filter(|c| self.domain_matches(domain, &c.domain) && (!c.secure || secure))
             .collect()
     }
 
     pub fn remove(&mut self, name: &str, domain: &str, path: &str) -> bool {
         let before = self.cookies.len();
-        self.cookies.retain(|c| {
-            !(c.name == name && c.domain == domain && c.path == path)
-        });
+        self.cookies
+            .retain(|c| !(c.name == name && c.domain == domain && c.path == path));
         self.cookies.len() != before
     }
 
@@ -91,8 +90,7 @@ impl CookieJar {
     }
 
     fn domain_matches(&self, request_domain: &str, cookie_domain: &str) -> bool {
-        request_domain == cookie_domain
-            || request_domain.ends_with(&format!(".{}", cookie_domain))
+        request_domain == cookie_domain || request_domain.ends_with(&format!(".{}", cookie_domain))
     }
 }
 

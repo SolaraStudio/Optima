@@ -296,7 +296,10 @@ impl NetworkRequest {
     }
 
     pub fn url_path(&self) -> &str {
-        self.request.url.find('/').map_or(&self.request.url, |i| &self.request.url[i..])
+        self.request
+            .url
+            .find('/')
+            .map_or(&self.request.url, |i| &self.request.url[i..])
     }
 }
 
@@ -400,7 +403,8 @@ impl NetworkInspector {
     }
 
     pub fn set_latency_override(&mut self, url_pattern: &str, latency_ms: f64) {
-        self.latency_overrides.insert(url_pattern.to_string(), latency_ms);
+        self.latency_overrides
+            .insert(url_pattern.to_string(), latency_ms);
     }
 
     pub fn get_latency_override(&self, url: &str) -> Option<f64> {
@@ -411,10 +415,7 @@ impl NetworkInspector {
     }
 
     pub fn active_requests(&self) -> Vec<&NetworkRequest> {
-        self.requests
-            .iter()
-            .filter(|r| !r.is_complete())
-            .collect()
+        self.requests.iter().filter(|r| !r.is_complete()).collect()
     }
 
     pub fn failed_requests(&self) -> Vec<&NetworkRequest> {
@@ -439,11 +440,13 @@ impl NetworkInspector {
     }
 
     pub fn slowest_requests(&self, count: usize) -> Vec<&NetworkRequest> {
-        let mut completed: Vec<&NetworkRequest> = self.requests
-            .iter()
-            .filter(|r| r.is_complete())
-            .collect();
-        completed.sort_by(|a, b| b.duration_ms().partial_cmp(&a.duration_ms()).unwrap_or(std::cmp::Ordering::Equal));
+        let mut completed: Vec<&NetworkRequest> =
+            self.requests.iter().filter(|r| r.is_complete()).collect();
+        completed.sort_by(|a, b| {
+            b.duration_ms()
+                .partial_cmp(&a.duration_ms())
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
         completed.into_iter().take(count).collect()
     }
 
@@ -455,7 +458,8 @@ impl NetworkInspector {
     }
 
     pub fn summary(&self) -> NetworkSummary {
-        let completed: Vec<&NetworkRequest> = self.requests.iter().filter(|r| r.is_complete()).collect();
+        let completed: Vec<&NetworkRequest> =
+            self.requests.iter().filter(|r| r.is_complete()).collect();
         let total_duration: f64 = completed.iter().map(|r| r.duration_ms()).sum();
         let avg_duration = if completed.is_empty() {
             0.0
@@ -503,7 +507,10 @@ mod tests {
         assert_eq!(req.method, HttpMethod::Get);
         assert_eq!(req.url, "https://example.com/api");
         assert_eq!(req.content_length(), 3);
-        assert_eq!(req.header("Authorization"), Some(&"Bearer token".to_string()));
+        assert_eq!(
+            req.header("Authorization"),
+            Some(&"Bearer token".to_string())
+        );
     }
 
     #[test]
@@ -635,7 +642,10 @@ mod tests {
     fn test_latency_override() {
         let mut inspector = NetworkInspector::new();
         inspector.set_latency_override("api.test.com", 500.0);
-        assert_eq!(inspector.get_latency_override("https://api.test.com/data"), Some(500.0));
+        assert_eq!(
+            inspector.get_latency_override("https://api.test.com/data"),
+            Some(500.0)
+        );
         assert_eq!(inspector.get_latency_override("https://other.com"), None);
     }
 

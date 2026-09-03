@@ -23,9 +23,15 @@ impl Default for EnvConfig {
 impl EnvConfig {
     pub fn from_env() -> Self {
         let mut cfg = Self::default();
-        if let Ok(val) = env::var("OPTIMA_DATA_DIR") { cfg.data_dir = val; }
-        if let Ok(val) = env::var("OPTIMA_CACHE_DIR") { cfg.cache_dir = val; }
-        if let Ok(val) = env::var("OPTIMA_HEADLESS") { cfg.is_headless = val == "1" || val == "true"; }
+        if let Ok(val) = env::var("OPTIMA_DATA_DIR") {
+            cfg.data_dir = val;
+        }
+        if let Ok(val) = env::var("OPTIMA_CACHE_DIR") {
+            cfg.cache_dir = val;
+        }
+        if let Ok(val) = env::var("OPTIMA_HEADLESS") {
+            cfg.is_headless = val == "1" || val == "true";
+        }
         cfg
     }
 }

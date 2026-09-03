@@ -10,7 +10,12 @@ pub struct FlowContext {
 
 impl FlowContext {
     pub fn new(x: f32, y: f32, available_width: f32) -> Self {
-        FlowContext { x, y, available_width, fragments: Vec::new() }
+        FlowContext {
+            x,
+            y,
+            available_width,
+            fragments: Vec::new(),
+        }
     }
 
     pub fn add_fragment(&mut self, fragment: Fragment) {
@@ -18,8 +23,13 @@ impl FlowContext {
     }
 
     pub fn total_height(&self) -> f32 {
-        self.fragments.iter().map(|f| f.y + f.height).fold(0.0f32, f32::max)
+        self.fragments
+            .iter()
+            .map(|f| f.y + f.height)
+            .fold(0.0f32, f32::max)
     }
 
-    pub fn advance_y(&mut self, amount: f32) { self.y += amount; }
+    pub fn advance_y(&mut self, amount: f32) {
+        self.y += amount;
+    }
 }

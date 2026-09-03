@@ -32,7 +32,14 @@ pub struct FontMetrics {
 
 impl Default for FontMetrics {
     fn default() -> Self {
-        FontMetrics { ascent: 12.0, descent: -4.0, line_gap: 2.0, cap_height: 8.0, x_height: 6.0, avg_char_width: 6.0 }
+        FontMetrics {
+            ascent: 12.0,
+            descent: -4.0,
+            line_gap: 2.0,
+            cap_height: 8.0,
+            x_height: 6.0,
+            avg_char_width: 6.0,
+        }
     }
 }
 
@@ -55,16 +62,31 @@ impl FontRegistry {
         let mut system_fonts = HashMap::new();
         system_fonts.insert("sans-serif".to_string(), FontMetrics::default());
         system_fonts.insert("serif".to_string(), FontMetrics::default());
-        system_fonts.insert("monospace".to_string(), FontMetrics { avg_char_width: 8.0, ..Default::default() });
-        FontRegistry { fonts: HashMap::new(), system_fonts }
+        system_fonts.insert(
+            "monospace".to_string(),
+            FontMetrics {
+                avg_char_width: 8.0,
+                ..Default::default()
+            },
+        );
+        FontRegistry {
+            fonts: HashMap::new(),
+            system_fonts,
+        }
     }
 
     pub fn register(&mut self, face: FontFace) {
-        self.fonts.entry(face.family.clone()).or_insert_with(Vec::new).push(face);
+        self.fonts
+            .entry(face.family.clone())
+            .or_insert_with(Vec::new)
+            .push(face);
     }
 
     pub fn find(&self, family: &str, weight: FontWeight, style: FontStyle) -> Option<&FontFace> {
-        self.fonts.get(family)?.iter().find(|f| f.weight == weight && f.style == style)
+        self.fonts
+            .get(family)?
+            .iter()
+            .find(|f| f.weight == weight && f.style == style)
             .or_else(|| self.fonts.get(family)?.first())
     }
 

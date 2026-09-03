@@ -29,7 +29,15 @@ impl Default for DebugConfig {
 }
 
 impl DebugConfig {
-    pub fn new() -> Self { Self::default() }
-    pub fn with_logging(mut self, enabled: bool) -> Self { self.enable_logging = enabled; self }
-    pub fn with_devtools(mut self, enabled: bool) -> Self { self.enable_devtools = enabled; self }
+    pub fn new() -> Self {
+        Self::default()
+    }
+    pub fn with_logging(mut self, enabled: bool) -> Self {
+        self.enable_logging = enabled;
+        self
+    }
+    pub fn with_devtools(mut self, enabled: bool) -> Self {
+        self.enable_devtools = enabled;
+        self
+    }
 }

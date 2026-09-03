@@ -6,10 +6,16 @@ pub enum Profile {
 }
 
 impl Default for Profile {
-    fn default() -> Self { Profile::Release }
+    fn default() -> Self {
+        Profile::Release
+    }
 }
 
 impl Profile {
-    pub fn is_release(&self) -> bool { *self == Profile::Release }
-    pub fn is_debug(&self) -> bool { *self == Profile::Debug }
+    pub fn is_release(&self) -> bool {
+        *self == Profile::Release
+    }
+    pub fn is_debug(&self) -> bool {
+        *self == Profile::Debug
+    }
 }

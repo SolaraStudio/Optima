@@ -6,10 +6,18 @@ pub struct MediaStream {
 
 impl MediaStream {
     pub fn new(url: &str, mime_type: &str) -> Self {
-        MediaStream { url: url.to_string(), mime_type: mime_type.to_string(), is_live: false }
+        MediaStream {
+            url: url.to_string(),
+            mime_type: mime_type.to_string(),
+            is_live: false,
+        }
     }
 
     pub fn live(url: &str, mime_type: &str) -> Self {
-        MediaStream { url: url.to_string(), mime_type: mime_type.to_string(), is_live: true }
+        MediaStream {
+            url: url.to_string(),
+            mime_type: mime_type.to_string(),
+            is_live: true,
+        }
     }
 }

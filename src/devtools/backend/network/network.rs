@@ -70,29 +70,36 @@ impl NetworkBackend {
     }
 
     pub fn to_json(&self) -> Value {
-        let requests: Vec<Value> = self.requests.values().map(|r| {
-            serde_json::json!({
-                "requestId": r.request_id,
-                "url": r.url,
-                "method": r.method,
-                "status": r.status,
-                "statusText": r.status_text,
-                "duration": r.duration,
-                "requestHeaders": r.request_headers,
-                "responseHeaders": r.response_headers,
-                "mimeType": r.mime_type,
-                "encodedDataLength": r.encoded_data_length,
-                "decodedBodyLength": r.decoded_body_length
+        let requests: Vec<Value> = self
+            .requests
+            .values()
+            .map(|r| {
+                serde_json::json!({
+                    "requestId": r.request_id,
+                    "url": r.url,
+                    "method": r.method,
+                    "status": r.status,
+                    "statusText": r.status_text,
+                    "duration": r.duration,
+                    "requestHeaders": r.request_headers,
+                    "responseHeaders": r.response_headers,
+                    "mimeType": r.mime_type,
+                    "encodedDataLength": r.encoded_data_length,
+                    "decodedBodyLength": r.decoded_body_length
+                })
             })
-        }).collect();
+            .collect();
         serde_json::json!({ "requests": requests })
     }
 
     pub fn create_request(&mut self, url: &str, method: &str) -> String {
-        let request_id = format!("req-{}", std::time::SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .unwrap_or_default()
-            .as_millis());
+        let request_id = format!(
+            "req-{}",
+            std::time::SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap_or_default()
+                .as_millis()
+        );
         let request = NetworkRequest {
             request_id: request_id.clone(),
             url: url.to_string(),

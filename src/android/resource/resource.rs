@@ -1,6 +1,6 @@
 use crate::android::activity::AndroidActivity;
-use jni::objects::{GlobalRef, JObject, JString, JValue};
 use jni::JNIEnv;
+use jni::objects::{GlobalRef, JObject, JString, JValue};
 
 pub struct AndroidResource {
     pub context: GlobalRef,
@@ -17,7 +17,12 @@ impl AndroidResource {
     pub fn get_string(env: &mut JNIEnv, res_id: u32) -> String {
         let context = AndroidActivity::get_application_context(env);
         let result = env
-            .call_method(context, "getString", "(I)Ljava/lang/String;", &[JValue::Int(res_id as i32)])
+            .call_method(
+                context,
+                "getString",
+                "(I)Ljava/lang/String;",
+                &[JValue::Int(res_id as i32)],
+            )
             .unwrap();
         let jstr = JString::from(result.l().unwrap());
         let cstr = env.get_string(&jstr).unwrap();
@@ -45,14 +50,27 @@ impl AndroidResource {
         .unwrap()
     }
 
-    pub fn open_raw_resource<'local>(env: &mut JNIEnv<'local>, res_id: u32) -> Option<JObject<'local>> {
+    pub fn open_raw_resource<'local>(
+        env: &mut JNIEnv<'local>,
+        res_id: u32,
+    ) -> Option<JObject<'local>> {
         let context = AndroidActivity::get_application_context(env);
         let result = env
-            .call_method(context, "getResources", "()Landroid/content/res/Resources;", &[])
+            .call_method(
+                context,
+                "getResources",
+                "()Landroid/content/res/Resources;",
+                &[],
+            )
             .unwrap();
         let resources = result.l().unwrap();
         let stream = env
-            .call_method(resources, "openRawResource", "(I)Ljava/io/InputStream;", &[JValue::Int(res_id as i32)])
+            .call_method(
+                resources,
+                "openRawResource",
+                "(I)Ljava/io/InputStream;",
+                &[JValue::Int(res_id as i32)],
+            )
             .unwrap();
         stream.l().ok()
     }

@@ -33,7 +33,10 @@ impl Animation {
         self
     }
 
-    pub fn get_interpolated_value(&self, progress: f32) -> Option<Vec<crate::css::declaration::Declaration>> {
+    pub fn get_interpolated_value(
+        &self,
+        progress: f32,
+    ) -> Option<Vec<crate::css::declaration::Declaration>> {
         if let Some(ref keyframes) = self.keyframes {
             Some(keyframes.get_declarations_at(progress))
         } else {

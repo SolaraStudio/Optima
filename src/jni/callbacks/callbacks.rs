@@ -9,7 +9,10 @@ pub struct CallbackRegistry {
 
 impl CallbackRegistry {
     pub fn new() -> Self {
-        CallbackRegistry { callbacks: HashMap::new(), next_id: 1 }
+        CallbackRegistry {
+            callbacks: HashMap::new(),
+            next_id: 1,
+        }
     }
 
     pub fn register(&mut self, cb: Box<dyn Fn()>) -> CallbackId {
@@ -20,8 +23,12 @@ impl CallbackRegistry {
     }
 
     pub fn invoke(&self, id: CallbackId) {
-        if let Some(cb) = self.callbacks.get(&id) { cb(); }
+        if let Some(cb) = self.callbacks.get(&id) {
+            cb();
+        }
     }
 
-    pub fn remove(&mut self, id: CallbackId) { self.callbacks.remove(&id); }
+    pub fn remove(&mut self, id: CallbackId) {
+        self.callbacks.remove(&id);
+    }
 }

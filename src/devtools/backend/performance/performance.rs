@@ -37,7 +37,12 @@ impl PerformanceBackend {
         self.metrics.clear();
     }
 
-    pub fn add_metric(&mut self, name: &str, value: f64, metadata: std::collections::HashMap<String, String>) {
+    pub fn add_metric(
+        &mut self,
+        name: &str,
+        value: f64,
+        metadata: std::collections::HashMap<String, String>,
+    ) {
         if !self.enabled {
             return;
         }
@@ -65,14 +70,18 @@ impl PerformanceBackend {
     }
 
     pub fn to_json(&self) -> Value {
-        let metrics: Vec<Value> = self.metrics.iter().map(|m| {
-            serde_json::json!({
-                "name": m.name,
-                "value": m.value,
-                "timestamp": m.timestamp,
-                "metadata": m.metadata
+        let metrics: Vec<Value> = self
+            .metrics
+            .iter()
+            .map(|m| {
+                serde_json::json!({
+                    "name": m.name,
+                    "value": m.value,
+                    "timestamp": m.timestamp,
+                    "metadata": m.metadata
+                })
             })
-        }).collect();
+            .collect();
         serde_json::json!({ "metrics": metrics })
     }
 }

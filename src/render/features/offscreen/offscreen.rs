@@ -210,14 +210,19 @@ impl OffscreenRenderTarget {
     }
 
     pub fn with_format(mut self, format: OffscreenFormat) -> Self {
-        self.color_texture = OffscreenTexture::new(self.color_texture.width, self.color_texture.height, format);
+        self.color_texture =
+            OffscreenTexture::new(self.color_texture.width, self.color_texture.height, format);
         self
     }
 
     pub fn with_depth(mut self) -> Self {
         let w = self.color_texture.width;
         let h = self.color_texture.height;
-        self.depth_texture = Some(OffscreenTexture::new(w, h, OffscreenFormat::Depth24Stencil8));
+        self.depth_texture = Some(OffscreenTexture::new(
+            w,
+            h,
+            OffscreenFormat::Depth24Stencil8,
+        ));
         self
     }
 
@@ -374,8 +379,7 @@ mod tests {
 
     #[test]
     fn test_render_target_with_format() {
-        let rt = OffscreenRenderTarget::new(64, 64)
-            .with_format(OffscreenFormat::Rgba16Float);
+        let rt = OffscreenRenderTarget::new(64, 64).with_format(OffscreenFormat::Rgba16Float);
         assert_eq!(rt.color_texture.format, OffscreenFormat::Rgba16Float);
     }
 

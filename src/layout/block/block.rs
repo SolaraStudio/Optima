@@ -1,5 +1,5 @@
-use crate::layout::box_model::BoxModel;
 use crate::css::computed::ComputedStyle;
+use crate::layout::box_model::BoxModel;
 
 pub struct BlockLayout;
 
@@ -9,7 +9,8 @@ impl BlockLayout {
         Self::resolve_margins(&mut bm, style);
         Self::resolve_padding(&mut bm, style);
         Self::resolve_border(&mut bm, style);
-        bm.content_width = width - bm.padding_left - bm.padding_right - bm.border_left - bm.border_right;
+        bm.content_width =
+            width - bm.padding_left - bm.padding_right - bm.border_left - bm.border_right;
         bm
     }
 

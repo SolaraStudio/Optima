@@ -118,4 +118,4 @@ impl DevToolsError {
             data: None,
         }
     }
-      }
+}

@@ -1,8 +1,8 @@
-use crate::dom::node::{Node, NodeType};
-use crate::dom::element::Element;
-use crate::dom::text::Text;
 use crate::dom::comment::Comment;
 use crate::dom::doctype::Doctype;
+use crate::dom::element::Element;
+use crate::dom::node::{Node, NodeType};
+use crate::dom::text::Text;
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -112,7 +112,12 @@ impl Document {
         None
     }
 
-    fn collect_elements_by_tag(&self, node: &Rc<RefCell<Node>>, tag: &str, result: &mut Vec<Element>) {
+    fn collect_elements_by_tag(
+        &self,
+        node: &Rc<RefCell<Node>>,
+        tag: &str,
+        result: &mut Vec<Element>,
+    ) {
         if let Some(tag_name) = &node.borrow().tag_name {
             if tag_name == tag {
                 result.push(Element::from_node(Rc::clone(node)));
@@ -123,7 +128,12 @@ impl Document {
         }
     }
 
-    fn collect_elements_by_class(&self, node: &Rc<RefCell<Node>>, class_name: &str, result: &mut Vec<Element>) {
+    fn collect_elements_by_class(
+        &self,
+        node: &Rc<RefCell<Node>>,
+        class_name: &str,
+        result: &mut Vec<Element>,
+    ) {
         if let Some(class_attr) = node.borrow().get_attribute("class") {
             if class_attr.split_whitespace().any(|c| c == class_name) {
                 result.push(Element::from_node(Rc::clone(node)));
@@ -158,9 +168,7 @@ impl Document {
                 html.push_str(&format!("</{}>", node.node_name));
                 html
             }
-            crate::dom::node::NodeType::Text => {
-                node.node_value.clone().unwrap_or_default()
-            }
+            crate::dom::node::NodeType::Text => node.node_value.clone().unwrap_or_default(),
             crate::dom::node::NodeType::Comment => {
                 format!("<!--{}-->", node.node_value.clone().unwrap_or_default())
             }

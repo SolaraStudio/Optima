@@ -6,7 +6,17 @@ pub struct Decoder {
 }
 
 impl Decoder {
-    pub fn new(codec: Codec) -> Self { Decoder { codec, initialized: false } }
-    pub fn initialize(&mut self) -> Result<(), String> { self.initialized = true; Ok(()) }
-    pub fn is_initialized(&self) -> bool { self.initialized }
+    pub fn new(codec: Codec) -> Self {
+        Decoder {
+            codec,
+            initialized: false,
+        }
+    }
+    pub fn initialize(&mut self) -> Result<(), String> {
+        self.initialized = true;
+        Ok(())
+    }
+    pub fn is_initialized(&self) -> bool {
+        self.initialized
+    }
 }

@@ -282,7 +282,12 @@ impl PerformanceMetrics {
     }
 
     pub fn end_timing(&mut self, label: &str, end_ms: f64) {
-        if let Some(entry) = self.timing.iter_mut().rev().find(|t| t.label == label && !t.is_complete()) {
+        if let Some(entry) = self
+            .timing
+            .iter_mut()
+            .rev()
+            .find(|t| t.label == label && !t.is_complete())
+        {
             entry.finish(end_ms);
         }
     }
@@ -308,7 +313,8 @@ impl PerformanceMetrics {
     }
 
     pub fn time_to_dom_content_loaded(&self) -> Option<f64> {
-        self.dom_content_loaded_ms.map(|t| t - self.navigation_start_ms)
+        self.dom_content_loaded_ms
+            .map(|t| t - self.navigation_start_ms)
     }
 
     pub fn time_to_load(&self) -> Option<f64> {

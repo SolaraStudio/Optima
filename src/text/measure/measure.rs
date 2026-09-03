@@ -20,7 +20,11 @@ impl TextMeasurer {
         (self.font_size * 0.6, self.font_size)
     }
 
-    pub fn line_height(&self) -> f32 { self.font_size * 1.2 }
+    pub fn line_height(&self) -> f32 {
+        self.font_size * 1.2
+    }
 
-    pub fn baseline(&self) -> f32 { self.font_size * 0.8 }
+    pub fn baseline(&self) -> f32 {
+        self.font_size * 0.8
+    }
 }

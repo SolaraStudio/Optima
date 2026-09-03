@@ -1,12 +1,12 @@
-pub mod protocol;
-pub mod server;
+pub mod backend;
 pub mod client;
 pub mod features;
 pub mod messages;
-pub mod backend;
+pub mod protocol;
+pub mod server;
 
-pub use protocol::DevToolsProtocol;
-pub use server::DevToolsServer;
+pub use backend::*;
 pub use client::DevToolsClient;
 pub use messages::DevToolsMessage;
-pub use backend::*;
+pub use protocol::DevToolsProtocol;
+pub use server::DevToolsServer;

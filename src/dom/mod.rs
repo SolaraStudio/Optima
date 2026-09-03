@@ -1,9 +1,9 @@
-pub mod features;
 pub mod comment;
 pub mod doctype;
 pub mod document;
 pub mod element;
 pub mod event;
+pub mod features;
 pub mod fragment;
 pub mod mutation;
 pub mod node;

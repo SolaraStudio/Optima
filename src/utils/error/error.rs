@@ -1,6 +1,6 @@
+use jni::errors::Error as JniError;
 use std::fmt;
 use std::io;
-use jni::errors::Error as JniError;
 
 #[derive(Debug)]
 pub enum OptimaError {

@@ -75,6 +75,12 @@ pub struct FilterChain {
     pub functions: Vec<FilterFunction>,
 }
 
+impl Default for FilterChain {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl FilterChain {
     pub fn new() -> Self {
         FilterChain {

@@ -7,7 +7,7 @@ pub fn to_hex_upper(data: &[u8]) -> String {
 }
 
 pub fn from_hex(hex: &str) -> Result<Vec<u8>, String> {
-    if hex.len() % 2 != 0 {
+    if !hex.len().is_multiple_of(2) {
         return Err("Hex string must have even length".to_string());
     }
     (0..hex.len())

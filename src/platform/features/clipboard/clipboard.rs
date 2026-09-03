@@ -1,14 +1,11 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Default)]
 pub enum ClipboardType {
+    #[default]
     Standard,
     Selection,
 }
 
-impl Default for ClipboardType {
-    fn default() -> Self {
-        ClipboardType::Standard
-    }
-}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MimeData {
@@ -62,18 +59,15 @@ impl MimeData {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum ClipboardAccess {
+    #[default]
     ReadWrite,
     ReadOnly,
     WriteOnly,
     Disabled,
 }
 
-impl Default for ClipboardAccess {
-    fn default() -> Self {
-        ClipboardAccess::ReadWrite
-    }
-}
 
 #[derive(Debug, Clone)]
 pub struct ClipboardEntry {
@@ -162,7 +156,7 @@ impl Clipboard {
             return false;
         }
 
-        let entry = ClipboardEntry::new(data, clip_type).with_timestamp(self.write_count as u64);
+        let entry = ClipboardEntry::new(data, clip_type).with_timestamp(self.write_count);
         self.write_count += 1;
 
         let target = match clip_type {
@@ -207,7 +201,7 @@ impl Clipboard {
 
         for data in entries.into_iter().rev() {
             let entry =
-                ClipboardEntry::new(data, clip_type).with_timestamp(self.write_count as u64);
+                ClipboardEntry::new(data, clip_type).with_timestamp(self.write_count);
             let target = match clip_type {
                 ClipboardType::Standard => &mut self.standard,
                 ClipboardType::Selection => &mut self.selection,
@@ -311,7 +305,7 @@ mod tests {
         assert!(!text.is_image());
         assert_eq!(text.size(), 5);
 
-        let img = MimeData::image_png(vec![1, 2, 3]);
+        let img = MimeData::from_png(vec![1, 2, 3]);
         assert!(img.is_image());
         assert!(!img.is_text());
         assert_eq!(img.as_text(), None);
@@ -362,7 +356,7 @@ mod tests {
 
     #[test]
     fn test_clipboard_max_entries() {
-        let mut cb = Clipboard::with_max_entries(3);
+        let mut cb = Clipboard::new().with_max_entries(3);
         for i in 0..5 {
             cb.write_text(&format!("item{}", i), ClipboardType::Standard);
         }
@@ -375,15 +369,15 @@ mod tests {
 
     #[test]
     fn test_clipboard_access_control() {
-        let mut cb = Clipboard::with_access(ClipboardAccess::ReadOnly);
+        let mut cb = Clipboard::new().with_access(ClipboardAccess::ReadOnly);
         assert!(!cb.write_text("nope", ClipboardType::Standard));
         assert!(cb.read(ClipboardType::Standard).is_none());
 
-        let mut cb2 = Clipboard::with_access(ClipboardAccess::WriteOnly);
+        let mut cb2 = Clipboard::new().with_access(ClipboardAccess::WriteOnly);
         assert!(cb2.write_text("yes", ClipboardType::Standard));
         assert!(cb2.read(ClipboardType::Standard).is_none());
 
-        let mut cb3 = Clipboard::with_access(ClipboardAccess::Disabled);
+        let mut cb3 = Clipboard::new().with_access(ClipboardAccess::Disabled);
         assert!(!cb3.write_text("no", ClipboardType::Standard));
         assert!(cb3.read(ClipboardType::Standard).is_none());
     }

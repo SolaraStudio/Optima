@@ -20,6 +20,12 @@ pub struct MutationObserverOptions {
     pub character_data_old_value: bool,
 }
 
+impl Default for MutationObserverOptions {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl MutationObserverOptions {
     pub fn new() -> Self {
         MutationObserverOptions {

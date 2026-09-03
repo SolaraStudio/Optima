@@ -5,6 +5,12 @@ use std::rc::Rc;
 
 pub struct AttributeManager;
 
+impl Default for AttributeManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl AttributeManager {
     pub fn new() -> Self {
         AttributeManager

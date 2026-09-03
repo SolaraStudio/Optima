@@ -40,11 +40,7 @@ impl DevToolsServer {
             let response = self.backend.handle_command(method, message.params.clone());
             match response {
                 Ok(result) => {
-                    if let Some(id) = message.id {
-                        Some(DevToolsMessage::new_response(id, result))
-                    } else {
-                        None
-                    }
+                    message.id.map(|id| DevToolsMessage::new_response(id, result))
                 }
                 Err(err) => {
                     if let Some(id) = message.id {
@@ -62,7 +58,7 @@ impl DevToolsServer {
     pub fn send_event(&self, method: &str, params: serde_json::Value) {
         let message = DevToolsMessage::new_event(method, params);
         let clients = self.clients.lock().unwrap();
-        for (_, client) in clients.iter() {
+        for client in clients.values() {
             client.send_message(message.clone());
         }
     }

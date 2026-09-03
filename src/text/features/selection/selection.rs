@@ -19,6 +19,12 @@ pub struct SelectionTracker {
     pub on_change: Option<Box<dyn Fn()>>,
 }
 
+impl Default for SelectionTracker {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SelectionTracker {
     pub fn new() -> Self {
         SelectionTracker {

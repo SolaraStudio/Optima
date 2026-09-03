@@ -94,12 +94,11 @@ impl TtlCache {
     fn evict_lru(&mut self) {
         while self.entries.len() > self.max_entries {
             if let Some(oldest) = self.lru_order.pop_front() {
-                if let Some(entry) = self.entries.get(&oldest) {
-                    if !entry.is_fresh() {
+                if let Some(entry) = self.entries.get(&oldest)
+                    && !entry.is_fresh() {
                         self.entries.remove(&oldest);
                         continue;
                     }
-                }
                 self.entries.remove(&oldest);
             } else {
                 break;

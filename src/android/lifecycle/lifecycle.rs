@@ -14,6 +14,12 @@ pub struct AndroidLifecycle {
     pub is_visible: bool,
 }
 
+impl Default for AndroidLifecycle {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl AndroidLifecycle {
     pub fn new() -> Self {
         AndroidLifecycle {

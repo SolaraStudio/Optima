@@ -110,6 +110,12 @@ pub struct TransitionState {
     pub is_running: bool,
 }
 
+impl Default for TransitionState {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TransitionState {
     pub fn new() -> Self {
         TransitionState {

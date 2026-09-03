@@ -33,7 +33,7 @@ impl Doctype {
         } else if let Some(system_id) = &self.system_id {
             s.push_str(&format!(" SYSTEM \"{}\"", system_id));
         }
-        s.push_str(">");
+        s.push('>');
         s
     }
 }

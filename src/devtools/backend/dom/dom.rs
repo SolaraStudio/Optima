@@ -153,7 +153,7 @@ impl DOMBackend {
         let children: Vec<Value> = node
             .children
             .iter()
-            .map(|c| Self::node_to_json(c))
+            .map(Self::node_to_json)
             .collect();
         serde_json::json!({
             "nodeId": node.node_id,

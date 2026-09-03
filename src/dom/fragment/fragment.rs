@@ -6,6 +6,12 @@ pub struct DocumentFragment {
     pub node: Rc<RefCell<Node>>,
 }
 
+impl Default for DocumentFragment {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl DocumentFragment {
     pub fn new() -> Self {
         let node = Rc::new(RefCell::new(Node::new(NodeType::DocumentFragment)));

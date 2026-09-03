@@ -26,6 +26,12 @@ pub struct ResourceManager {
     next_id: u64,
 }
 
+impl Default for ResourceManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ResourceManager {
     pub fn new() -> Self {
         ResourceManager {

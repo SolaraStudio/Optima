@@ -5,6 +5,12 @@ pub struct CssVariables {
     inherited: HashMap<String, String>,
 }
 
+impl Default for CssVariables {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CssVariables {
     pub fn new() -> Self {
         CssVariables {

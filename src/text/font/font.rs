@@ -57,6 +57,12 @@ pub struct FontRegistry {
     system_fonts: HashMap<String, FontMetrics>,
 }
 
+impl Default for FontRegistry {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl FontRegistry {
     pub fn new() -> Self {
         let mut system_fonts = HashMap::new();
@@ -78,7 +84,7 @@ impl FontRegistry {
     pub fn register(&mut self, face: FontFace) {
         self.fonts
             .entry(face.family.clone())
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(face);
     }
 

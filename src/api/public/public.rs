@@ -4,6 +4,12 @@ pub struct PublicApi {
     version: String,
 }
 
+impl Default for PublicApi {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PublicApi {
     pub fn new() -> Self {
         PublicApi {

@@ -13,6 +13,12 @@ pub struct FocusData {
     pub source_capabilities: Option<String>,
 }
 
+impl Default for FocusData {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl FocusData {
     pub fn new() -> Self {
         FocusData {

@@ -160,7 +160,7 @@ mod tests {
 
     #[test]
     fn conflicts_detected() {
-        let mut mode = SandboxMode::from_string("allow-scripts allow-same-origin");
+        let mode = SandboxMode::from_string("allow-scripts allow-same-origin");
         assert!(mode.has_conflicting_flags());
         let clean = SandboxMode::from_string("allow-scripts only");
         assert!(!clean.has_conflicting_flags());

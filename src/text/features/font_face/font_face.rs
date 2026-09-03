@@ -9,6 +9,12 @@ pub struct FontFaceParser {
     pub descriptors: HashMap<String, String>,
 }
 
+impl Default for FontFaceParser {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl FontFaceParser {
     pub fn new() -> Self {
         FontFaceParser {
@@ -117,11 +123,10 @@ impl FontFaceParser {
                 }
             }
         }
-        if !current.trim().is_empty() {
-            if let Some((prop, val)) = Self::split_declaration(&current) {
+        if !current.trim().is_empty()
+            && let Some((prop, val)) = Self::split_declaration(&current) {
                 result.push((prop, val));
             }
-        }
         result
     }
 

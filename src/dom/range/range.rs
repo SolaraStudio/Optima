@@ -10,6 +10,12 @@ pub struct Range {
     pub collapsed: bool,
 }
 
+impl Default for Range {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Range {
     pub fn new() -> Self {
         Range {
@@ -136,11 +142,7 @@ impl Range {
         if let (Some(start_container), Some(end_container)) =
             (&self.start_container, &self.end_container)
         {
-            if Rc::ptr_eq(start_container, end_container) && self.start_offset == self.end_offset {
-                self.collapsed = true;
-            } else {
-                self.collapsed = false;
-            }
+            self.collapsed = Rc::ptr_eq(start_container, end_container) && self.start_offset == self.end_offset;
         } else {
             self.collapsed = true;
         }

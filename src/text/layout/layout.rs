@@ -9,6 +9,12 @@ pub struct TextLayout {
     pub height: f32,
 }
 
+impl Default for TextLayout {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TextLayout {
     pub fn new() -> Self {
         TextLayout {

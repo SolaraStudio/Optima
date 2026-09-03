@@ -9,6 +9,12 @@ pub struct InternalEngine {
     pub is_running: bool,
 }
 
+impl Default for InternalEngine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl InternalEngine {
     pub fn new() -> Self {
         InternalEngine {
@@ -32,7 +38,6 @@ impl InternalEngine {
 
     pub fn tick(&mut self) {
         if !self.is_running {
-            return;
         }
     }
 }

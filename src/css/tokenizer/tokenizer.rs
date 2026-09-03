@@ -24,17 +24,13 @@ impl CSSParser {
     }
 
     pub fn parse_number(input: &mut Parser) -> Option<f32> {
-        if let Ok(num) = input.expect_number() {
-            Some(num)
-        } else {
-            None
-        }
+        input.expect_number().ok()
     }
 
     pub fn parse_length(input: &mut Parser) -> Option<Length> {
         let state = input.state();
-        if let Ok(num) = input.expect_number() {
-            if let Ok(ident) = input.expect_ident() {
+        if let Ok(num) = input.expect_number()
+            && let Ok(ident) = input.expect_ident() {
                 let unit = match ident.as_ref() {
                     "px" => LengthUnit::Px,
                     "em" => LengthUnit::Em,
@@ -53,7 +49,6 @@ impl CSSParser {
                 };
                 return Some(Length::new(num, unit));
             }
-        }
         input.reset(&state);
         None
     }
@@ -77,14 +72,11 @@ impl CSSParser {
         }
         input.reset(&state);
 
-        match input.next() {
-            Ok(Token::Hash(hex)) => {
-                let s = hex.as_ref();
-                if s.len() == 3 || s.len() == 4 || s.len() == 6 || s.len() == 8 {
-                    return Color::from_hex(s);
-                }
+        if let Ok(Token::Hash(hex)) = input.next() {
+            let s = hex.as_ref();
+            if s.len() == 3 || s.len() == 4 || s.len() == 6 || s.len() == 8 {
+                return Color::from_hex(s);
             }
-            _ => {}
         }
         None
     }

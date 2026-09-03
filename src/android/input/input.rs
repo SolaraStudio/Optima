@@ -15,6 +15,12 @@ pub struct EventQueue {
     pub events: VecDeque<InputEvent>,
 }
 
+impl Default for EventQueue {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl EventQueue {
     pub fn new() -> Self {
         EventQueue {
@@ -44,6 +50,12 @@ pub struct AndroidInput {
     pointer_down: bool,
     last_x: f32,
     last_y: f32,
+}
+
+impl Default for AndroidInput {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl AndroidInput {

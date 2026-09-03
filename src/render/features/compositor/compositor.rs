@@ -1,5 +1,7 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum CompositingBlendMode {
+    #[default]
     Normal,
     Multiply,
     Screen,
@@ -7,11 +9,6 @@ pub enum CompositingBlendMode {
     Additive,
 }
 
-impl Default for CompositingBlendMode {
-    fn default() -> Self {
-        CompositingBlendMode::Normal
-    }
-}
 
 #[derive(Debug, Clone, Copy)]
 pub struct LayerTransform {
@@ -112,13 +109,9 @@ impl LayerTransform {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Default)]
 pub struct ZOrder(pub i32);
 
-impl Default for ZOrder {
-    fn default() -> Self {
-        ZOrder(0)
-    }
-}
 
 #[derive(Debug, Clone)]
 pub struct CompositingLayer {
@@ -198,7 +191,7 @@ impl CompositingLayer {
         if self.locked {
             return;
         }
-        for chunk in self.pixel_data.chunks_exact_mut(4) {
+        for chunk in self.pixel_data.as_chunks_mut::<4>().0 {
             chunk[0] = r;
             chunk[1] = g;
             chunk[2] = b;
@@ -582,7 +575,7 @@ mod tests {
     #[test]
     fn test_compositor_visible_layers() {
         let mut comp = Compositor::new(10, 10);
-        let id1 = comp.create_layer("a", 10, 10);
+        let _id1 = comp.create_layer("a", 10, 10);
         let id2 = comp.create_layer("b", 10, 10);
 
         comp.get_layer_mut(id2).unwrap().set_visible(false);

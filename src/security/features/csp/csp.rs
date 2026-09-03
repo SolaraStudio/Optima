@@ -127,18 +127,18 @@ impl CspParser {
 
     pub fn disallows(&self, _source: &str) -> bool {
         self.get_directive("default-src")
-            .map_or(false, |s| s.contains(&"'none'".to_string()))
+            .is_some_and(|s| s.contains(&"'none'".to_string()))
     }
 
     pub fn allows_inline_script(&self) -> bool {
-        self.get_directive("script-src").map_or(false, |s| {
+        self.get_directive("script-src").is_some_and(|s| {
             s.iter()
                 .any(|v| v == "'unsafe-inline'" || v == "*" || v == "'self'")
         })
     }
 
     pub fn allows_inline_style(&self) -> bool {
-        self.get_directive("style-src").map_or(false, |s| {
+        self.get_directive("style-src").is_some_and(|s| {
             s.iter()
                 .any(|v| v == "'unsafe-inline'" || v == "*" || v == "'self'")
         })

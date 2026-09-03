@@ -55,7 +55,7 @@ impl NthExpression {
         let mut i = 0;
         loop {
             let result = self.a * i + self.b;
-            if result == n as i32 + 1 {
+            if result == n + 1 {
                 return true;
             }
             if result > n + 1 && self.a > 0 {
@@ -103,6 +103,12 @@ pub struct ElementState {
     pub is_visited: bool,
     pub lang: String,
     pub direction: Direction,
+}
+
+impl Default for ElementState {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl ElementState {

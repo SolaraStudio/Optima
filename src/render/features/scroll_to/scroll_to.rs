@@ -7,18 +7,15 @@ pub enum ScrollTarget {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum ScrollAlignment {
+    #[default]
     Top,
     Center,
     Bottom,
     Nearest,
 }
 
-impl Default for ScrollAlignment {
-    fn default() -> Self {
-        ScrollAlignment::Top
-    }
-}
 
 #[derive(Debug, Clone)]
 pub struct ScrollToConfig {

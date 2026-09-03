@@ -1,7 +1,9 @@
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Default)]
 pub enum HttpMethod {
+    #[default]
     Get,
     Post,
     Put,
@@ -11,11 +13,6 @@ pub enum HttpMethod {
     Options,
 }
 
-impl Default for HttpMethod {
-    fn default() -> Self {
-        HttpMethod::Get
-    }
-}
 
 impl HttpMethod {
     pub fn as_str(&self) -> &'static str {
@@ -32,7 +29,9 @@ impl HttpMethod {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum RequestStage {
+    #[default]
     Pending,
     Sending,
     Waiting,
@@ -42,11 +41,6 @@ pub enum RequestStage {
     Cancelled,
 }
 
-impl Default for RequestStage {
-    fn default() -> Self {
-        RequestStage::Pending
-    }
-}
 
 #[derive(Debug, Clone)]
 pub struct HttpRequest {
@@ -535,7 +529,7 @@ mod tests {
 
     #[test]
     fn test_request_timing() {
-        let mut timing = RequestTiming {
+        let timing = RequestTiming {
             start_ms: 100.0,
             dns_ms: Some(105.0),
             connect_ms: Some(110.0),

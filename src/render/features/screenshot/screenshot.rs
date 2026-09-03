@@ -1,16 +1,13 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum ScreenshotFormat {
+    #[default]
     Rgba8,
     Rgba16,
     Bgra8,
     Rgb8,
 }
 
-impl Default for ScreenshotFormat {
-    fn default() -> Self {
-        ScreenshotFormat::Rgba8
-    }
-}
 
 impl ScreenshotFormat {
     pub fn bytes_per_pixel(&self) -> usize {
@@ -205,6 +202,7 @@ impl PixelBuffer {
 }
 
 #[derive(Debug, Clone)]
+#[derive(Default)]
 pub struct ScreenshotCapture {
     pub buffer: PixelBuffer,
     pub timestamp_ms: u64,
@@ -212,16 +210,6 @@ pub struct ScreenshotCapture {
     pub label: String,
 }
 
-impl Default for ScreenshotCapture {
-    fn default() -> Self {
-        ScreenshotCapture {
-            buffer: PixelBuffer::default(),
-            timestamp_ms: 0,
-            frame_number: 0,
-            label: String::new(),
-        }
-    }
-}
 
 impl ScreenshotCapture {
     pub fn new(width: u32, height: u32, format: ScreenshotFormat) -> Self {

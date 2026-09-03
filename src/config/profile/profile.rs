@@ -1,15 +1,12 @@
 #[derive(Debug, Clone, PartialEq)]
+#[derive(Default)]
 pub enum Profile {
     Debug,
+    #[default]
     Release,
     Profile,
 }
 
-impl Default for Profile {
-    fn default() -> Self {
-        Profile::Release
-    }
-}
 
 impl Profile {
     pub fn is_release(&self) -> bool {

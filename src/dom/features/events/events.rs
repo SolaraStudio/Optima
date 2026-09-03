@@ -6,6 +6,12 @@ pub struct EventDispatcher {
     pub id_counter: usize,
 }
 
+impl Default for EventDispatcher {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl EventDispatcher {
     pub fn new() -> Self {
         EventDispatcher {
@@ -35,14 +41,13 @@ impl EventDispatcher {
     }
 
     pub fn remove_event_listener(&mut self, node_id: usize, event_type: &str, listener_ptr: usize) {
-        if let Some(mgr) = self.node_managers.get_mut(&node_id) {
-            if let Some(listeners) = mgr.listeners.get_mut(event_type) {
+        if let Some(mgr) = self.node_managers.get_mut(&node_id)
+            && let Some(listeners) = mgr.listeners.get_mut(event_type) {
                 listeners.retain(|l| {
                     let p: *const dyn Fn(&Event) = &*l.callback;
                     (p as *const ()) as usize != listener_ptr
                 });
             }
-        }
     }
 
     pub fn dispatch_event(&mut self, node_id: usize, event: &mut Event) {
@@ -66,10 +71,10 @@ impl EventDispatcher {
     }
 
     pub fn has_listeners(&self, node_id: usize, event_type: &str) -> bool {
-        self.node_managers.get(&node_id).map_or(false, |mgr| {
+        self.node_managers.get(&node_id).is_some_and(|mgr| {
             mgr.listeners
                 .get(event_type)
-                .map_or(false, |v| !v.is_empty())
+                .is_some_and(|v| !v.is_empty())
         })
     }
 

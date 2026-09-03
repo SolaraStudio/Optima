@@ -70,10 +70,9 @@ impl LocalHost {
         if !Self::is_localhost_url(url) {
             return None;
         }
-        let rest = if let Some(pos) = url.find("://") {
+        let rest = {
+            let pos = url.find("://")?;
             &url[pos + 3..]
-        } else {
-            return None;
         };
         let rest = if let Some(pos) = rest.find('/') {
             &rest[pos..]

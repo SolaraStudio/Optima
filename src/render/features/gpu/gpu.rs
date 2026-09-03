@@ -1,7 +1,9 @@
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Default)]
 pub enum GpuBackend {
+    #[default]
     Vulkan,
     Metal,
     Dx12,
@@ -9,24 +11,16 @@ pub enum GpuBackend {
     WebGpu,
 }
 
-impl Default for GpuBackend {
-    fn default() -> Self {
-        GpuBackend::Vulkan
-    }
-}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum PowerPreference {
     LowPower,
     HighPerformance,
+    #[default]
     Default,
 }
 
-impl Default for PowerPreference {
-    fn default() -> Self {
-        PowerPreference::Default
-    }
-}
 
 #[derive(Debug, Clone)]
 pub struct GpuLimits {
@@ -63,18 +57,15 @@ pub struct BindGroupEntry {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum ShaderStage {
     Vertex,
     Fragment,
     Compute,
+    #[default]
     VertexFragment,
 }
 
-impl Default for ShaderStage {
-    fn default() -> Self {
-        ShaderStage::VertexFragment
-    }
-}
 
 #[derive(Debug, Clone)]
 pub struct BindGroupLayout {
@@ -108,6 +99,7 @@ impl BindGroupLayout {
 }
 
 #[derive(Debug, Clone)]
+#[derive(Default)]
 pub struct PipelineDescriptor {
     pub label: String,
     pub vertex_shader: Option<String>,
@@ -124,18 +116,6 @@ pub struct PushConstantRange {
     pub stage: ShaderStage,
 }
 
-impl Default for PipelineDescriptor {
-    fn default() -> Self {
-        PipelineDescriptor {
-            label: String::new(),
-            vertex_shader: None,
-            fragment_shader: None,
-            bind_group_layouts: Vec::new(),
-            push_constant_ranges: Vec::new(),
-            pipeline_layout_hash: 0,
-        }
-    }
-}
 
 impl PipelineDescriptor {
     pub fn new(label: &str) -> Self {
@@ -190,7 +170,9 @@ pub struct GpuSurface {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum TextureFormat {
+    #[default]
     Bgra8Unorm,
     Rgba8Unorm,
     Rgba16Float,
@@ -198,11 +180,6 @@ pub enum TextureFormat {
     Depth32Float,
 }
 
-impl Default for TextureFormat {
-    fn default() -> Self {
-        TextureFormat::Bgra8Unorm
-    }
-}
 
 impl Default for GpuSurface {
     fn default() -> Self {
@@ -239,6 +216,7 @@ impl GpuSurface {
 }
 
 #[derive(Debug, Clone)]
+#[derive(Default)]
 pub struct GpuPipeline {
     pub descriptor: PipelineDescriptor,
     pub surface: GpuSurface,
@@ -246,16 +224,6 @@ pub struct GpuPipeline {
     pub draw_calls: u64,
 }
 
-impl Default for GpuPipeline {
-    fn default() -> Self {
-        GpuPipeline {
-            descriptor: PipelineDescriptor::default(),
-            surface: GpuSurface::default(),
-            initialized: false,
-            draw_calls: 0,
-        }
-    }
-}
 
 impl GpuPipeline {
     pub fn new(label: &str, width: u32, height: u32) -> Self {
@@ -310,6 +278,7 @@ impl GpuPipeline {
 }
 
 #[derive(Debug)]
+#[derive(Default)]
 pub struct GpuState {
     pub backend: GpuBackend,
     pub power_preference: PowerPreference,
@@ -320,19 +289,6 @@ pub struct GpuState {
     pub total_vertices: u64,
 }
 
-impl Default for GpuState {
-    fn default() -> Self {
-        GpuState {
-            backend: GpuBackend::default(),
-            power_preference: PowerPreference::default(),
-            limits: GpuLimits::default(),
-            pipeline: GpuPipeline::default(),
-            bind_groups: HashMap::new(),
-            frame_number: 0,
-            total_vertices: 0,
-        }
-    }
-}
 
 impl GpuState {
     pub fn new(backend: GpuBackend) -> Self {

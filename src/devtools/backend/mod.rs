@@ -83,13 +83,12 @@ impl DevToolsBackend {
         self.handlers.insert(
             "DOM.querySelector".to_string(),
             Box::new(|params| {
-                if let Some(p) = params {
-                    if let Some(_selector) = p.get("selector").and_then(|v| v.as_str()) {
+                if let Some(p) = params
+                    && let Some(_selector) = p.get("selector").and_then(|v| v.as_str()) {
                         return Ok(serde_json::json!({
                             "nodeId": 2
                         }));
                     }
-                }
                 Ok(serde_json::json!({}))
             }),
         );

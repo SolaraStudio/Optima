@@ -1,16 +1,13 @@
 #[derive(Debug, Clone, PartialEq)]
+#[derive(Default)]
 pub enum AutoplayPolicy {
     Allow,
     AllowMuted,
     Deny,
+    #[default]
     UserGestureRequired,
 }
 
-impl Default for AutoplayPolicy {
-    fn default() -> Self {
-        AutoplayPolicy::UserGestureRequired
-    }
-}
 
 pub struct AutoplayManager {
     pub policy: AutoplayPolicy,

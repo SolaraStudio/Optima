@@ -16,7 +16,7 @@ impl Cascade {
                     for decl in &rule.declarations {
                         let key = decl.name.clone();
                         let entry = declarations.entry(key).or_insert_with(|| decl.clone());
-                        if specificity > Specificity::from_selector(&selector) {
+                        if specificity > Specificity::from_selector(selector) {
                             *entry = decl.clone();
                         }
                     }

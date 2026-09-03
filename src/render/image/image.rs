@@ -38,7 +38,7 @@ impl ImageData {
     }
 
     pub fn fill(&mut self, r: u8, g: u8, b: u8, a: u8) {
-        for chunk in self.pixels.chunks_exact_mut(4) {
+        for chunk in self.pixels.as_chunks_mut::<4>().0 {
             chunk[0] = r;
             chunk[1] = g;
             chunk[2] = b;

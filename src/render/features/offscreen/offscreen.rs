@@ -1,16 +1,13 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum OffscreenFormat {
+    #[default]
     Rgba8,
     Rgba16Float,
     Bgra8,
     Depth24Stencil8,
 }
 
-impl Default for OffscreenFormat {
-    fn default() -> Self {
-        OffscreenFormat::Rgba8
-    }
-}
 
 impl OffscreenFormat {
     pub fn bytes_per_pixel(&self) -> usize {
@@ -165,20 +162,18 @@ impl OffscreenTexture {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum OffscreenBlendMode {
+    #[default]
     Replace,
     AlphaBlend,
     Additive,
     Multiply,
 }
 
-impl Default for OffscreenBlendMode {
-    fn default() -> Self {
-        OffscreenBlendMode::Replace
-    }
-}
 
 #[derive(Debug, Clone)]
+#[derive(Default)]
 pub struct OffscreenRenderTarget {
     pub color_texture: OffscreenTexture,
     pub depth_texture: Option<OffscreenTexture>,
@@ -188,18 +183,6 @@ pub struct OffscreenRenderTarget {
     pub total_pixels_rendered: u64,
 }
 
-impl Default for OffscreenRenderTarget {
-    fn default() -> Self {
-        OffscreenRenderTarget {
-            color_texture: OffscreenTexture::default(),
-            depth_texture: None,
-            blend_mode: OffscreenBlendMode::default(),
-            label: String::new(),
-            frame_count: 0,
-            total_pixels_rendered: 0,
-        }
-    }
-}
 
 impl OffscreenRenderTarget {
     pub fn new(width: u32, height: u32) -> Self {
@@ -326,7 +309,7 @@ mod tests {
         a.copy_from(&b).unwrap();
         assert_eq!(a.data[0], 128);
 
-        let mut c = OffscreenTexture::new(10, 10, OffscreenFormat::Rgba8);
+        let c = OffscreenTexture::new(10, 10, OffscreenFormat::Rgba8);
         assert!(a.copy_from(&c).is_err());
     }
 

@@ -11,6 +11,12 @@ pub enum SelectorKind {
 
 pub struct QueryBuilder;
 
+impl Default for QueryBuilder {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl QueryBuilder {
     pub fn new() -> Self {
         QueryBuilder

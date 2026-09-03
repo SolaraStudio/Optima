@@ -6,6 +6,12 @@ pub struct HandleTable {
     next_id: u64,
 }
 
+impl Default for HandleTable {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl HandleTable {
     pub fn new() -> Self {
         HandleTable {

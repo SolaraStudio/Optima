@@ -11,6 +11,12 @@ pub struct DnsResolver {
     cache: HashMap<String, DnsEntry>,
 }
 
+impl Default for DnsResolver {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl DnsResolver {
     pub fn new() -> Self {
         DnsResolver {

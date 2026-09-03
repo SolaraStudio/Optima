@@ -37,10 +37,6 @@ impl Animation {
         &self,
         progress: f32,
     ) -> Option<Vec<crate::css::declaration::Declaration>> {
-        if let Some(ref keyframes) = self.keyframes {
-            Some(keyframes.get_declarations_at(progress))
-        } else {
-            None
-        }
+        self.keyframes.as_ref().map(|keyframes| keyframes.get_declarations_at(progress))
     }
 }

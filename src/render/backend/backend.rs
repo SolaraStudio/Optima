@@ -4,6 +4,12 @@ pub struct RenderBackend {
     pub surface: Option<wgpu::Surface<'static>>,
 }
 
+impl Default for RenderBackend {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl RenderBackend {
     pub fn new() -> Self {
         RenderBackend {

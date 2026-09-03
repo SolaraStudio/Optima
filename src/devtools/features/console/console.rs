@@ -1,7 +1,9 @@
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Default)]
 pub enum LogLevel {
+    #[default]
     Log,
     Warn,
     Error,
@@ -9,11 +11,6 @@ pub enum LogLevel {
     Debug,
 }
 
-impl Default for LogLevel {
-    fn default() -> Self {
-        LogLevel::Log
-    }
-}
 
 impl LogLevel {
     pub fn as_str(&self) -> &'static str {
@@ -216,12 +213,11 @@ impl Console {
             _ => {}
         }
 
-        if let Some(last) = self.entries.last_mut() {
-            if last.matches(&entry) {
+        if let Some(last) = self.entries.last_mut()
+            && last.matches(&entry) {
                 last.repeat_count += 1;
                 return;
             }
-        }
 
         self.entries.push(entry);
         if self.entries.len() > self.max_entries {
@@ -461,7 +457,7 @@ mod tests {
 
     #[test]
     fn test_console_max_entries() {
-        let mut console = Console::with_max_entries(3);
+        let mut console = Console::new().with_max_entries(3);
         console.log("a");
         console.log("b");
         console.log("c");

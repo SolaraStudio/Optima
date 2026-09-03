@@ -12,6 +12,12 @@ pub enum Platform {
     Unknown,
 }
 
+impl Default for Compat {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Compat {
     pub fn new() -> Self {
         Compat {

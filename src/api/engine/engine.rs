@@ -51,14 +51,13 @@ impl Engine {
     pub fn load_url(&mut self, url: &str) -> Result<(), String> {
         self.navigation.set_loading(true);
         if LocalHost::is_localhost_url(url) {
-            if let Some(path) = LocalHost::resolve_path(url) {
-                if let Some((data, _ct)) = self.localhost.get_asset(&path) {
+            if let Some(path) = LocalHost::resolve_path(url)
+                && let Some((data, _ct)) = self.localhost.get_asset(&path) {
                     let html = String::from_utf8_lossy(data).to_string();
                     self.load_html(&html, url)?;
                     self.navigation.set_loading(false);
                     return Ok(());
                 }
-            }
             self.load_html("", url)?;
         } else {
             self.load_html("", url)?;

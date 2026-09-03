@@ -100,14 +100,10 @@ impl MediaQuery {
         }
         let mut results: Vec<bool> = self.features.iter().map(|f| f.matches(context)).collect();
         for (i, comb) in self.combinators.iter().enumerate() {
-            match comb {
-                MediaCombinator::Not => {
-                    if i < results.len() {
-                        results[i] = !results[i];
-                    }
+            if comb == &MediaCombinator::Not
+                && i < results.len() {
+                    results[i] = !results[i];
                 }
-                _ => {}
-            }
         }
         results.iter().all(|&r| r)
     }
@@ -152,6 +148,12 @@ pub struct MediaContext {
     pub prefers_reduced_motion: bool,
     pub hover: HoverCapability,
     pub pointer: PointerCapability,
+}
+
+impl Default for MediaContext {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl MediaContext {

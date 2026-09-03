@@ -20,6 +20,12 @@ pub struct PseudoElementStyle {
     pub properties: HashMap<String, String>,
 }
 
+impl Default for PseudoElementStyle {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PseudoElementStyle {
     pub fn new() -> Self {
         PseudoElementStyle {
@@ -57,6 +63,12 @@ impl PseudoElementStyle {
 #[derive(Debug, Clone)]
 pub struct PseudoElementGenerator {
     styles: HashMap<PseudoElement, PseudoElementStyle>,
+}
+
+impl Default for PseudoElementGenerator {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl PseudoElementGenerator {
@@ -120,7 +132,7 @@ pub struct GeneratedBox {
 }
 
 fn resolve_content(content: &str, _tag: &str) -> String {
-    if content == "attr(data-text)" || content == "attr(data-text)" {
+    if content == "attr(data-text)" {
         return String::new();
     }
     if content.starts_with("\"") && content.ends_with("\"") {

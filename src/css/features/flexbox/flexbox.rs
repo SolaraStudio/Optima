@@ -74,6 +74,12 @@ pub struct FlexItem {
     pub order: i32,
 }
 
+impl Default for FlexItem {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl FlexItem {
     pub fn new() -> Self {
         FlexItem {
@@ -129,6 +135,12 @@ pub struct FlexContainer {
     pub gap: f32,
     pub width: f32,
     pub height: f32,
+}
+
+impl Default for FlexContainer {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl FlexContainer {
@@ -247,7 +259,7 @@ impl FlexContainer {
             self.direction,
             FlexDirection::RowReverse | FlexDirection::ColumnReverse
         );
-        for (_i, &size) in allocated_main.iter().enumerate() {
+        for &size in allocated_main.iter() {
             positions.push(cursor);
             if reversed {
                 cursor -= size + self.gap;
@@ -268,15 +280,13 @@ impl FlexContainer {
                     }
                 }
             };
-            let x;
-            let y;
-            if self.is_main_axis_horizontal() {
-                x = positions[i];
-                y = self.compute_cross_offset(item_cross, cross_size);
+            
+            
+            let (x, y) = if self.is_main_axis_horizontal() {
+                (positions[i], self.compute_cross_offset(item_cross, cross_size))
             } else {
-                x = self.compute_cross_offset(item_cross, cross_size);
-                y = positions[i];
-            }
+                (self.compute_cross_offset(item_cross, cross_size), positions[i])
+            };
             let effective_width = if self.is_main_axis_horizontal() {
                 allocated_main[i]
             } else {
@@ -317,12 +327,12 @@ impl FlexContainer {
             }
             JustifyContent::SpaceEvenly => {
                 let gap_count = sizes.len() as f32 + 1.0;
-                let space = if gap_count > 0.0 {
+                
+                if gap_count > 0.0 {
                     free / gap_count
                 } else {
                     0.0
-                };
-                space
+                }
             }
         }
     }

@@ -24,6 +24,12 @@ pub struct LifecycleManager {
     pub window_loaded: bool,
 }
 
+impl Default for LifecycleManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl LifecycleManager {
     pub fn new() -> Self {
         LifecycleManager {
@@ -41,7 +47,7 @@ impl LifecycleManager {
         };
         self.listeners
             .entry("DOMContentLoaded".to_string())
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(entry);
 
         if self.document_ready {
@@ -56,7 +62,7 @@ impl LifecycleManager {
         };
         self.listeners
             .entry("load".to_string())
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(entry);
 
         if self.window_loaded {
@@ -71,7 +77,7 @@ impl LifecycleManager {
         };
         self.listeners
             .entry("beforeunload".to_string())
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(entry);
     }
 
@@ -108,7 +114,7 @@ impl LifecycleManager {
     }
 
     pub fn has_listeners(&self, key: &str) -> bool {
-        self.listeners.get(key).map_or(false, |v| !v.is_empty())
+        self.listeners.get(key).is_some_and(|v| !v.is_empty())
     }
 
     pub fn listener_count(&self, key: &str) -> usize {

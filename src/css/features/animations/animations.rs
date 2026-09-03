@@ -164,7 +164,7 @@ impl KeyframesAnimation {
                 }
             }
             AnimationDirection::AlternateReverse => {
-                if (iteration as u32) % 2 == 0 {
+                if (iteration as u32).is_multiple_of(2) {
                     frac = 1.0 - frac;
                 }
             }
@@ -269,6 +269,12 @@ fn interpolate_value(from: &str, to: &str, t: f32) -> String {
 pub struct AnimationController {
     animations: Vec<KeyframesAnimation>,
     elapsed_ms: f32,
+}
+
+impl Default for AnimationController {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl AnimationController {

@@ -36,11 +36,10 @@ impl ComputedStyle {
             "line-height",
         ];
         for prop in inherit_properties {
-            if let Some(val) = parent.get(prop) {
-                if !self.properties.contains_key(prop) {
+            if let Some(val) = parent.get(prop)
+                && !self.properties.contains_key(prop) {
                     self.properties.insert(prop.to_string(), val.clone());
                 }
-            }
         }
     }
 }

@@ -2,6 +2,12 @@ pub struct FallbackFontChain {
     pub families: Vec<String>,
 }
 
+impl Default for FallbackFontChain {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl FallbackFontChain {
     pub fn new() -> Self {
         FallbackFontChain {

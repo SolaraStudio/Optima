@@ -20,6 +20,12 @@ pub struct KerningEngine {
     scale: f32,
 }
 
+impl Default for KerningEngine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl KerningEngine {
     pub fn new() -> Self {
         let mut engine = KerningEngine {

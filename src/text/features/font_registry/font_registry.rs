@@ -16,6 +16,12 @@ pub struct WebFontRegistry {
     aliases: HashMap<String, String>,
 }
 
+impl Default for WebFontRegistry {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl WebFontRegistry {
     pub fn new() -> Self {
         WebFontRegistry {
@@ -35,7 +41,7 @@ impl WebFontRegistry {
         });
         self.fonts
             .entry(face.family.clone())
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(face);
     }
 

@@ -35,7 +35,9 @@ pub struct PaintCommand {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Default)]
 pub enum BlendMode {
+    #[default]
     Normal,
     Multiply,
     Screen,
@@ -50,11 +52,6 @@ pub enum BlendMode {
     Exclusion,
 }
 
-impl Default for BlendMode {
-    fn default() -> Self {
-        BlendMode::Normal
-    }
-}
 
 impl PaintCommand {
     pub fn fill(color: Color) -> Self {

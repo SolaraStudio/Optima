@@ -1,3 +1,5 @@
+#![allow(clippy::module_inception)]
+
 pub mod android;
 pub mod api;
 pub mod config;

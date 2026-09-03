@@ -31,35 +31,31 @@ impl MediaQuery {
     fn matches_feature(feature: &MediaFeature, viewport: &Viewport) -> bool {
         match feature.name.as_str() {
             "width" => {
-                if let Some(val) = &feature.value {
-                    if let Some(width) = parse_media_value(val) {
+                if let Some(val) = &feature.value
+                    && let Some(width) = parse_media_value(val) {
                         return viewport.width >= width;
                     }
-                }
                 true
             }
             "height" => {
-                if let Some(val) = &feature.value {
-                    if let Some(height) = parse_media_value(val) {
+                if let Some(val) = &feature.value
+                    && let Some(height) = parse_media_value(val) {
                         return viewport.height >= height;
                     }
-                }
                 true
             }
             "min-width" => {
-                if let Some(val) = &feature.value {
-                    if let Some(width) = parse_media_value(val) {
+                if let Some(val) = &feature.value
+                    && let Some(width) = parse_media_value(val) {
                         return viewport.width >= width;
                     }
-                }
                 true
             }
             "max-width" => {
-                if let Some(val) = &feature.value {
-                    if let Some(width) = parse_media_value(val) {
+                if let Some(val) = &feature.value
+                    && let Some(width) = parse_media_value(val) {
                         return viewport.width <= width;
                     }
-                }
                 true
             }
             "orientation" => {

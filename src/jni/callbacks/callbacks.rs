@@ -7,6 +7,12 @@ pub struct CallbackRegistry {
     next_id: CallbackId,
 }
 
+impl Default for CallbackRegistry {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CallbackRegistry {
     pub fn new() -> Self {
         CallbackRegistry {

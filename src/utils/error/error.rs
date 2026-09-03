@@ -52,7 +52,7 @@ impl From<JniError> for OptimaError {
 }
 
 pub fn io_error(msg: &str) -> OptimaError {
-    OptimaError::Io(io::Error::new(io::ErrorKind::Other, msg))
+    OptimaError::Io(io::Error::other(msg))
 }
 
 pub fn not_found(msg: &str) -> OptimaError {

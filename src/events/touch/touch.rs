@@ -25,6 +25,12 @@ pub struct TouchPoint {
     pub target: Option<String>,
 }
 
+impl Default for TouchEvent {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TouchEvent {
     pub fn new() -> Self {
         TouchEvent {

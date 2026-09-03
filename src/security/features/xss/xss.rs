@@ -57,8 +57,8 @@ impl XssFilter {
         loop {
             let lower = result.to_lowercase();
             let start = lower.find("<script").and_then(|i| {
-                let end = lower[i..].find('>').map(|j| i + j + 1);
-                end
+                
+                lower[i..].find('>').map(|j| i + j + 1)
             });
             let Some(start) = start else { break };
             let close = result[start..].to_lowercase().find("</script>");

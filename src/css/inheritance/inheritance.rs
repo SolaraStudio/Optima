@@ -18,11 +18,10 @@ impl Inheritance {
             "letter-spacing",
         ];
         for prop in inheritable {
-            if let Some(val) = parent.get(prop) {
-                if !child.properties.contains_key(prop) {
+            if let Some(val) = parent.get(prop)
+                && !child.properties.contains_key(prop) {
                     child.set(prop, val.clone());
                 }
-            }
         }
     }
 }

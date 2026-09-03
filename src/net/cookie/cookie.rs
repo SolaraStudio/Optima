@@ -47,6 +47,12 @@ pub struct CookieJar {
     cookies: HashMap<String, Cookie>,
 }
 
+impl Default for CookieJar {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CookieJar {
     pub fn new() -> Self {
         CookieJar {

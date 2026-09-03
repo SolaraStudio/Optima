@@ -1,16 +1,9 @@
+#[derive(Default)]
 pub struct AvSync {
     pub audio_offset_ms: i64,
     pub video_offset_ms: i64,
 }
 
-impl Default for AvSync {
-    fn default() -> Self {
-        AvSync {
-            audio_offset_ms: 0,
-            video_offset_ms: 0,
-        }
-    }
-}
 
 impl AvSync {
     pub fn new() -> Self {

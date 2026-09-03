@@ -11,6 +11,12 @@ pub struct TouchEndEvent {
     pub meta_key: bool,
 }
 
+impl Default for TouchEndEvent {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TouchEndEvent {
     pub fn new() -> Self {
         TouchEndEvent {

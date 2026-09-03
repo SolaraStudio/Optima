@@ -162,6 +162,7 @@ impl LayoutMetrics {
 }
 
 #[derive(Debug, Clone)]
+#[derive(Default)]
 pub struct MemoryMetrics {
     pub heap_used_bytes: u64,
     pub heap_allocated_bytes: u64,
@@ -172,19 +173,6 @@ pub struct MemoryMetrics {
     pub event_listener_count: u32,
 }
 
-impl Default for MemoryMetrics {
-    fn default() -> Self {
-        MemoryMetrics {
-            heap_used_bytes: 0,
-            heap_allocated_bytes: 0,
-            external_bytes: 0,
-            array_buffer_bytes: 0,
-            dom_node_count: 0,
-            dom_tree_depth: 0,
-            event_listener_count: 0,
-        }
-    }
-}
 
 impl MemoryMetrics {
     pub fn new() -> Self {

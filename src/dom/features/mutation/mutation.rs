@@ -18,6 +18,12 @@ pub struct MutationTracker {
     pub id_counter: usize,
 }
 
+impl Default for MutationTracker {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl MutationTracker {
     pub fn new() -> Self {
         MutationTracker {
@@ -105,7 +111,7 @@ impl MutationTracker {
     }
 
     pub fn flush(&mut self) {
-        let records: Vec<MutationRecord> = self.pending_records.drain(..).collect();
+        let records: Vec<MutationRecord> = std::mem::take(&mut self.pending_records);
         if records.is_empty() {
             return;
         }

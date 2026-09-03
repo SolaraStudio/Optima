@@ -4,6 +4,12 @@ use std::rc::Rc;
 
 pub struct HtmlSerializer;
 
+impl Default for HtmlSerializer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl HtmlSerializer {
     pub fn new() -> Self {
         HtmlSerializer
@@ -25,7 +31,7 @@ impl HtmlSerializer {
                 let mut html = format!("<{}", borrowed.node_name);
                 Self::append_attrs(&mut html, &borrowed);
                 if Self::is_void_element(&borrowed.node_name) {
-                    html.push_str(">");
+                    html.push('>');
                 } else {
                     html.push('>');
                     for child in &borrowed.children {

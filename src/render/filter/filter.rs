@@ -1,16 +1,10 @@
 use crate::render::effect::Effect;
 
+#[derive(Default)]
 pub struct FilterChain {
     pub effects: Vec<Effect>,
 }
 
-impl Default for FilterChain {
-    fn default() -> Self {
-        FilterChain {
-            effects: Vec::new(),
-        }
-    }
-}
 
 impl FilterChain {
     pub fn new() -> Self {

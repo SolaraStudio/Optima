@@ -11,6 +11,12 @@ pub struct TouchMoveEvent {
     pub meta_key: bool,
 }
 
+impl Default for TouchMoveEvent {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TouchMoveEvent {
     pub fn new() -> Self {
         TouchMoveEvent {

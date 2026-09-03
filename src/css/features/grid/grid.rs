@@ -33,6 +33,12 @@ pub struct GridPlacement {
     pub row_end: Option<i32>,
 }
 
+impl Default for GridPlacement {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl GridPlacement {
     pub fn new() -> Self {
         GridPlacement {
@@ -80,6 +86,12 @@ pub struct GridItem {
     pub max_height: Option<f32>,
 }
 
+impl Default for GridItem {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl GridItem {
     pub fn new() -> Self {
         GridItem {
@@ -119,6 +131,12 @@ pub struct GridContainer {
     pub row_gap: f32,
     pub width: f32,
     pub height: f32,
+}
+
+impl Default for GridContainer {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl GridContainer {

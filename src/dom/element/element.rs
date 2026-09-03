@@ -52,7 +52,7 @@ impl Element {
         for (key, value) in &node.attributes {
             html.push_str(&format!(" {}=\"{}\"", key, value));
         }
-        html.push_str(">");
+        html.push('>');
         html.push_str(&self.inner_html());
         html.push_str(&format!("</{}>", node.node_name));
         html
@@ -67,7 +67,7 @@ impl Element {
                 for (key, value) in &node.attributes {
                     html.push_str(&format!(" {}=\"{}\"", key, value));
                 }
-                html.push_str(">");
+                html.push('>');
                 for child in &node.children {
                     html.push_str(&Self::node_to_string(child));
                 }

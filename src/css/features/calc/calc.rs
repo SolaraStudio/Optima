@@ -20,6 +20,12 @@ pub struct CalcExpression {
     pub operators: Vec<CalcOp>,
 }
 
+impl Default for CalcExpression {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CalcExpression {
     pub fn new() -> Self {
         CalcExpression {
@@ -53,13 +59,13 @@ impl CalcExpression {
         while i < ops.len() {
             match ops[i] {
                 CalcOp::Mul => {
-                    values[i] = values[i] * values[i + 1];
+                    values[i] *= values[i + 1];
                     values.remove(i + 1);
                     ops.remove(i);
                 }
                 CalcOp::Div => {
                     if values[i + 1] != 0.0 {
-                        values[i] = values[i] / values[i + 1];
+                        values[i] /= values[i + 1];
                     }
                     values.remove(i + 1);
                     ops.remove(i);
@@ -72,12 +78,12 @@ impl CalcExpression {
         while i < ops.len() {
             match ops[i] {
                 CalcOp::Add => {
-                    values[i] = values[i] + values[i + 1];
+                    values[i] += values[i + 1];
                     values.remove(i + 1);
                     ops.remove(i);
                 }
                 CalcOp::Sub => {
-                    values[i] = values[i] - values[i + 1];
+                    values[i] -= values[i + 1];
                     values.remove(i + 1);
                     ops.remove(i);
                 }
@@ -100,6 +106,12 @@ pub struct CalcContext {
     pub base_font_size: f32,
     pub viewport_width: f32,
     pub viewport_height: f32,
+}
+
+impl Default for CalcContext {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl CalcContext {

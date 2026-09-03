@@ -19,6 +19,12 @@ pub struct ConsoleEntry {
     pub timestamp: u64,
 }
 
+impl Default for Console {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Console {
     pub fn new() -> Self {
         Console {

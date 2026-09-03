@@ -17,6 +17,12 @@ pub struct Transform {
     pub functions: Vec<TransformFunction>,
 }
 
+impl Default for Transform {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Transform {
     pub fn new() -> Self {
         Transform {

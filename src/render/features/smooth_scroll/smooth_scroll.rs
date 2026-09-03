@@ -1,8 +1,10 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default)]
 pub enum EasingFunction {
     Linear,
     EaseIn,
     EaseOut,
+    #[default]
     EaseInOut,
     CubicIn,
     CubicOut,
@@ -11,11 +13,6 @@ pub enum EasingFunction {
     ElasticOut,
 }
 
-impl Default for EasingFunction {
-    fn default() -> Self {
-        EasingFunction::EaseInOut
-    }
-}
 
 impl EasingFunction {
     pub fn evaluate(&self, t: f32) -> f32 {
@@ -335,7 +332,7 @@ mod tests {
 
     #[test]
     fn test_smooth_scroll_update() {
-        let mut s = SmoothScrollState::with_duration(100.0);
+        let mut s = SmoothScrollState::new().with_duration(100.0);
         s.scroll_to(100.0);
 
         for _ in 0..100 {
@@ -372,7 +369,7 @@ mod tests {
 
     #[test]
     fn test_smooth_scroll_progress() {
-        let mut s = SmoothScrollState::with_duration(200.0);
+        let mut s = SmoothScrollState::new().with_duration(200.0);
         s.scroll_to(100.0);
 
         assert_eq!(s.progress(), 0.0);
@@ -400,7 +397,7 @@ mod tests {
 
     #[test]
     fn test_smooth_scroll_bounce_back() {
-        let mut s = SmoothScrollState::new().with_bounce_back(true, 100.0);
+        let s = SmoothScrollState::new().with_bounce_back(true, 100.0);
         assert!(s.bounce_back);
         assert_eq!(s.overshoot_limit, 100.0);
     }

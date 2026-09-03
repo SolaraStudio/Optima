@@ -5,6 +5,12 @@ pub struct HttpsClient {
     inner: HttpClient,
 }
 
+impl Default for HttpsClient {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl HttpsClient {
     pub fn new() -> Self {
         HttpsClient {

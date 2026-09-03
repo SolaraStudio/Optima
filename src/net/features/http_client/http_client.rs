@@ -149,11 +149,10 @@ impl HttpClient {
         if !req.url.starts_with("http://") && !req.url.starts_with("https://") {
             return Err(format!("unsupported url scheme: {}", req.url));
         }
-        if let Some(body) = &req.body {
-            if body.len() > MAX_BODY_SIZE {
+        if let Some(body) = &req.body
+            && body.len() > MAX_BODY_SIZE {
                 return Err("body exceeds maximum size".to_string());
             }
-        }
         let mut resp = HttpResponse::ok(&req.url);
         resp.status = 200;
         resp.headers = self.default_headers.clone();

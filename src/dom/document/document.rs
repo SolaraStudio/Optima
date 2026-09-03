@@ -10,6 +10,12 @@ pub struct Document {
     pub node: Rc<RefCell<Node>>,
 }
 
+impl Default for Document {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Document {
     pub fn new() -> Self {
         let node = Rc::new(RefCell::new(Node::new(NodeType::Document)));
@@ -118,11 +124,10 @@ impl Document {
         tag: &str,
         result: &mut Vec<Element>,
     ) {
-        if let Some(tag_name) = &node.borrow().tag_name {
-            if tag_name == tag {
+        if let Some(tag_name) = &node.borrow().tag_name
+            && tag_name == tag {
                 result.push(Element::from_node(Rc::clone(node)));
             }
-        }
         for child in &node.borrow().children {
             self.collect_elements_by_tag(child, tag, result);
         }
@@ -134,11 +139,10 @@ impl Document {
         class_name: &str,
         result: &mut Vec<Element>,
     ) {
-        if let Some(class_attr) = node.borrow().get_attribute("class") {
-            if class_attr.split_whitespace().any(|c| c == class_name) {
+        if let Some(class_attr) = node.borrow().get_attribute("class")
+            && class_attr.split_whitespace().any(|c| c == class_name) {
                 result.push(Element::from_node(Rc::clone(node)));
             }
-        }
         for child in &node.borrow().children {
             self.collect_elements_by_class(child, class_name, result);
         }
@@ -161,7 +165,7 @@ impl Document {
                 for (key, value) in &node.attributes {
                     html.push_str(&format!(" {}=\"{}\"", key, value));
                 }
-                html.push_str(">");
+                html.push('>');
                 for child in &node.children {
                     html.push_str(&Self::node_to_string(child));
                 }

@@ -62,6 +62,12 @@ pub struct EventTargetManager {
     pub listeners: HashMap<String, Vec<EventListener>>,
 }
 
+impl Default for EventTargetManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl EventTargetManager {
     pub fn new() -> Self {
         EventTargetManager {
@@ -72,7 +78,7 @@ impl EventTargetManager {
     pub fn add_event_listener(&mut self, type_: &str, listener: EventListener) {
         self.listeners
             .entry(type_.to_string())
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(listener);
     }
 

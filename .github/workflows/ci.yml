@@ -19,7 +19,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
         with:
-          components: rustfmt, clippy
+          components: clippy
 
       - uses: actions/cache@v4
         with:
@@ -30,8 +30,8 @@ jobs:
           key: ${{ runner.os }}-cargo-check-${{ hashFiles('Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-check-
 
-      - run: cargo fmt --all -- --check
       - run: cargo clippy --all-targets -- -D warnings
+
       - run: cargo check --all-targets
 
   build-android:

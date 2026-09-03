@@ -27,19 +27,16 @@ object SystemFontHelper {
                 extensions.any { name.endsWith(it, ignoreCase = true) }
             }?.forEach { file ->
                 val name = file.nameWithoutExtension
-                // Use family name if available
                 try {
                     val typeface = Typeface.createFromFile(file)
                     val familyName = getFamilyName(typeface) ?: name
                     map[familyName] = file.absolutePath
                 } catch (e: Exception) {
-                    // fallback: use filename
                     map[name] = file.absolutePath
                 }
             }
         }
 
-        // Add fallback default
         val defaultTypeface = Typeface.DEFAULT
         val defaultFamily = getFamilyName(defaultTypeface) ?: "sans-serif"
         val defaultPath = "/system/fonts/Roboto-Regular.ttf"
@@ -52,9 +49,10 @@ object SystemFontHelper {
 
     private fun getFamilyName(typeface: Typeface): String? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            typeface.getFont(0)?.family?.toString()
+            // For Android 9+ we use the family property
+            typeface.family
         } else {
-            // Use reflection or fallback
+            // Use reflection for older versions
             try {
                 val field = typeface.javaClass.getDeclaredField("familyName")
                 field.isAccessible = true

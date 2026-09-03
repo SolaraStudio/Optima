@@ -44,6 +44,9 @@ jobs:
     env:
       RUST_BACKTRACE: 1
       ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/25.1.8937393
+      RUSTC_WRAPPER: sccache
+      SCCACHE_DIR: /home/runner/.cache/sccache
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -55,7 +58,7 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
-      - name: Cache cargo registry and build
+      - name: Cache cargo registry and build artifacts
         uses: actions/cache@v5
         with:
           path: |
@@ -66,7 +69,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-${{ matrix.target }}-
 
-      - name: Cache sccache
+      - name: Cache cargo binaries (sccache, cargo-ndk, cargo-chef)
+        uses: actions/cache@v5
+        id: cargo-bin-cache
+        with:
+          path: ~/.cargo/bin
+          key: ${{ runner.os }}-cargo-bin-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-bin-
+
+      - name: Cache sccache compiled objects
         uses: actions/cache@v5
         with:
           path: /home/runner/.cache/sccache
@@ -74,16 +86,45 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-sccache-${{ matrix.target }}-
 
-      - name: Install sccache
-        run: cargo install sccache
+      - name: Install sccache if missing
+        run: |
+          if ! command -v sccache &> /dev/null; then
+            cargo install sccache
+          fi
+
+      - name: Install cargo-ndk if missing
+        run: |
+          if ! command -v cargo-ndk &> /dev/null; then
+            cargo install cargo-ndk
+          fi
+
+      - name: Install cargo-chef if missing
+        run: |
+          if ! command -v cargo-chef &> /dev/null; then
+            cargo install cargo-chef
+          fi
 
       - name: Setup Android SDK & NDK
         uses: android-actions/setup-android@v3
         with:
           packages: platform-tools platforms;android-34 build-tools;34.0.0 ndk;25.1.8937393
 
-      - name: Install cargo-ndk
-        run: cargo install cargo-ndk
+      - name: Compute cargo-chef recipe
+        run: cargo chef prepare --recipe-path recipe.json
+
+      - name: Cache dependencies (cargo chef)
+        uses: actions/cache@v5
+        with:
+          path: target
+          key: ${{ runner.os }}-chef-${{ matrix.target }}-${{ hashFiles('recipe.json') }}
+          restore-keys: |
+            ${{ runner.os }}-chef-${{ matrix.target }}-
+
+      - name: Build dependencies with cargo-chef
+        env:
+          RUSTC_WRAPPER: sccache
+          SCCACHE_DIR: /home/runner/.cache/sccache
+        run: cargo chef cook --release --target ${{ matrix.target }} --recipe-path recipe.json
 
       - name: Build Rust for ${{ matrix.target }}
         env:

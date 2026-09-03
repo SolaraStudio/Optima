@@ -49,10 +49,10 @@ object SystemFontHelper {
 
     private fun getFamilyName(typeface: Typeface): String? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            // For Android 9+ we use the family property
-            typeface.family
+            // Android 9+ – use the official getFamily() method
+            typeface.getFamily()
         } else {
-            // Use reflection for older versions
+            // Older versions – fallback to reflection
             try {
                 val field = typeface.javaClass.getDeclaredField("familyName")
                 field.isAccessible = true

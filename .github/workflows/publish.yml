@@ -66,9 +66,6 @@ jobs:
 
       - name: Build
         env:
-          CC_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/toolchains/llvm/prebuilt/linux-x86_64/bin/${{ matrix.target }}21-clang
-          CXX_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/toolchains/llvm/prebuilt/linux-x86_64/bin/${{ matrix.target }}21-clang++
-          AR_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
           RUST_FONTCONFIG_DLOPEN: 1
           PKG_CONFIG_ALLOW_CROSS: 1
         run: cargo ndk --target ${{ matrix.target }} --platform 21 -- build --release

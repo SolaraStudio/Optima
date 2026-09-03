@@ -42,7 +42,7 @@ jobs:
 
       - run: pkg-config --exists alsa && echo "alsa.pc found" || (echo "alsa.pc missing" && exit 1)
 
-      - run: cargo clippy --all-targets
+      - run: cargo clippy --all-targets -- -D warnings
 
       - run: cargo check --all-targets
 

@@ -63,11 +63,11 @@ impl Document {
     }
 
     pub fn query_selector(&self, selector: &str) -> Option<Element> {
-        if selector.starts_with('#') {
-            return self.get_element_by_id(&selector[1..]);
+        if let Some(id) = selector.strip_prefix('#') {
+            return self.get_element_by_id(id);
         }
-        if selector.starts_with('.') {
-            let elements = self.get_elements_by_class_name(&selector[1..]);
+        if let Some(class) = selector.strip_prefix('.') {
+            let elements = self.get_elements_by_class_name(class);
             return elements.first().cloned();
         }
         let elements = self.get_elements_by_tag_name(selector);
@@ -75,14 +75,14 @@ impl Document {
     }
 
     pub fn query_selector_all(&self, selector: &str) -> Vec<Element> {
-        if selector.starts_with('#') {
-            if let Some(el) = self.get_element_by_id(&selector[1..]) {
+        if let Some(id) = selector.strip_prefix('#') {
+            if let Some(el) = self.get_element_by_id(id) {
                 return vec![el];
             }
             return Vec::new();
         }
-        if selector.starts_with('.') {
-            return self.get_elements_by_class_name(&selector[1..]);
+        if let Some(class) = selector.strip_prefix('.') {
+            return self.get_elements_by_class_name(class);
         }
         self.get_elements_by_tag_name(selector)
     }

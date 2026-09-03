@@ -82,6 +82,7 @@ impl EventTargetManager {
             .push(listener);
     }
 
+    #[allow(clippy::borrowed_box)]
     pub fn remove_event_listener(&mut self, type_: &str, callback: &Box<dyn Fn(&Event)>) {
         if let Some(listeners) = self.listeners.get_mut(type_) {
             listeners.retain(|l| !std::ptr::eq(&l.callback, callback));

@@ -1,4 +1,8 @@
 #![allow(clippy::module_inception)]
+#![allow(clippy::type_complexity)]
+#![allow(clippy::inherent_to_string)]
+#![allow(clippy::should_implement_trait)]
+#![allow(clippy::only_used_in_recursion)]
 
 pub mod android;
 pub mod api;

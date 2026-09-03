@@ -240,7 +240,7 @@ mod tests {
     #[test]
     fn test_visible_dimensions() {
         let z = ViewportZoom::new();
-        z.clone();
+        let _ = z.clone();
 
         let mut z2 = ViewportZoom::new();
         z2.set_factor(2.0);

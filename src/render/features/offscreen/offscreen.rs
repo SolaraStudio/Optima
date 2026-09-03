@@ -62,7 +62,7 @@ impl OffscreenTexture {
     }
 
     pub fn with_sample_count(mut self, count: u32) -> Self {
-        self.sample_count = count.max(1).min(8);
+        self.sample_count = count.clamp(1, 8);
         self
     }
 

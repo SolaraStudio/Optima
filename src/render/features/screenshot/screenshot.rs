@@ -74,12 +74,12 @@ impl PixelBuffer {
         let expected = width as usize * height as usize * bpp;
         if data.len() != expected {
             return Err(format!(
-                "Data length {} does not match expected {} for {}x{} {}",
+                "Data length {} does not match expected {} for {}x{} {:?}",
                 data.len(),
                 expected,
                 width,
                 height,
-                format!("{:?}", format),
+                format,
             ));
         }
         let stride = width as usize * bpp;

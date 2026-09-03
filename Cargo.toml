@@ -30,7 +30,7 @@ fontdue = "0.7"
 reqwest = { version = "0.12", features = ["blocking", "rustls-tls"], default-features = false }
 
 # CSS parsing (for @font-face)
-cssparser = "0.33"
+cssparser = "0.37"
 
 # Audio
 symphonia = { version = "0.5", features = ["all"] }

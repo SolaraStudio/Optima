@@ -21,6 +21,6 @@ jobs:
       - name: Run tarpaulin
         run: cargo tarpaulin --out xml
       - name: Upload to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           fail_ci_if_error: false

@@ -78,7 +78,7 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ matrix.target }}-${{ hashFiles('Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-${{ matrix.target }}-
 
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
         with:
           packages: ndk;25.1.8937393
 

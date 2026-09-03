@@ -17,7 +17,7 @@ vello_shaders = "0.10.0"
 # Android integration
 jni = "0.21"
 log = "0.4"
-android_logger = "0.13"
+android_logger = "0.15"
 
 # Layout
 taffy = { version = "0.6", features = ["grid", "flexbox"] }

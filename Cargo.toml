@@ -35,7 +35,7 @@ cssparser = "0.33"
 # Audio
 symphonia = { version = "0.5", features = ["all"] }
 cpal = "0.15"
-awedio = "0.5"
+awedio = "0.8"
 
 # Video
 yscv-video = "0.1"

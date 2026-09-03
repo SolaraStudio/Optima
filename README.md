@@ -30,12 +30,12 @@ Optima addresses every one of these issues:
 
 ## Core Rendering
 
-- HTML5 parsing via html5ever
-- CSS3 parsing, cascade, and specificity via cssparser
+- HTML5 parsing via [`html5ever`](https://github.com/servo/html5ever)
+- CSS3 parsing, cascade, and specificity via [`cssparser`](https://github.com/servo/rust-cssparser)
 - Full DOM tree (Node, Element, Document, Text, Comment, Range, Selection)
-- Flexbox and CSS Grid layout via taffy
-- GPU-accelerated 2D rendering via vello
-- Text shaping and rasterization via rustybuzz and fontdue
+- Flexbox and CSS Grid layout via [`taffy`](https://github.com/DioxusLabs/taffy)
+- GPU-accelerated 2D rendering via [`vello`](https://github.com/linebender/vello)
+- Text shaping and rasterization via [`rustybuzz`](https://github.com/RazrFalcon/rustybuzz) and [`fontdue`](https://github.com/mooman219/fontdue)
 
 ## Event System
 
@@ -287,13 +287,13 @@ Remaining work includes:
 - Security (CSP, sandbox)
 - JNI bridge finalisation
 
-For a full roadmap, see docs/roadmap/README.md.
+For a full roadmap, see [docs/roadmap/README.md](docs/roadmap/README.md).
 
 ---
 
 ## Contributing
 
-We welcome contributions from the community. Please read our Contributing Guide before submitting issues or pull requests.
+We welcome contributions from the community. Please read our [Contributing Guide](docs/contributing/README.md) before submitting issues or pull requests.
 
 To get started:
 
@@ -312,11 +312,11 @@ We follow standard Rust practices and use GitHub Actions for continuous integrat
 
 Comprehensive documentation is available in the docs/ directory:
 
-- Design Overview – Architectural decisions and trade-offs.
-- API Reference – Public API documentation.
-- Developer Guide – How to extend or modify Optima.
-- FAQ – Frequently asked questions.
-- Roadmap – Planned features and milestones.
+- [Design Overview](docs/design/README.md) – Architectural decisions and trade-offs.
+- [API Reference](docs/api/README.md) – Public API documentation.
+- [Developer Guide](docs/developer-guide/README.md) – How to extend or modify Optima.
+- [FAQ](docs/faq/README.md) – Frequently asked questions.
+- [Roadmap](docs/roadmap/README.md) – Planned features and milestones.
 
 ---
 
@@ -324,8 +324,8 @@ Comprehensive documentation is available in the docs/ directory:
 
 This project is licensed under either of the following, at your option:
 
-- Apache License, Version 2.0 – LICENSE-APACHE
-- MIT License – LICENSE-MIT
+- Apache License 2.0 – [LICENSE-APACHE](LICENSE-APACHE)
+- MIT License – [LICENSE-MIT](LICENSE-MIT)
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
 
@@ -335,12 +335,12 @@ Unless you explicitly state otherwise, any contribution intentionally submitted 
 
 Optima builds upon the excellent work of the open‑source community:
 
-- html5ever – HTML parsing (Servo)
-- cssparser – CSS parsing (Servo)
-- taffy – Flexbox/Grid layout (Dioxus)
-- vello – GPU rendering (Linebender)
-- rustybuzz – Text shaping (RazrFalcon)
-- fontdue – Font rasterization (mooman219)
+- [`html5ever`](https://github.com/servo/html5ever) – HTML parsing (Servo)
+- [`cssparser`](https://github.com/servo/rust-cssparser) – CSS parsing (Servo)
+- [`taffy`](https://github.com/DioxusLabs/taffy) – Flexbox/Grid layout (Dioxus)
+- [`vello`](https://github.com/linebender/vello) – GPU rendering (Linebender)
+- [`rustybuzz`](https://github.com/RazrFalcon/rustybuzz) – Text shaping (RazrFalcon)
+- [`fontdue`](https://github.com/mooman219/fontdue) – Font rasterization (mooman219)
 
 Special thanks to the Rust community for creating the foundation upon which Optima is built.
 
@@ -348,9 +348,9 @@ Special thanks to the Rust community for creating the foundation upon which Opti
 
 ## Contact
 
-- Issues: GitHub Issues
-- Discussions: GitHub Discussions
-- Web: solara.fluxcast.dev ***unfinished***
+- Issues: [GitHub Issues](https://github.com/SolaraStudio/Optima/issues)
+- Discussions: [GitHub Discussions](https://github.com/SolaraStudio/Optima/discussions)
+- Web: [Solara-Web](solara.fluxcast.dev) - ***unfinished***
 
 ---
 

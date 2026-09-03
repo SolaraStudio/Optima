@@ -33,7 +33,7 @@ reqwest = { version = "0.12", features = ["blocking", "rustls-tls"], default-fea
 cssparser = "0.37"
 
 # Audio
-symphonia = { version = "0.5", features = ["all"] }
+symphonia = { version = "0.6", features = ["all"] }
 cpal = "0.15"
 awedio = "0.5"
 

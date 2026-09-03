@@ -30,6 +30,18 @@ jobs:
           key: ${{ runner.os }}-cargo-check-${{ hashFiles('Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-check-
 
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libasound2-dev libudev-dev \
+            libjack-dev pkg-config libssl-dev \
+            libfontconfig1-dev libfreetype6-dev \
+            libx11-dev libxext-dev libxkbcommon-dev \
+            libwayland-dev libegl1-mesa-dev libvulkan-dev
+
+      - run: pkg-config --exists alsa && echo "alsa.pc found" || (echo "alsa.pc missing" && exit 1)
+
       - run: cargo clippy --all-targets -- -D warnings
 
       - run: cargo check --all-targets
@@ -106,18 +118,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            libasound2-dev libasound2t64-dev libudev-dev \
-            libjack-dev pkg-config libssl-dev \
-            libfontconfig1-dev libfreetype6-dev \
-            libx11-dev libxext-dev libxkbcommon-dev \
-            libwayland-dev libegl1-mesa-dev libvulkan-dev \
-            || sudo apt-get install -y \
             libasound2-dev libudev-dev \
             libjack-dev pkg-config libssl-dev \
             libfontconfig1-dev libfreetype6-dev \
             libx11-dev libxext-dev libxkbcommon-dev \
             libwayland-dev libegl1-mesa-dev libvulkan-dev
 
-      - run: pkg-config --exists alsa && echo "alsa.pc found" || echo "alsa.pc missing"
+      - run: pkg-config --exists alsa && echo "alsa.pc found" || (echo "alsa.pc missing" && exit 1)
 
       - run: cargo build --release --lib

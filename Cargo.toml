@@ -23,7 +23,7 @@ android_logger = "0.13"
 taffy = { version = "0.6", features = ["grid", "flexbox"] }
 
 # Text shaping and fonts (pure Rust)
-rustybuzz = "0.14"
+rustybuzz = "0.20"
 fontdue = "0.7"
 
 # Networking (for font downloads)

@@ -21,13 +21,31 @@ permissions:
   packages: write
 
 jobs:
-  publish:
-    name: Build and publish Optima AAR
+  build-rust:
+    name: Build Rust (${{ matrix.target }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - aarch64-linux-android
+          - armv7-linux-androideabi
+          - i686-linux-android
+          - x86_64-linux-android
+        include:
+          - target: aarch64-linux-android
+            abi: arm64-v8a
+          - target: armv7-linux-androideabi
+            abi: armeabi-v7a
+          - target: i686-linux-android
+            abi: x86
+          - target: x86_64-linux-android
+            abi: x86_64
     env:
       RUST_BACKTRACE: 1
       ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/25.1.8937393
-
+      RUSTC_WRAPPER: sccache
+      SCCACHE_DIR: /home/runner/.cache/sccache
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -37,22 +55,29 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: |
-            aarch64-linux-android
-            armv7-linux-androideabi
-            i686-linux-android
-            x86_64-linux-android
+          targets: ${{ matrix.target }}
 
-      - name: Cache cargo
+      - name: Cache cargo registry and build
         uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             target
-          key: ${{ runner.os }}-cargo-optima-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ matrix.target }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            ${{ runner.os }}-cargo-optima-
+            ${{ runner.os }}-cargo-${{ matrix.target }}-
+
+      - name: Cache sccache
+        uses: actions/cache@v5
+        with:
+          path: /home/runner/.cache/sccache
+          key: ${{ runner.os }}-sccache-${{ matrix.target }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-sccache-${{ matrix.target }}-
+
+      - name: Install sccache
+        run: cargo install sccache
 
       - name: Setup Android SDK & NDK
         uses: android-actions/setup-android@v3
@@ -62,12 +87,36 @@ jobs:
       - name: Install cargo-ndk
         run: cargo install cargo-ndk
 
-      - name: Build Rust (all ABIs)
+      - name: Build Rust for ${{ matrix.target }}
+        run: cargo ndk --target ${{ matrix.target }} --platform 21 -- build --release
+
+      - name: Upload .so artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: lib-${{ matrix.abi }}
+          path: target/${{ matrix.target }}/release/*.so
+          retention-days: 1
+
+  package-aar:
+    name: Package AAR
+    runs-on: ubuntu-latest
+    needs: build-rust
+    env:
+      OPTIMA_VERSION: ${{ steps.version.outputs.VERSION }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fix Gradle version compatibility
         run: |
-          for target in aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android; do
-            echo "Building for $target"
-            cargo ndk --target "$target" --platform 21 -- build --release
-          done
+          sed -i 's|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-9.5-bin.zip|' android/gradle/wrapper/gradle-wrapper.properties
+
+      - name: Download all .so artifacts
+        uses: actions/download-artifact@v7
+        with:
+          path: artifacts
 
       - name: Copy .so files to jniLibs
         run: |
@@ -75,15 +124,10 @@ jobs:
           mkdir -p android/src/main/jniLibs/armeabi-v7a
           mkdir -p android/src/main/jniLibs/x86
           mkdir -p android/src/main/jniLibs/x86_64
-          cp target/aarch64-linux-android/release/*.so android/src/main/jniLibs/arm64-v8a/
-          cp target/armv7-linux-androideabi/release/*.so android/src/main/jniLibs/armeabi-v7a/
-          cp target/i686-linux-android/release/*.so android/src/main/jniLibs/x86/
-          cp target/x86_64-linux-android/release/*.so android/src/main/jniLibs/x86_64/
-
-      - name: Build AAR
-        run: |
-          cd android
-          ./gradlew assembleRelease
+          cp artifacts/lib-arm64-v8a/*.so android/src/main/jniLibs/arm64-v8a/ || true
+          cp artifacts/lib-armeabi-v7a/*.so android/src/main/jniLibs/armeabi-v7a/ || true
+          cp artifacts/lib-x86/*.so android/src/main/jniLibs/x86/ || true
+          cp artifacts/lib-x86_64/*.so android/src/main/jniLibs/x86_64/ || true
 
       - name: Determine version
         id: version
@@ -100,6 +144,11 @@ jobs:
           fi
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Build AAR
+        run: |
+          cd android
+          ./gradlew assembleRelease
+
       - name: Publish to GitHub Packages
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -109,7 +158,7 @@ jobs:
           cd android
           ./gradlew publish
 
-      - name: (Optional) Upload AAR as artifact
+      - name: Upload AAR as artifact
         uses: actions/upload-artifact@v7
         with:
           name: optima-aar-${{ steps.version.outputs.VERSION }}

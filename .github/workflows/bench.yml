@@ -1,0 +1,24 @@
+name: Benchmarks
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    paths:
+      - 'benches/**'
+      - 'src/**'
+  workflow_dispatch:
+
+jobs:
+  bench:
+    name: Run benchmarks
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install system deps
+        run: sudo apt-get update && sudo apt-get install -y libasound2-dev libudev-dev pkg-config libssl-dev libfontconfig1-dev libfreetype6-dev
+      - name: Build benches
+        run: cargo bench --no-run
+      - name: Run benches (quick smoke)
+        run: cargo bench -- --test

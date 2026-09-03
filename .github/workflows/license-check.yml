@@ -1,0 +1,23 @@
+name: License Check
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Verify license metadata
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify LICENSE files exist
+        run: |
+          for f in LICENSE-MIT LICENSE-APACHE; do
+            [ -f "$f" ] || { echo "Missing $f"; exit 1; }
+            echo "OK: $f"
+          done
+      - name: Verify Cargo.toml license
+        run: grep -q 'license = "MIT OR Apache-2.0"' Cargo.toml && echo "Cargo.toml license OK"

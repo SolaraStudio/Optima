@@ -1,0 +1,35 @@
+android:
+  - changed-files:
+      - any-glob-to-any-file: ['android/**']
+
+rust-core:
+  - changed-files:
+      - any-glob-to-any-file: ['src/android/**', 'src/api/**', 'src/config/**']
+
+css:
+  - changed-files:
+      - any-glob-to-any-file: ['src/css/**']
+
+rendering:
+  - changed-files:
+      - any-glob-to-any-file: ['src/render/**']
+
+networking:
+  - changed-files:
+      - any-glob-to-any-file: ['src/net/**']
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['docs/**', '*.md']
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file: ['.github/**']
+
+examples:
+  - changed-files:
+      - any-glob-to-any-file: ['examples/**']
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file: ['tests/**', 'benches/**']

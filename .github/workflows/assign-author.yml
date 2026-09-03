@@ -1,0 +1,17 @@
+name: Auto Assign Author
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  assign:
+    name: Assign PR to author
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: toshimaru/auto-author-assign@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

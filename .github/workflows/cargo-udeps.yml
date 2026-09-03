@@ -1,0 +1,22 @@
+name: Unused Dependencies
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    paths: ['Cargo.toml', 'Cargo.lock', 'src/**']
+  workflow_dispatch:
+
+jobs:
+  udeps:
+    name: Detect unused dependencies
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: Install system deps
+        run: sudo apt-get update && sudo apt-get install -y libasound2-dev libudev-dev pkg-config libssl-dev libfontconfig1-dev libfreetype6-dev
+      - name: Install cargo-udeps
+        run: cargo +nightly install cargo-udeps --locked
+      - name: Run cargo-udeps
+        run: cargo +nightly udeps --all-targets

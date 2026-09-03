@@ -1,0 +1,60 @@
+name: GitHub Packages
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  git-tag:
+    name: Tag metadata
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: ver
+        run: echo "version=$(cat version.txt)" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build AAR
+    runs-on: ubuntu-22.04
+    needs: git-tag
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: ndk;25.1.8937393
+      - run: cargo install cargo-ndk
+      - name: Build all ABIs
+        run: |
+          for t in aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android; do
+            cargo ndk --target "$t" --platform 21 -- build --release || exit 1
+          done
+      - name: Stage .so files
+        run: |
+          JNILIBS=android/app/src/main/jniLibs
+          mkdir -p "$JNILIBS/arm64-v8a" "$JNILIBS/armeabi-v7a" "$JNILIBS/x86" "$JNILIBS/x86_64"
+          cp target/aarch64-linux-android/release/*.so "$JNILIBS/arm64-v8a/" 2>/dev/null || true
+          cp target/armv7-linux-androideabi/release/*.so "$JNILIBS/armeabi-v7a/" 2>/dev/null || true
+          cp target/i686-linux-android/release/*.so "$JNILIBS/x86/" 2>/dev/null || true
+          cp target/x86_64-linux-android/release/*.so "$JNILIBS/x86_64/" 2>/dev/null || true
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Publish to GH Packages
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew publish --no-daemon

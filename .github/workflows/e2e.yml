@@ -1,0 +1,33 @@
+name: End-to-End Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    paths: ['tests/**', 'src/**', 'Cargo.toml']
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: Run E2E tests
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libasound2-dev libudev-dev libjack-dev \
+            pkg-config libssl-dev libfontconfig1-dev \
+            libfreetype6-dev libx11-dev libxext-dev \
+            libxkbcommon-dev libwayland-dev libegl1-mesa-dev \
+            xvfb
+      - name: Start Xvfb
+        run: |
+          Xvfb :99 -screen 0 1024x768x24 &
+          sleep 3
+      - name: Run integration tests
+        run: cargo test --test '*' -- --skip ignored
+        env:
+          DISPLAY: ":99"

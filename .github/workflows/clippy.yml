@@ -1,0 +1,30 @@
+name: Clippy
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  clippy:
+    name: Clippy (ubuntu-22.04)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libasound2-dev libudev-dev libjack-dev \
+            pkg-config libssl-dev libfontconfig1-dev \
+            libfreetype6-dev libx11-dev libxext-dev \
+            libxkbcommon-dev libwayland-dev libegl1-mesa-dev
+      - run: cargo clippy --all-targets -- -D warnings

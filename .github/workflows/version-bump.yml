@@ -1,0 +1,47 @@
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "New version (e.g. 0.151.0, 0.150.11)"
+        required: true
+      skip_ci:
+        description: "Add [skip ci] to commit"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    name: Bump version
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bump version
+        id: bump
+        run: |
+          VER="${{ github.event.inputs.version }}"
+          sed -i "s/^version = .*/version = \"$VER\"/" Cargo.toml
+          echo "$VER" > version.txt
+          find android -name "*.kt" -path "*OptimaVersion*" -exec sed -i "s/const val VERSION = \"[^\"]*\"/const val VERSION = \"$VER\"/" {} \;
+          find android -name "strings.xml" -exec sed -i "s|<string name=\"version\">[^<]*</string>|<string name=\"version\">$VER</string>|" {} \;
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          SKIP=""
+          if [[ "${{ github.event.inputs.skip_ci }}" == "true" ]]; then SKIP=" [skip ci]"; fi
+          git add -A
+          git commit -m "chore: bump version to $VER$SKIP"
+          git push origin HEAD:${GITHUB_REF#refs/heads/}
+      - name: Create git tag
+        run: |
+          VER="${{ github.event.inputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v$VER"
+          git push origin "v$VER"

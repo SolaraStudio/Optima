@@ -1,0 +1,22 @@
+name: PR Size Label
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  size:
+    name: Label PR by size
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: codelytv/pr-size-labeler@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          xs_max_size: '30'
+          s_max_size: '120'
+          m_max_size: '500'
+          l_max_size: '1000'
+          xl_max_size: '2000'

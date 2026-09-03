@@ -1,0 +1,26 @@
+name: Build Examples
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    paths: ['examples/**', 'src/**', 'Cargo.toml']
+  workflow_dispatch:
+
+jobs:
+  examples:
+    name: Build examples
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libasound2-dev libudev-dev libjack-dev \
+            pkg-config libssl-dev libfontconfig1-dev \
+            libfreetype6-dev libx11-dev libxext-dev \
+            libxkbcommon-dev libwayland-dev libegl1-mesa-dev
+      - name: Build all examples
+        run: cargo build --examples --release

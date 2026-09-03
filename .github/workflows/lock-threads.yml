@@ -1,0 +1,26 @@
+name: Lock Threads
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: lock-threads
+
+jobs:
+  lock:
+    name: Lock inactive threads
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: dessant/lock-threads@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          process-only: 'issues,prs'
+          issue-inactive-days: '30'
+          pr-inactive-days: '30'
+          issue-lock-reason: 'resolved'

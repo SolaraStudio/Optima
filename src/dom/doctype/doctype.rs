@@ -1,4 +1,3 @@
-use crate::dom::node::Node;
 
 pub struct Doctype {
     pub name: String,

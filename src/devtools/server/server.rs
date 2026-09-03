@@ -31,7 +31,7 @@ impl DevToolsServer {
         self.clients.lock().unwrap().remove(&client_id);
     }
 
-    pub fn handle_message(&self, client_id: u64, message: DevToolsMessage) -> Option<DevToolsMessage> {
+    pub fn handle_message(&self, _client_id: u64, message: DevToolsMessage) -> Option<DevToolsMessage> {
         if let Some(method) = &message.method {
             let response = self.backend.handle_command(method, message.params.clone());
             match response {

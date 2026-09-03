@@ -1,4 +1,3 @@
-use crate::text::glyph::GlyphRun;
 use crate::text::line::TextLine;
 use crate::text::run::TextRun;
 

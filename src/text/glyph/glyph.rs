@@ -7,8 +7,8 @@ pub struct Glyph {
     pub height: f32,
     pub advance_x: f32,
     pub advance_y: f32,
-    pub offsetX: f32,
-    pub offsetY: f32,
+    pub offset_x: f32,
+    pub offset_y: f32,
 }
 
 impl Glyph {
@@ -17,7 +17,7 @@ impl Glyph {
     pub fn with_position(mut self, x: f32, y: f32) -> Self { self.x = x; self.y = y; self }
     pub fn with_size(mut self, w: f32, h: f32) -> Self { self.width = w; self.height = h; self }
     pub fn with_advance(mut self, ax: f32, ay: f32) -> Self { self.advance_x = ax; self.advance_y = ay; self }
-    pub fn with_offset(mut self, ox: f32, oy: f32) -> Self { self.offsetX = ox; self.offsetY = oy; self }
+    pub fn with_offset(mut self, ox: f32, oy: f32) -> Self { self.offset_x = ox; self.offset_y = oy; self }
 }
 
 #[derive(Debug, Clone, Default)]

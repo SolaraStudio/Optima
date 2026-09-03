@@ -24,7 +24,7 @@ impl Transform {
         }
     }
 
-    pub fn from_value(value: &Value) -> Option<Self> {
+    pub fn from_value(_value: &Value) -> Option<Self> {
         // Parse transform functions
         None
     }

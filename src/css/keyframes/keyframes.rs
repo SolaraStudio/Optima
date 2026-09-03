@@ -1,5 +1,4 @@
 use crate::css::declaration::Declaration;
-use std::collections::HashMap;
 
 #[derive(Debug, Clone)]
 pub struct Keyframes {

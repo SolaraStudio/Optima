@@ -39,7 +39,7 @@ impl HttpCache {
 
     fn evict(&mut self) {
         while self.total_size > self.max_size {
-            if let Some((oldest_url, oldest_time)) = self.entries.iter()
+            if let Some((oldest_url, _oldest_time)) = self.entries.iter()
                 .min_by_key(|(_, e)| e.inserted_at)
                 .map(|(u, e)| (u.clone(), e.inserted_at))
             {

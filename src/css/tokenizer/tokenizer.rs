@@ -1,4 +1,4 @@
-use cssparser::{Parser, ParserInput, Token};
+use cssparser::{Parser, Token};
 use crate::css::value::Value;
 use crate::css::colors::Color;
 use crate::css::units::Length;

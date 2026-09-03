@@ -40,7 +40,7 @@ impl AndroidAssets {
     }
 
     pub fn read_stream(env: &mut JNIEnv, stream: JObject) -> Option<Vec<u8>> {
-        let mut buffer = vec![0u8; 4096];
+        let buffer = vec![0u8; 4096];
         let mut result = Vec::new();
         loop {
             let jbuffer = env.byte_array_from_slice(&buffer).unwrap();

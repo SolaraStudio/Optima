@@ -1,5 +1,4 @@
 use crate::css::stylesheet::Stylesheet;
-use crate::css::rule::Rule;
 use crate::css::selector::Selector;
 use crate::css::declaration::Declaration;
 use crate::css::specificity::Specificity;

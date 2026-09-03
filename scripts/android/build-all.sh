@@ -11,15 +11,16 @@ for target in aarch64-linux-android armv7-linux-androideabi i686-linux-android x
     cargo build --target "$target" --release
 done
 
-mkdir -p android/src/main/jniLibs/arm64-v8a
-mkdir -p android/src/main/jniLibs/armeabi-v7a
-mkdir -p android/src/main/jniLibs/x86
-mkdir -p android/src/main/jniLibs/x86_64
+JNILIBS=android/app/src/main/jniLibs
+mkdir -p "$JNILIBS/arm64-v8a"
+mkdir -p "$JNILIBS/armeabi-v7a"
+mkdir -p "$JNILIBS/x86"
+mkdir -p "$JNILIBS/x86_64"
 
-cp target/aarch64-linux-android/release/*.so android/src/main/jniLibs/arm64-v8a/
-cp target/armv7-linux-androideabi/release/*.so android/src/main/jniLibs/armeabi-v7a/
-cp target/i686-linux-android/release/*.so android/src/main/jniLibs/x86/
-cp target/x86_64-linux-android/release/*.so android/src/main/jniLibs/x86_64/
+cp target/aarch64-linux-android/release/*.so "$JNILIBS/arm64-v8a/"
+cp target/armv7-linux-androideabi/release/*.so "$JNILIBS/armeabi-v7a/"
+cp target/i686-linux-android/release/*.so "$JNILIBS/x86/"
+cp target/x86_64-linux-android/release/*.so "$JNILIBS/x86_64/"
 
 cd android
 ./gradlew assembleRelease

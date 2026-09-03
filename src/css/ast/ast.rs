@@ -1,7 +1,6 @@
 use crate::css::value::Value;
 use crate::css::selector::Selector;
 use crate::css::declaration::Declaration;
-use std::collections::HashMap;
 
 pub struct Stylesheet {
     pub rules: Vec<Rule>,

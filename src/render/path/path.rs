@@ -22,9 +22,9 @@ impl Path {
     pub fn cubic_to(mut self, cx1: f32, cy1: f32, cx2: f32, cy2: f32, x: f32, y: f32) -> Self { self.commands.push(PathCommand::CubicTo { cx1, cy1, cx2, cy2, x, y }); self }
     pub fn close(mut self) -> Self { self.commands.push(PathCommand::Close); self.closed = true; self }
     pub fn rect(x: f32, y: f32, w: f32, h: f32) -> Self { Path::new().move_to(x, y).line_to(x+w, y).line_to(x+w, y+h).line_to(x, y+h).close() }
-    pub fn rounded_rect(x: f32, y: f32, w: f32, h: f32, rx: f32, ry: f32) -> Self { Path::rect(x, y, w, h) }
-    pub fn circle(cx: f32, cy: f32, r: f32) -> Self { Path::new() }
-    pub fn ellipse(cx: f32, cy: f32, rx: f32, ry: f32) -> Self { Path::new() }
+    pub fn rounded_rect(x: f32, y: f32, w: f32, h: f32, _rx: f32, _ry: f32) -> Self { Path::rect(x, y, w, h) }
+    pub fn circle(_cx: f32, _cy: f32, _r: f32) -> Self { Path::new() }
+    pub fn ellipse(_cx: f32, _cy: f32, _rx: f32, _ry: f32) -> Self { Path::new() }
     pub fn is_empty(&self) -> bool { self.commands.is_empty() }
 
     pub fn bounds(&self) -> (f32, f32, f32, f32) {

@@ -25,8 +25,7 @@ impl Integration {
     }
 
     pub fn load_html(&mut self, html: &str, base_url: &str) -> Result<(), String> {
-        self.engine.load_html(html, base_url);
-        Ok(())
+        self.engine.load_html(html, base_url)
     }
 
     pub fn tick(&mut self) {

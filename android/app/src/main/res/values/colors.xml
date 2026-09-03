@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="optima_background">#FFFFFFFF</color>
+    <color name="optima_text">#FF000000</color>
+    <color name="optima_accent">#FF4285F4</color>
+    <color name="optima_surface">#FFF8F9FA</color>
+</resources>

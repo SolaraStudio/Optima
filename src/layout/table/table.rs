@@ -1,5 +1,3 @@
-use crate::layout::fragment::Fragment;
-use crate::layout::box_model::BoxModel;
 
 pub struct TableLayout;
 

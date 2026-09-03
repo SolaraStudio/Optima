@@ -1,4 +1,3 @@
-use wgpu::Device;
 
 pub struct RenderBackend {
     pub device: Option<wgpu::Device>,
@@ -11,7 +10,7 @@ impl RenderBackend {
         RenderBackend { device: None, queue: None, surface: None }
     }
 
-    pub fn initialize(&mut self, width: u32, height: u32) -> Result<(), String> {
+    pub fn initialize(&mut self, _width: u32, _height: u32) -> Result<(), String> {
         let instance = wgpu::Instance::default();
         let adapter = pollster::block_on(instance.request_adapter(&wgpu::RequestAdapterOptions {
             power_preference: wgpu::PowerPreference::HighPerformance,

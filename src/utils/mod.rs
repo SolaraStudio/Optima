@@ -30,4 +30,3 @@ pub use assert::*;
 pub use async_::*;
 pub use pool::*;
 pub use random::*;
-pub use macro_::*;

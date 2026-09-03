@@ -1,5 +1,4 @@
 use crate::css::computed::ComputedStyle;
-use crate::text::layout::TextLayout;
 
 pub struct MeasureContext {
     pub font_size: f32,

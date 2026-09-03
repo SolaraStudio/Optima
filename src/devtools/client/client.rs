@@ -27,7 +27,7 @@ impl DevToolsClient {
         };
         let message = DevToolsMessage::new_request(id, method, params);
         let response = self.server.handle_message(self.id, message);
-        if let Some(resp) = response {
+        if let Some(_resp) = response {
             // In a real implementation, this would be sent over WebSocket
             // For now, we just return the ID
         }

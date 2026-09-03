@@ -62,7 +62,7 @@ impl Response {
 pub struct Fetch;
 
 impl Fetch {
-    pub fn execute(request: &Request) -> Result<Response, String> {
+    pub fn execute(_request: &Request) -> Result<Response, String> {
         Ok(Response::ok())
     }
 

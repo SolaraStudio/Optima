@@ -1,4 +1,3 @@
-use crate::layout::box_model::BoxModel;
 use crate::layout::fragment::Fragment;
 use crate::css::computed::ComputedStyle;
 

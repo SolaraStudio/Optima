@@ -3,7 +3,6 @@ use std::rc::Rc;
 
 use crate::dom::Document;
 use crate::css::stylesheet::Stylesheet;
-use crate::css::cascade::Cascade;
 
 use super::super::config::EngineConfig;
 use super::super::navigation::NavigationState;

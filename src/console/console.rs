@@ -1,4 +1,3 @@
-use log::{Level, LevelFilter, Metadata, Record};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum LogLevel {

@@ -41,7 +41,7 @@ impl DOMBackend {
         let doc_id = self.next_document_id;
         self.next_document_id += 1;
 
-        let mut root = DOMNode {
+        let root = DOMNode {
             node_id: 1,
             node_type: 9,
             node_name: "#document".to_string(),
@@ -55,7 +55,7 @@ impl DOMBackend {
             base_url: Some("about:blank".to_string()),
         };
 
-        let html = DOMNode {
+        let _html = DOMNode {
             node_id: 2,
             node_type: 1,
             node_name: "HTML".to_string(),
@@ -69,7 +69,7 @@ impl DOMBackend {
             base_url: None,
         };
 
-        let head = DOMNode {
+        let _head = DOMNode {
             node_id: 3,
             node_type: 1,
             node_name: "HEAD".to_string(),
@@ -83,7 +83,7 @@ impl DOMBackend {
             base_url: None,
         };
 
-        let body = DOMNode {
+        let _body = DOMNode {
             node_id: 4,
             node_type: 1,
             node_name: "BODY".to_string(),

@@ -106,7 +106,7 @@ impl Range {
     }
 
     pub fn to_string(&self) -> String {
-        let mut text = String::new();
+        let text = String::new();
         // Simplified: traverse nodes between start and end
         // Full implementation would be more complex
         text

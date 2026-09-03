@@ -9,10 +9,10 @@ impl Shapes {
     pub fn rounded_rect(x: f32, y: f32, w: f32, h: f32, _rx: f32, _ry: f32) -> Path {
         Path::rect(x, y, w, h)
     }
-    pub fn circle(cx: f32, cy: f32, _r: f32) -> Path {
+    pub fn circle(_cx: f32, _cy: f32, _r: f32) -> Path {
         Path::new()
     }
-    pub fn ellipse(cx: f32, cy: f32, _rx: f32, _ry: f32) -> Path {
+    pub fn ellipse(_cx: f32, _cy: f32, _rx: f32, _ry: f32) -> Path {
         Path::new()
     }
     pub fn line(x1: f32, y1: f32, x2: f32, y2: f32) -> Path {

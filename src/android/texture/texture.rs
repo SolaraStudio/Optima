@@ -9,7 +9,7 @@ pub struct AndroidTexture {
 }
 
 impl AndroidTexture {
-    pub fn new(device: &Device, width: u32, height: u32, data: &[u8]) -> Self {
+    pub fn new(device: &Device, width: u32, height: u32, _data: &[u8]) -> Self {
         let size = wgpu::Extent3d {
             width,
             height,

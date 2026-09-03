@@ -3,9 +3,7 @@ use std::sync::OnceLock;
 
 static LOGGER: OnceLock<OptimaLogger> = OnceLock::new();
 
-struct OptimaLogger {
-    level: LevelFilter,
-}
+struct OptimaLogger;
 
 impl log::Log for OptimaLogger {
     fn enabled(&self, _metadata: &Metadata) -> bool { true }
@@ -24,7 +22,7 @@ impl log::Log for OptimaLogger {
 }
 
 pub fn init_logger(level: LevelFilter) {
-    let logger = LOGGER.get_or_init(|| OptimaLogger { level });
+    let logger = LOGGER.get_or_init(|| OptimaLogger);
     log::set_logger(logger)
         .map(|()| log::set_max_level(level))
         .ok();

@@ -10,7 +10,7 @@ pub struct TextLine {
 }
 
 impl TextLine {
-    pub fn new(x: f32, y: f32, max_width: f32) -> Self {
+    pub fn new(_x: f32, y: f32, max_width: f32) -> Self {
         TextLine { y, height: 0.0, max_width, glyphs: Vec::new(), baseline: 0.0 }
     }
 

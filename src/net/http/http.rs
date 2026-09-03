@@ -1,6 +1,6 @@
 use crate::net::header::Headers;
 use crate::net::body::Body;
-use crate::net::fetch::{Method, Request, Response};
+use crate::net::fetch::{Request, Response};
 
 pub struct HttpClient {
     pub timeout: std::time::Duration,
@@ -30,7 +30,7 @@ impl HttpClient {
         self.execute(req)
     }
 
-    pub fn execute(&self, request: Request) -> Result<Response, String> {
+    pub fn execute(&self, _request: Request) -> Result<Response, String> {
         Ok(Response::ok())
     }
 }

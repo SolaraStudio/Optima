@@ -3,7 +3,7 @@ use crate::css::colors::Color;
 pub struct BlendOps;
 
 impl BlendOps {
-    pub fn blend_normal(base: Color, overlay: Color) -> Color { overlay }
+    pub fn blend_normal(_base: Color, overlay: Color) -> Color { overlay }
     pub fn blend_multiply(base: Color, overlay: Color) -> Color {
         Color::new(base.r*overlay.r, base.g*overlay.g, base.b*overlay.b, base.a*overlay.a)
     }

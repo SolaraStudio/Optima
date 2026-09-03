@@ -1,5 +1,4 @@
 use crate::css::colors::Color;
-use crate::css::units::Length;
 
 #[derive(Debug, Clone)]
 pub enum PaintStyle {

@@ -20,11 +20,15 @@ pub fn from_hex(hex: &str) -> Result<Vec<u8>, String> {
 }
 
 pub fn to_base64(data: &[u8]) -> String {
-    base64::encode(data)
+    use base64::Engine as _;
+    base64::engine::general_purpose::STANDARD.encode(data)
 }
 
 pub fn from_base64(encoded: &str) -> Result<Vec<u8>, String> {
-    base64::decode(encoded).map_err(|e| e.to_string())
+    use base64::Engine as _;
+    base64::engine::general_purpose::STANDARD
+        .decode(encoded)
+        .map_err(|e| e.to_string())
 }
 
 pub fn concat_bytes(a: &[u8], b: &[u8]) -> Vec<u8> {

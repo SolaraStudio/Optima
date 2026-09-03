@@ -44,7 +44,6 @@ jobs:
     env:
       RUST_BACKTRACE: 1
       ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/25.1.8937393
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -67,7 +66,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-${{ matrix.target }}-
 
-      - name: Cache cargo binaries (sccache, cargo-ndk, cargo-chef)
+      - name: Cache cargo binaries
         uses: actions/cache@v5
         id: cargo-bin-cache
         with:
@@ -107,6 +106,10 @@ jobs:
         with:
           packages: platform-tools platforms;android-34 build-tools;34.0.0 ndk;25.1.8937393
 
+      - name: Add NDK compiler to PATH
+        run: |
+          echo "PATH=$ANDROID_NDK_HOME/bin:$PATH" >> $GITHUB_ENV
+
       - name: Compute cargo-chef recipe
         run: cargo chef prepare --recipe-path recipe.json
 
@@ -122,12 +125,18 @@ jobs:
         env:
           RUSTC_WRAPPER: sccache
           SCCACHE_DIR: /home/runner/.cache/sccache
+          CC_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/bin/${{ matrix.target }}-clang
+          CXX_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/bin/${{ matrix.target }}-clang++
+          AR_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/bin/${{ matrix.target }}-ar
         run: cargo chef cook --release --target ${{ matrix.target }} --recipe-path recipe.json
 
       - name: Build Rust for ${{ matrix.target }}
         env:
           RUSTC_WRAPPER: sccache
           SCCACHE_DIR: /home/runner/.cache/sccache
+          CC_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/bin/${{ matrix.target }}-clang
+          CXX_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/bin/${{ matrix.target }}-clang++
+          AR_${{ matrix.target }}: ${{ env.ANDROID_NDK_HOME }}/bin/${{ matrix.target }}-ar
         run: cargo ndk --target ${{ matrix.target }} --platform 21 -- build --release
 
       - name: Upload .so artifact

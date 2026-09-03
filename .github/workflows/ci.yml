@@ -106,11 +106,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            libasound2-dev \
-            libudev-dev libjack-dev \
-            pkg-config libssl-dev \
+            libasound2-dev libasound2t64-dev libudev-dev \
+            libjack-dev pkg-config libssl-dev \
+            libfontconfig1-dev libfreetype6-dev \
+            libx11-dev libxext-dev libxkbcommon-dev \
+            libwayland-dev libegl1-mesa-dev libvulkan-dev \
+            || sudo apt-get install -y \
+            libasound2-dev libudev-dev \
+            libjack-dev pkg-config libssl-dev \
             libfontconfig1-dev libfreetype6-dev \
             libx11-dev libxext-dev libxkbcommon-dev \
             libwayland-dev libegl1-mesa-dev libvulkan-dev
+
+      - run: pkg-config --exists alsa && echo "alsa.pc found" || echo "alsa.pc missing"
 
       - run: cargo build --release --lib

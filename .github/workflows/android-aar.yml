@@ -29,9 +29,11 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
-      - uses: android-actions/setup-android@v4
+      - name: Setup Android SDK & NDK
+        uses: android-actions/setup-android@v4
         with:
-          packages: ndk;25.1.8937393
+          packages: "platform-tools, platforms;android-34, build-tools;34.0.0, ndk;25.1.8937393"
+          accept_license: true
       - run: cargo install cargo-ndk
       - name: Build lib
         run: cargo ndk --target ${{ matrix.target }} --platform 21 -- build --release

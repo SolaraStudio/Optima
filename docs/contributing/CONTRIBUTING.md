@@ -8,7 +8,7 @@ Welcome! Optima is an open-source WebView engine written in Rust, compiled to a 
 
 - **Rust** (stable, edition 2024) via [rustup](https://rustup.rs/)
 - **Android NDK** (for cross-compilation to Android targets)
-- **Android SDK** with API level 35 (compileSdk) and min SDK 24
+- **Android SDK** with API level 36 (compileSdk) and min SDK 24
 - **JDK 17** (required by the Gradle build)
 - **Git**
 

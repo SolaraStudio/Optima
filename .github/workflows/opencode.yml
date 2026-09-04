@@ -22,14 +22,17 @@ jobs:
       contains(github.event.issue.labels.*.name, 'opencode') ||
       contains(github.event.pull_request.labels.*.name, 'opencode')
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v6          # was v4, now v6
+      - name: Checkout repository
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
       - name: Run OpenCode
         uses: anomalyco/opencode/github@latest
         with:
-          model: "opencode/big-pickle"
+          model: "big-pickle"
           api-key: ${{ secrets.OPENCODE_API_KEY }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PAT_TOKEN }}
           prompt: ${{ github.event.comment.body || 'Summarize this issue' }}

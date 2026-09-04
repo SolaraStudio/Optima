@@ -13,6 +13,7 @@ permissions:
   issues: write
   pull-requests: write
   actions: read
+  id-token: write
 
 jobs:
   agent:
@@ -22,12 +23,12 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'opencode')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Run OpenCode
         uses: anomalyco/opencode/github@latest
         with:
-          model: "openai/gpt-4o"  # or your preferred model
+          model: "openai/gpt-4o"
           api-key: ${{ secrets.OPENCODE_API_KEY }}
           github-token: ${{ secrets.GITHUB_TOKEN }}

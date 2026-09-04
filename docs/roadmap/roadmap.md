@@ -1,4 +1,4 @@
-# Optima Roadmap
+# Optima - Roadmap
 
 This document outlines the planned development direction for Optima. Items are organized by priority and phase.
 
@@ -158,10 +158,10 @@ Optima is in active development. The core pipeline (HTML → DOM → CSS → Lay
 
 Optima follows semantic versioning:
 
-- **0.150.x** — Current development series
-- **0.151.0** — Core stability release
-- **0.152.0** — Feature parity release
-- **1.0.0** — First stable release
+- **0.150.x-dev** — Current development series
+- **0.151.10** — Core stability release
+- **0.152.10** — Feature parity release
+- **0.150.10** — First stable release
 
 Minor versions (0.15x) may contain breaking API changes. Patch versions (0.150.x) are bug fixes only.
 

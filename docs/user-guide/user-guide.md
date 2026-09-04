@@ -13,7 +13,7 @@ Optima is compiled to `liboptima.so` and packaged as an Android AAR (Android Arc
 ## Prerequisites
 
 - Android Studio with Gradle
-- Android SDK, compileSdk 35
+- Android SDK, compileSdk 36
 - Min SDK 24 (Android 7.0+)
 - NDK (for building from source)
 - JDK 17

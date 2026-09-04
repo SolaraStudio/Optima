@@ -180,17 +180,17 @@ Optima follows a layered design, each component independently testable and repla
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     Android Application                     │
+│                          Android Application                           │
 ├─────────────────────────────────────────────────────────────┤
-│                     JNI Bridge (Kotlin/Java)                │
+│                        JNI Bridge (Kotlin/Java)                        │
 ├─────────────────────────────────────────────────────────────┤
-│                     Public API (Rust)                       │
-├───────────┬───────────┬───────────┬───────────┬───────────┤
-│   CSS     │   DOM     │  Events   │  Layout   │   Render   │
-├───────────┴───────────┴───────────┴───────────┴───────────┤
-│                    Platform Abstraction                     │
+│                           Public API (Rust)                            │
+├───────────┬───────────┬───────────┬───────────┬─────────────┤
+│     CSS     │     DOM     │   Events    │   Layout    │    Render     │
+├───────────┴───────────┴───────────┴───────────┴─────────────┤  
+│                          Platform Abstraction                          │
 ├─────────────────────────────────────────────────────────────┤
-│                   Android SurfaceView                       │
+│                          Android SurfaceView                           │
 └─────────────────────────────────────────────────────────────┘
 ```
 

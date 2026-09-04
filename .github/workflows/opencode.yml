@@ -1,1 +1,32 @@
+name: OpenCode Agent
 
+on:
+  issue_comment:
+    types: [created]
+  issues:
+    types: [labeled]
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: read
+
+jobs:
+  agent:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/oc')) ||
+      contains(github.event.issue.labels.*.name, 'opencode') ||
+      contains(github.event.pull_request.labels.*.name, 'opencode')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run OpenCode
+        uses: opencodeai/opencode-action@v1
+        with:
+          api-key: \${{ secrets.OPENCODE_API_KEY }}
+          github-token: \${{ secrets.GITHUB_TOKEN }}

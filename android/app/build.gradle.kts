@@ -37,37 +37,13 @@ kotlin {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.19.0")
+    implementation("androidx.core:core-ktx:1.15.0")
     testImplementation("junit:junit:4.13.2")
 }
 
 tasks.register<Exec>("buildRustAll") {
     workingDir = rootProject.projectDir.parentFile
     commandLine("./scripts/android/build-all.sh")
-}
-
-tasks.register<Copy>("copyRustLibs") {
-    from(rootProject.projectDir.parentFile.resolve("target/aarch64-linux-android/release")) {
-        include("*.so")
-        into("arm64-v8a/")
-    }
-    from(rootProject.projectDir.parentFile.resolve("target/armv7-linux-androideabi/release")) {
-        include("*.so")
-        into("armeabi-v7a/")
-    }
-    from(rootProject.projectDir.parentFile.resolve("target/i686-linux-android/release")) {
-        include("*.so")
-        into("x86/")
-    }
-    from(rootProject.projectDir.parentFile.resolve("target/x86_64-linux-android/release")) {
-        include("*.so")
-        into("x86_64/")
-    }
-    into(layout.projectDirectory.dir("src/main/jniLibs"))
-}
-
-tasks.named("preBuild") {
-    dependsOn("copyRustLibs")
 }
 
 val versionSuffix = System.getenv("VERSION_SUFFIX") ?: "SNAPSHOT"

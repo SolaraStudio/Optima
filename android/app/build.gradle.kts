@@ -41,11 +41,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
 }
 
-tasks.register<Exec>("buildRustAll") {
-    workingDir = rootProject.projectDir.parentFile
-    commandLine("./scripts/android/build-all.sh")
-}
-
 val versionSuffix = System.getenv("VERSION_SUFFIX") ?: "SNAPSHOT"
 val versionName = System.getenv("OPTIMA_VERSION") ?: "0.150.10-$versionSuffix"
 
@@ -55,7 +50,9 @@ publishing {
             groupId = "org.optima"
             artifactId = "optima"
             version = versionName
-            artifact("$buildDir/outputs/aar/optima-release.aar")
+            afterEvaluate {
+                from(components["release"])
+            }
         }
     }
     repositories {

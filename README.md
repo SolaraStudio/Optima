@@ -287,13 +287,13 @@ Remaining work includes:
 - Security (CSP, sandbox)
 - JNI bridge finalisation
 
-For a full roadmap, see [docs/roadmap/README.md](docs/roadmap/README.md).
+For a full roadmap, see [docs/roadmap/README.md](https://github.com/SolaraStudio/Optima/blob/master/docs/roadmap/roadmap.md).
 
 ---
 
 ## Contributing
 
-We welcome contributions from the community. Please read our [Contributing Guide](docs/contributing/README.md) before submitting issues or pull requests.
+We welcome contributions from the community. Please read our [Contributing Guide](https://github.com/SolaraStudio/Optima/blob/master/docs/contributing/CONTRIBUTING.md) before submitting issues or pull requests.
 
 To get started:
 
@@ -312,11 +312,11 @@ We follow standard Rust practices and use GitHub Actions for continuous integrat
 
 Comprehensive documentation is available in the docs/ directory:
 
-- [Design Overview](docs/design/README.md) – Architectural decisions and trade-offs.
-- [API Reference](docs/api/README.md) – Public API documentation.
-- [Developer Guide](docs/developer-guide/README.md) – How to extend or modify Optima.
-- [FAQ](docs/faq/README.md) – Frequently asked questions.
-- [Roadmap](docs/roadmap/README.md) – Planned features and milestones.
+- [Design Overview](https://github.com/SolaraStudio/Optima/blob/master/docs/design/design.md) – Architectural decisions and trade-offs.
+- [API Reference](https://github.com/SolaraStudio/Optima/blob/master/docs/api/index.md) – Public API documentation.
+- [Developer Guide](https://github.com/SolaraStudio/Optima/blob/master/docs/developer-guide/developer-guide.md) – How to extend or modify Optima.
+- [FAQ](https://github.com/SolaraStudio/Optima/blob/master/docs/faq/faq.md) – Frequently asked questions.
+- [Roadmap](https://github.com/SolaraStudio/Optima/blob/master/docs/roadmap/roadmap.md) – Planned features and milestones.
 
 ---
 
@@ -324,8 +324,8 @@ Comprehensive documentation is available in the docs/ directory:
 
 This project is licensed under either of the following, at your option:
 
-- Apache License 2.0 – [LICENSE-APACHE](LICENSE-APACHE)
-- MIT License – [LICENSE-MIT](LICENSE-MIT)
+- Apache License 2.0 – [LICENSE-APACHE](https://github.com/SolaraStudio/Optima/blob/master/LICENSE-APACHE)
+- MIT License – [LICENSE-MIT](https://github.com/SolaraStudio/Optima/blob/master/LICENSE-MIT)
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
 

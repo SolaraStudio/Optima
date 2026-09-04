@@ -26,7 +26,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: Run OpenCode
-        uses: opencodeai/opencode-action@v1
+        uses: anomalyco/opencode/github@latest
         with:
+          model: "openai/gpt-4o"  # or your preferred model
           api-key: ${{ secrets.OPENCODE_API_KEY }}
           github-token: ${{ secrets.GITHUB_TOKEN }}

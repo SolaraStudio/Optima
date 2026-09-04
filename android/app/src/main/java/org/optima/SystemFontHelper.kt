@@ -11,11 +11,12 @@ object SystemFontHelper {
     @JvmStatic
     fun getSystemFonts(): Map<String, String> {
         val map = HashMap<String, String>()
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return getFontsUsingSystemApi()
         }
-        
+
+        // Fallback to file system scanning for Android 9 and older
         val fontDirs = arrayOf(
             "/system/fonts",
             "/system/fonts/googlefonts",
@@ -44,6 +45,7 @@ object SystemFontHelper {
             }
         }
 
+        // Ensure default font is mapped if missing
         val defaultFamily = getFamilyName(Typeface.DEFAULT) ?: "sans-serif"
         val defaultPath = "/system/fonts/Roboto-Regular.ttf"
         if (!map.containsKey(defaultFamily) && File(defaultPath).exists()) {
@@ -59,7 +61,7 @@ object SystemFontHelper {
         try {
             val systemFonts = android.graphics.fonts.SystemFonts.getAvailableFonts()
             for (font in systemFonts) {
-                val file = font.file
+                val file = font.file ?: continue 
                 val name = file.nameWithoutExtension
                 
                 val typeface = Typeface.createFromFile(file)
@@ -68,6 +70,7 @@ object SystemFontHelper {
                 map[familyName] = file.absolutePath
             }
         } catch (e: Exception) {
+            // Fallback
         }
         return map
     }

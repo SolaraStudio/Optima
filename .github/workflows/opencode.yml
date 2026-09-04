@@ -32,7 +32,7 @@ jobs:
       - name: Run OpenCode
         uses: anomalyco/opencode/github@latest
         with:
-          model: "big-pickle"
+          model: "opencode/big-pickle"
           api-key: ${{ secrets.OPENCODE_API_KEY }}
           github-token: ${{ secrets.PAT_TOKEN }}
           prompt: ${{ github.event.comment.body || 'Summarize this issue' }}

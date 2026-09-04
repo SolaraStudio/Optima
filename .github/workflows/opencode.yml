@@ -28,5 +28,5 @@ jobs:
       - name: Run OpenCode
         uses: opencodeai/opencode-action@v1
         with:
-          api-key: \${{ secrets.OPENCODE_API_KEY }}
-          github-token: \${{ secrets.GITHUB_TOKEN }}
+          api-key: ${{ secrets.OPENCODE_API_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

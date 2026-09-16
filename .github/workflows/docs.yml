@@ -27,7 +27,7 @@ jobs:
       - name: Build docs
         run: cargo doc --no-deps --release --document-private-items
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: target/doc
       - name: Deploy to GitHub Pages

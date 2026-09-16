@@ -28,6 +28,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    // This is the missing piece. It tells AGP to expose the release variant
+    // so that maven-publish can find components["release"].
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 kotlin {

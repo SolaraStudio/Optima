@@ -12,7 +12,7 @@ jobs:
     name: Verify license metadata
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Verify LICENSE files exist
         run: |
           for f in LICENSE-MIT LICENSE-APACHE; do

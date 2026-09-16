@@ -6,6 +6,10 @@ plugins {
     id("maven-publish")
 }
 
+base {
+    archivesName.set("optima")
+}
+
 android {
     namespace = "org.optima"
     compileSdk = 36

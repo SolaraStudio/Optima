@@ -48,7 +48,7 @@ jobs:
       - name: Build lib
         run: cargo ndk --target ${{ matrix.target }} --platform 21 -- build --release
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: lib-${{ matrix.abi }}
           path: target/${{ matrix.target }}/release/*.so
@@ -72,7 +72,7 @@ jobs:
 
       - name: Stage .so files
         run: |
-          JNILIBS=android/app/src/main/jniLibs
+          JNILIBS=android/optima/src/main/jniLibs
           for abi in arm64-v8a armeabi-v7a x86 x86_64; do
             mkdir -p "$JNILIBS/$abi"
             cp "artifacts/lib-$abi/"*.so "$JNILIBS/$abi/" 2>/dev/null || true
@@ -87,5 +87,5 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: optima-release.aar
-          path: android/app/build/outputs/aar/*.aar
+          path: android/optima/build/outputs/aar/*.aar
           retention-days: 14

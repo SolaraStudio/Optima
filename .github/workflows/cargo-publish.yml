@@ -10,7 +10,7 @@ jobs:
     name: Publish to crates.io
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
       - name: Check package
         run: cargo package --allow-dirty

@@ -41,7 +41,7 @@ jobs:
           - target: x86_64-linux-android
             abi: x86_64
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -70,7 +70,7 @@ jobs:
           PKG_CONFIG_ALLOW_CROSS: 1
         run: cargo ndk --target ${{ matrix.target }} --platform 21 -- build --release
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: lib-${{ matrix.abi }}
           path: target/${{ matrix.target }}/release/*.so
@@ -139,7 +139,7 @@ jobs:
           cd android
           ./gradlew publish --no-daemon
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: optima-aar-${{ steps.version.outputs.VERSION }}
           path: android/app/build/outputs/aar/*.aar

@@ -11,5 +11,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Solara"
+rootProject.name = "Optima"
 include(":optima")

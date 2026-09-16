@@ -12,4 +12,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Optima"
-include(":app")
+include(":optima")

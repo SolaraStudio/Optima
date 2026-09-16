@@ -96,7 +96,7 @@ jobs:
 
       - name: Copy .so files to jniLibs
         run: |
-          JNILIBS=android/app/src/main/jniLibs
+          JNILIBS=android/optima/src/main/jniLibs
           for abi in arm64-v8a armeabi-v7a x86 x86_64; do
             mkdir -p "$JNILIBS/$abi"
             cp "artifacts/lib-$abi/"*.so "$JNILIBS/$abi/" 2>/dev/null || true
@@ -127,7 +127,7 @@ jobs:
           ./gradlew assembleRelease --no-daemon
 
       - name: List AAR output
-        run: ls -la android/app/build/outputs/aar/
+        run: ls -la android/optima/build/outputs/aar/
 
       - name: Publish to GitHub Packages
         if: startsWith(github.ref, 'refs/tags/v')
@@ -142,7 +142,7 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: optima-aar-${{ steps.version.outputs.VERSION }}
-          path: android/app/build/outputs/aar/*.aar
+          path: android/optima/build/outputs/aar/*.aar
           retention-days: 30
 
       - name: Summary

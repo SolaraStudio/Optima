@@ -48,7 +48,7 @@ rand = "0.8"
 chrono = { version = "0.4", default-features = false, features = ["clock", "alloc"] }
 
 # Async utilities
-pollster = "0.4"
+pollster = "1.0"
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "sync", "rt"] }
 
 # Utilities

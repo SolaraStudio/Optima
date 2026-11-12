@@ -12,7 +12,7 @@ crate-type = ["cdylib"]
 # Rendering (GPU)
 vello = "0.10.0"
 wgpu = "29.0.1"
-vello_shaders = "0.10.0"
+vello_shaders = "0.11.0"
 
 # Android integration
 jni = "0.21"
